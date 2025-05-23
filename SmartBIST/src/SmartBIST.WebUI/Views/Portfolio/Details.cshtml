@@ -1,0 +1,461 @@
+@model SmartBIST.Application.DTOs.PortfolioWithStocksDto
+@{
+    ViewData["Title"] = "Portföy Detayı";
+}
+
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+}
+
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h2><i class="bi bi-bar-chart me-2"></i>@Model.Name</h2>
+        <p class="text-muted">@Model.Description</p>
+    </div>
+    <div class="col-md-4 text-end">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">
+            <i class="bi bi-pencil me-2"></i>Düzenle
+        </a>
+        <a asp-action="Index" class="btn btn-outline-secondary ms-2">
+            <i class="bi bi-arrow-left me-2"></i>Listeye Dön
+        </a>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card-group">
+            <div class="card bg-light">
+                <div class="card-body text-center">
+                    <h6 class="text-muted">Toplam Değer</h6>
+                    <h3>@Model.TotalValue.ToString("N2") @Model.CurrencyCode</h3>
+                </div>
+            </div>
+            <div class="card bg-light">
+                <div class="card-body text-center">
+                    <h6 class="text-muted">Günlük Değişim</h6>
+                    <h3 class="@(Model.DailyReturn >= 0 ? "text-success" : "text-danger")">
+                        @(Model.DailyReturn >= 0 ? "+" : "")@Model.DailyReturn.ToString("P2")
+                    </h3>
+                </div>
+            </div>
+            <div class="card bg-light">
+                <div class="card-body text-center">
+                    <h6 class="text-muted">Toplam Getiri</h6>
+                    <h3 class="@(Model.TotalReturn >= 0 ? "text-success" : "text-danger")">
+                        @(Model.TotalReturn >= 0 ? "+" : "")@Model.TotalReturn.ToString("P2")
+                    </h3>
+                </div>
+            </div>
+            <div class="card bg-light">
+                <div class="card-body text-center">
+                    <h6 class="text-muted">Hisse Sayısı</h6>
+                    <h3>@Model.Stocks.Count()</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-grid-3x3 me-2"></i>Portföydeki Hisseler</h5>
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addStockModal">
+                    <i class="bi bi-plus-circle me-2"></i>Hisse Ekle
+                </button>
+            </div>
+            <div class="card-body p-0">
+                @if (!Model.Stocks.Any())
+                {
+                    <div class="alert alert-info m-3">
+                        <i class="bi bi-info-circle me-2"></i>Bu portföyde henüz hisse senedi bulunmamaktadır. 
+                        "Hisse Ekle" butonunu kullanarak portföyünüze hisse ekleyebilirsiniz.
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Sembol</th>
+                                    <th>Şirket</th>
+                                    <th>Adet</th>
+                                    <th>Maliyet</th>
+                                    <th>Güncel Fiyat</th>
+                                    <th>Değer</th>
+                                    <th>Günlük</th>
+                                    <th>Toplam</th>
+                                    <th>Pay (%)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var stock in Model.Stocks)
+                                {
+                                    <tr>
+                                        <td><strong>@stock.Symbol</strong></td>
+                                        <td>@stock.Name</td>
+                                        <td>@stock.Quantity.ToString("N0")</td>
+                                        <td>@stock.AverageCost.ToString("N2", new System.Globalization.CultureInfo("tr-TR"))</td>
+                                        <td>@stock.CurrentPrice.ToString("N2", new System.Globalization.CultureInfo("tr-TR"))</td>
+                                        <td>@stock.CurrentValue.ToString("N2", new System.Globalization.CultureInfo("tr-TR"))</td>
+                                        <td class="@(stock.DailyPriceChange >= 0 ? "text-success" : "text-danger")">
+                                            @(stock.DailyPriceChange >= 0 ? "+" : "")@stock.DailyPriceChange.ToString("P2")
+                                        </td>
+                                        <td class="@(stock.TotalReturn >= 0 ? "text-success" : "text-danger")">
+                                            @(stock.TotalReturn >= 0 ? "+" : "")@stock.TotalReturn.ToString("P2")
+                                        </td>
+                                        <td>@stock.PortfolioPercentage.ToString("P2")</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-outline-secondary btn-sm edit-stock"
+                                                        data-id="@stock.Id" data-symbol="@stock.Symbol" data-quantity="@stock.Quantity" 
+                                                        data-cost="@stock.AverageCost">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger btn-sm delete-stock"
+                                                        data-id="@stock.Id" data-symbol="@stock.Symbol">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-pie-chart me-2"></i>Dağılım</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Stocks.Any())
+                {
+                    <div style="height: 400px; width: 100%;">
+                        <canvas id="distributionChart" style="max-height: 100%; max-width: 100%;"></canvas>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info text-center">
+                        <i class="bi bi-info-circle me-2"></i>Portföyde hisse olmadığı için dağılım grafiği oluşturulamıyor.
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Portföy Bilgileri</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <tr>
+                        <th width="30%">Portföy Tipi:</th>
+                        <td>@Model.Type</td>
+                    </tr>
+                    <tr>
+                        <th>Para Birimi:</th>
+                        <td>@Model.CurrencyCode</td>
+                    </tr>
+                    <tr>
+                        <th>Oluşturulma Tarihi:</th>
+                        <td>@Model.CreatedDate.ToString("dd MMMM yyyy")</td>
+                    </tr>
+                    <tr>
+                        <th>Durum:</th>
+                        <td>
+                            @if (Model.IsActive)
+                            {
+                                <span class="badge bg-success">Aktif</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Pasif</span>
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hisse Ekle Modal -->
+<div class="modal fade" id="addStockModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Portföye Hisse Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="addStockForm" asp-action="AddStock" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="PortfolioId" value="@Model.Id" />
+
+                    <div class="mb-3">
+                        <label for="StockSymbol" class="form-label">Hisse Senedi</label>
+                        <select id="StockSymbol" name="StockSymbol" class="form-select select2" required>
+                            <option value="">Hisse seçiniz...</option>
+                        </select>
+                        <small class="form-text text-muted">Listeden bir hisse seçin veya aramak için hisse kodunu yazmaya başlayın.</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Quantity" class="form-label">Adet</label>
+                        <input type="number" id="Quantity" name="Quantity" class="form-control" min="1" value="1" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="AverageCost" class="form-label">Ortalama Maliyet</label>
+                        <div class="input-group">
+                            <input type="text" id="AverageCost" name="AverageCost" class="form-control" 
+                                   min="0.01" step="any" required />
+                            <span class="input-group-text">@Model.CurrencyCode</span>
+                        </div>
+                        <small class="form-text text-muted">Örnek: 5,90</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary">Ekle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Hata ve başarı mesajlarını kontrol et
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <text>
+                    toastr.success('@TempData["SuccessMessage"]');
+                </text>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <text>
+                    toastr.error('@TempData["ErrorMessage"]');
+                </text>
+            }
+            
+            // Dağılım grafiği oluşturma
+            @if (Model.Stocks.Any())
+            {
+                <text>
+                // Eğer önceden oluşturulmuş bir grafik varsa, önce onu kaldır
+                if (window.portfolioChart instanceof Chart) {
+                    window.portfolioChart.destroy();
+                }
+                
+                // Grafik canvas elementini al
+                const ctx = document.getElementById('distributionChart').getContext('2d');
+                
+                // Grafik renkleri - her hisse için tekil bir renk olacak
+                const colors = ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b',
+                               '#5a5c69', '#858796', '#6610f2', '#6f42c1', '#fd7e14'];
+                
+                // İlk önce hisse listesi oluştur
+                const uniqueStocks = [];
+                @foreach(var stock in Model.Stocks)
+                {
+                    @:uniqueStocks.push({
+                    @:  symbol: '@stock.Symbol',
+                    @:  value: @stock.CurrentValue.ToString(System.Globalization.CultureInfo.InvariantCulture)
+                    @:});
+                }
+                
+                // Kullanılacak verileri hazırla
+                const stockLabels = uniqueStocks.map(s => s.symbol);
+                const stockValues = uniqueStocks.map(s => s.value);
+                const totalValue = stockValues.reduce((a, b) => a + b, 0);
+                const percentages = stockValues.map(v => ((v / totalValue) * 100).toFixed(2));
+                const stockColors = colors.slice(0, uniqueStocks.length);
+                
+                // Grafik verisi
+                const chartData = {
+                    labels: stockLabels,
+                    datasets: [{
+                        data: percentages,
+                        backgroundColor: stockColors
+                    }]
+                };
+                
+                // Chart oluştur
+                window.portfolioChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: chartData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.label + ': ' + context.raw + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                </text>
+            }
+            
+            // Select2 entegrasyonu ve hisseleri yükleme
+            console.log('Initializing Select2...');
+            
+            // Select2 initialize
+            $('.select2').select2({
+                theme: 'bootstrap-5',
+                width: '100%',
+                placeholder: 'Hisse senedi ara...',
+                allowClear: true,
+                minimumInputLength: 0,
+                dropdownParent: $('#addStockModal'),
+                ajax: {
+                    url: '@Url.Action("SearchStocks", "Portfolio")',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return { term: params.term || '' };
+                    },
+                    processResults: function(data) {
+                        console.log('Search results:', data);
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                }
+            });
+            
+            // Hisseleri yükle
+            console.log('Loading all stocks...');
+            $.ajax({
+                url: '@Url.Action("SearchStocks", "Portfolio")',
+                type: 'GET',
+                dataType: 'json',
+                data: { term: '' },
+                success: function(data) {
+                    console.log('All stocks loaded successfully:', data);
+                    
+                    // Her zaman boş bir seçeneğimiz olsun
+                    const emptyOption = new Option('Hisse seçiniz...', '', true, true);
+                    $('#StockSymbol').append(emptyOption);
+                    
+                    // Tüm hisseleri ekleyelim
+                    if (data && data.length > 0) {
+                        data.forEach(function(item) {
+                            const option = new Option(item.text, item.id, false, false);
+                            $('#StockSymbol').append(option);
+                        });
+                        
+                        // Select2'yi yenile
+                        $('#StockSymbol').trigger('change');
+                        console.log('Select2 refreshed with', data.length, 'stocks');
+                    } else {
+                        console.log('No stocks were returned from the server');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error loading stocks:', error);
+                    console.error('Status:', status);
+                    console.error('Response:', xhr.responseText);
+                }
+            });
+            
+            // Focus when select2 opens
+            $(document).on('select2:open', () => {
+                document.querySelector('.select2-search__field').focus();
+            });
+            
+            // Hisse senedi seçildiğinde güncel fiyatı otomatik olarak form'a doldur
+            $('#StockSymbol').on('select2:select', function (e) {
+                var data = e.params.data;
+                console.log('Selected stock:', data);
+                // Veri formatı: "SEMBOL - 123.45 ₺ (2.34%)"
+                var text = data.text;
+                var matches = text.match(/(\w+) - (\d+[\.,]\d+) ₺/);
+                
+                if (matches && matches.length > 2) {
+                    // Önce noktaları virgülle değiştir (TR kültürü için)
+                    var priceText = matches[2].replace('.', ',');
+                    var price = parseFloat(priceText.replace(',', '.'));
+                    if (!isNaN(price)) {
+                        // Input'a değeri noktalı biçimde değil, TR formatında virgüllü olarak gönder
+                        $('#AverageCost').val(price.toString().replace('.', ','));
+                    }
+                }
+            });
+            
+            // Form submit handler to ensure decimal parsing with commas
+            $('#addStockForm').on('submit', function(e) {
+                // Format average cost for server
+                var averageCost = $('#AverageCost').val();
+                // Make sure it uses proper decimal format for parsing on server
+                if (averageCost.includes(',')) {
+                    // Create a hidden field with properly formatted decimal using dot
+                    var formattedCost = averageCost.replace(',', '.');
+                    // Store the properly formatted decimal in a hidden field
+                    $(this).append('<input type="hidden" name="_formattedAverageCost" value="' + formattedCost + '">');
+                }
+            });
+            
+            // Hisse senedi düzenleme
+            $('.edit-stock').click(function() {
+                const id = $(this).data('id');
+                const symbol = $(this).data('symbol');
+                const quantity = $(this).data('quantity');
+                const cost = $(this).data('cost');
+                
+                // Düzenleme formunu göster
+                if (confirm(`${symbol} kodlu hisseyi düzenlemek istediğinize emin misiniz?`)) {
+                    // Burada düzenleme modalı açılabilir veya form gönderimi ile yönlendirme yapılabilir
+                    alert('Hisse düzenleme özelliği yakında eklenecektir.');
+                }
+            });
+            
+            // Hisse senedi silme
+            $('.delete-stock').click(function() {
+                const id = $(this).data('id');
+                const symbol = $(this).data('symbol');
+                
+                if (confirm(`${symbol} kodlu hisseyi portföyden çıkarmak istediğinize emin misiniz?`)) {
+                    // Silme işlemi için form gönderimi
+                    const form = $('<form action="@Url.Action("RemoveStock")" method="post"></form>');
+                    form.append($('<input type="hidden" name="id" />').val(id));
+                    form.append($('<input type="hidden" name="portfolioId" />').val('@Model.Id'));
+                    
+                    // CSRF token ekle
+                    form.append($('@Html.AntiForgeryToken()'));
+                    
+                    $('body').append(form);
+                    form.submit();
+                }
+            });
+        });
+    </script>
+} 

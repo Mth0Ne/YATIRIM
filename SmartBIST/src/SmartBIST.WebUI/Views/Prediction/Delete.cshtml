@@ -1,0 +1,58 @@
+@model SmartBIST.Application.DTOs.PredictionResultDto
+@{
+    ViewData["Title"] = "Tahmin Sil";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="card-title mb-0">Tahmin Silme Onayı</h3>
+                </div>
+                <div class="card-body">
+                    <h4 class="text-danger mb-3">Bu tahmini silmek istediğinizden emin misiniz?</h4>
+                    
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        Bu işlem geri alınamaz. Tahmin verisi kalıcı olarak silinecektir.
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h5 class="card-title mb-0">Tahmin Bilgileri</h5>
+                        </div>
+                        <div class="card-body">
+                            <dl class="row">
+                                <dt class="col-sm-4">Hisse Senedi:</dt>
+                                <dd class="col-sm-8">@Model.StockSymbol (@Model.StockName)</dd>
+                                
+                                <dt class="col-sm-4">Oluşturulma Tarihi:</dt>
+                                <dd class="col-sm-8">@Model.CreatedDate.ToString("dd.MM.yyyy HH:mm")</dd>
+                                
+                                <dt class="col-sm-4">Tahmin Aralığı:</dt>
+                                <dd class="col-sm-8">@Model.PredictionStartDate.ToString("dd.MM.yyyy") - @Model.PredictionEndDate.ToString("dd.MM.yyyy")</dd>
+                                
+                                <dt class="col-sm-4">Model Tipi:</dt>
+                                <dd class="col-sm-8">@Model.ModelType</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Vazgeç
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Tahmini Sil
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

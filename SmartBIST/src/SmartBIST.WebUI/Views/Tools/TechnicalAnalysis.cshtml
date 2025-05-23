@@ -1,0 +1,415 @@
+@{
+    ViewData["Title"] = "Teknik Analiz";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Teknik Analiz Aracı</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="stockSelector" class="form-label">Hisse Seçin</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="stockSelector" placeholder="Örn: THYAO">
+                                <button class="btn btn-primary" type="button" id="loadStockData">
+                                    <i class="bi bi-search me-1"></i>Yükle
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="timeframeSelector" class="form-label">Zaman Aralığı</label>
+                            <select class="form-select" id="timeframeSelector">
+                                <option value="1d">Günlük</option>
+                                <option value="1w">Haftalık</option>
+                                <option value="1m">Aylık</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="periodSelector" class="form-label">Periyot</label>
+                            <select class="form-select" id="periodSelector">
+                                <option value="30">Son 30 Gün</option>
+                                <option value="90" selected>Son 90 Gün</option>
+                                <option value="180">Son 180 Gün</option>
+                                <option value="365">Son 1 Yıl</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">
+                                        <i class="bi bi-graph-up me-2"></i>Fiyat Grafiği
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="priceChart" style="height: 400px;">
+                                        <div class="text-center py-5 my-5 text-muted">
+                                            <i class="bi bi-bar-chart-line" style="font-size: 48px;"></i>
+                                            <h5 class="mt-3">Analiz için bir hisse seçin</h5>
+                                            <p>Hisse kodunu girin ve "Yükle" düğmesine tıklayın</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">
+                                        <i class="bi bi-bar-chart me-2"></i>Göstergeler
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="maSwitch" checked>
+                                                <label class="form-check-label" for="maSwitch">Hareketli Ortalama (MA)</label>
+                                            </div>
+                                            <div class="mt-2" id="maSettings">
+                                                <div class="input-group input-group-sm mb-2">
+                                                    <span class="input-group-text">MA-1</span>
+                                                    <input type="number" class="form-control" id="ma1Period" value="20">
+                                                </div>
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-text">MA-2</span>
+                                                    <input type="number" class="form-control" id="ma2Period" value="50">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-4 mb-3">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="rsiSwitch">
+                                                <label class="form-check-label" for="rsiSwitch">Göreceli Güç Endeksi (RSI)</label>
+                                            </div>
+                                            <div class="mt-2 d-none" id="rsiSettings">
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-text">Period</span>
+                                                    <input type="number" class="form-control" id="rsiPeriod" value="14">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-4 mb-3">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="macdSwitch">
+                                                <label class="form-check-label" for="macdSwitch">MACD</label>
+                                            </div>
+                                            <div class="mt-2 d-none" id="macdSettings">
+                                                <div class="input-group input-group-sm mb-2">
+                                                    <span class="input-group-text">Hızlı</span>
+                                                    <input type="number" class="form-control" id="macdFastPeriod" value="12">
+                                                </div>
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-text">Yavaş</span>
+                                                    <input type="number" class="form-control" id="macdSlowPeriod" value="26">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mt-2">
+                                        <div class="col-md-4 mb-3">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="bollSwitch">
+                                                <label class="form-check-label" for="bollSwitch">Bollinger Bantları</label>
+                                            </div>
+                                            <div class="mt-2 d-none" id="bollSettings">
+                                                <div class="input-group input-group-sm mb-2">
+                                                    <span class="input-group-text">Period</span>
+                                                    <input type="number" class="form-control" id="bollPeriod" value="20">
+                                                </div>
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-text">StdDev</span>
+                                                    <input type="number" class="form-control" id="bollStdDev" value="2" step="0.1">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-4 mb-3">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="volumeSwitch">
+                                                <label class="form-check-label" for="volumeSwitch">Hacim Göstergesi</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-4 mb-3">
+                                            <button class="btn btn-primary w-100" id="applyIndicators">
+                                                <i class="bi bi-sliders me-2"></i>Göstergeleri Uygula
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">
+                                        <i class="bi bi-info-circle me-2"></i>Hisse Bilgileri
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="stockInfo" class="d-none">
+                                        <h4 id="stockName">Türk Hava Yolları</h4>
+                                        <h2 id="stockCode" class="text-primary">THYAO</h2>
+                                        <h3 id="currentPrice" class="mb-3">143.70 TL</h3>
+                                        
+                                        <div class="row g-2">
+                                            <div class="col-6">
+                                                <div class="border rounded p-2">
+                                                    <small class="text-muted d-block">Günlük Değişim</small>
+                                                    <span id="dailyChange" class="fs-5 text-success">+1.2%</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="border rounded p-2">
+                                                    <small class="text-muted d-block">Hacim</small>
+                                                    <span id="volume" class="fs-5">235M</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="noStockInfo">
+                                        <div class="text-center py-4 text-muted">
+                                            <i class="bi bi-info-circle" style="font-size: 36px;"></i>
+                                            <p class="mt-2">Hisse seçildiğinde bilgiler burada görüntülenecek</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">
+                                        <i class="bi bi-lightning me-2"></i>Teknik Sinyaller
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="technicalSignals" class="d-none">
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <span>Genel Sinyal</span>
+                                                <span id="generalSignal" class="badge bg-warning">Nötr</span>
+                                            </div>
+                                            <div class="progress" style="height: 8px;">
+                                                <div id="signalStrength" class="progress-bar bg-warning" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                MA Çapraz
+                                                <span id="maSignal" class="badge bg-success">Al</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                RSI (14)
+                                                <span id="rsiSignal" class="badge bg-danger">Sat</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                MACD
+                                                <span id="macdSignal" class="badge bg-warning">Nötr</span>
+                                            </li>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                Bollinger Bantları
+                                                <span id="bollSignal" class="badge bg-success">Al</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div id="noSignalInfo">
+                                        <div class="text-center py-4 text-muted">
+                                            <i class="bi bi-lightning" style="font-size: 36px;"></i>
+                                            <p class="mt-2">Hisse seçildiğinde teknik analiz sinyalleri burada görüntülenecek</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Gösterge ayarlarını açma/kapama işlevselliği
+        document.getElementById('maSwitch').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('maSettings').classList.remove('d-none');
+            } else {
+                document.getElementById('maSettings').classList.add('d-none');
+            }
+        });
+
+        document.getElementById('rsiSwitch').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('rsiSettings').classList.remove('d-none');
+            } else {
+                document.getElementById('rsiSettings').classList.add('d-none');
+            }
+        });
+
+        document.getElementById('macdSwitch').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('macdSettings').classList.remove('d-none');
+            } else {
+                document.getElementById('macdSettings').classList.add('d-none');
+            }
+        });
+
+        document.getElementById('bollSwitch').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('bollSettings').classList.remove('d-none');
+            } else {
+                document.getElementById('bollSettings').classList.add('d-none');
+            }
+        });
+
+        // Veri yükleme simülasyonu
+        document.getElementById('loadStockData').addEventListener('click', function() {
+            const stockCode = document.getElementById('stockSelector').value.trim().toUpperCase();
+            
+            if (!stockCode) {
+                alert('Lütfen bir hisse kodu girin.');
+                return;
+            }
+            
+            // Gerçek bir uygulamada, burada API'ye istek yapılır
+            // Bu örnekte simülasyon yapıyoruz
+            
+            // Yükleme simülasyonu
+            const loadingHtml = `
+                <div class="text-center py-5 my-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Yükleniyor...</span>
+                    </div>
+                    <h5 class="mt-3">Veri yükleniyor...</h5>
+                </div>
+            `;
+            
+            document.getElementById('priceChart').innerHTML = loadingHtml;
+            
+            // 1 saniye sonra "yüklenmiş" verileri göster
+            setTimeout(function() {
+                // Veri geldiğinde info ve sinyal bölümlerini göster
+                document.getElementById('stockInfo').classList.remove('d-none');
+                document.getElementById('noStockInfo').classList.add('d-none');
+                
+                document.getElementById('technicalSignals').classList.remove('d-none');
+                document.getElementById('noSignalInfo').classList.add('d-none');
+                
+                // Stock bilgilerini güncelle
+                document.getElementById('stockCode').textContent = stockCode;
+                document.getElementById('stockName').textContent = getRandomStockName();
+                document.getElementById('currentPrice').textContent = getRandomPrice() + ' TL';
+                
+                const changePercent = getRandomChangePercent();
+                const changeElement = document.getElementById('dailyChange');
+                changeElement.textContent = (changePercent > 0 ? '+' : '') + changePercent.toFixed(2) + '%';
+                
+                if (changePercent > 0) {
+                    changeElement.classList.remove('text-danger');
+                    changeElement.classList.add('text-success');
+                } else {
+                    changeElement.classList.remove('text-success');
+                    changeElement.classList.add('text-danger');
+                }
+                
+                document.getElementById('volume').textContent = getRandomVolume();
+                
+                // Chart veri yükleme simülasyonu
+                document.getElementById('priceChart').innerHTML = '<div class="text-center py-5">Grafik yüklendi (Bu demo için temsili)</div>';
+                
+                // Teknik sinyalleri rastgele güncelle
+                updateRandomSignals();
+            }, 1000);
+        });
+        
+        // Demo amaçlı yardımcı fonksiyonlar
+        function getRandomStockName() {
+            const names = [
+                'Türk Hava Yolları',
+                'Garanti Bankası',
+                'Akbank',
+                'Tüpraş',
+                'Arçelik',
+                'Koç Holding',
+                'Aselsan',
+                'İş Bankası',
+                'Ereğli Demir Çelik',
+                'Turkcell'
+            ];
+            return names[Math.floor(Math.random() * names.length)];
+        }
+        
+        function getRandomPrice() {
+            return (Math.random() * 200 + 10).toFixed(2);
+        }
+        
+        function getRandomChangePercent() {
+            return (Math.random() * 8 - 4);
+        }
+        
+        function getRandomVolume() {
+            const volume = Math.random() * 500 + 50;
+            return Math.round(volume) + 'M';
+        }
+        
+        function updateRandomSignals() {
+            const signals = ['Al', 'Sat', 'Nötr'];
+            const colors = ['success', 'danger', 'warning'];
+            
+            // MA Sinyali
+            const maSignalIndex = Math.floor(Math.random() * 3);
+            document.getElementById('maSignal').textContent = signals[maSignalIndex];
+            document.getElementById('maSignal').className = `badge bg-${colors[maSignalIndex]}`;
+            
+            // RSI Sinyali
+            const rsiSignalIndex = Math.floor(Math.random() * 3);
+            document.getElementById('rsiSignal').textContent = signals[rsiSignalIndex];
+            document.getElementById('rsiSignal').className = `badge bg-${colors[rsiSignalIndex]}`;
+            
+            // MACD Sinyali
+            const macdSignalIndex = Math.floor(Math.random() * 3);
+            document.getElementById('macdSignal').textContent = signals[macdSignalIndex];
+            document.getElementById('macdSignal').className = `badge bg-${colors[macdSignalIndex]}`;
+            
+            // Bollinger Sinyali
+            const bollSignalIndex = Math.floor(Math.random() * 3);
+            document.getElementById('bollSignal').textContent = signals[bollSignalIndex];
+            document.getElementById('bollSignal').className = `badge bg-${colors[bollSignalIndex]}`;
+            
+            // Genel Sinyal (ağırlıklı ortalama)
+            const allSignals = [maSignalIndex, rsiSignalIndex, macdSignalIndex, bollSignalIndex];
+            const avgIndex = Math.round(allSignals.reduce((a, b) => a + b, 0) / allSignals.length);
+            
+            document.getElementById('generalSignal').textContent = signals[avgIndex];
+            document.getElementById('generalSignal').className = `badge bg-${colors[avgIndex]}`;
+            
+            // Sinyal gücü
+            let strength;
+            if (avgIndex === 0) strength = Math.random() * 30 + 70; // Al
+            else if (avgIndex === 1) strength = Math.random() * 30; // Sat
+            else strength = Math.random() * 40 + 30; // Nötr
+            
+            document.getElementById('signalStrength').style.width = `${strength}%`;
+            document.getElementById('signalStrength').className = `progress-bar bg-${colors[avgIndex]}`;
+        }
+        
+        // Göstergeleri Uygula butonu olayı
+        document.getElementById('applyIndicators').addEventListener('click', function() {
+            alert('Göstergeler uygulandı (Demo)');
+        });
+    </script>
+} 

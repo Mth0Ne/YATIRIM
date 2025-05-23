@@ -1,0 +1,253 @@
+@model SmartBIST.WebUI.Models.PredictionDetailViewModel
+@{
+    ViewData["Title"] = "Tahmin Detayları";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Tahmin Detayları</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Ana Sayfa</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Prediction" asp-action="Index">Tahminler</a></li>
+        <li class="breadcrumb-item active">Detay</li>
+    </ol>
+
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-area me-1"></i>
+                    Tahmin Grafiği
+                </div>
+                <div class="card-body">
+                    <canvas id="predictionChart" width="100%" height="40"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-clipboard-list me-1"></i>
+                    Tahmin Özeti
+                </div>
+                <div class="card-body">
+                    @if (Model.IsPredictionDataMissing)
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Uyarı:</strong> API'den tahmin verileri alınamadı. Gösterilen değerler doğru olmayabilir.
+                            Lütfen API bağlantısını kontrol edin veya daha sonra tekrar deneyin.
+                        </div>
+                    }
+                    
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th>Hisse Senedi:</th>
+                                <td>@Model.StockSymbol</td>
+                            </tr>
+                            <tr>
+                                <th>Model Tipi:</th>
+                                <td>@Model.ModelType</td>
+                            </tr>
+                            <tr>
+                                <th>Mevcut Fiyat:</th>
+                                <td>@(Model.CurrentPrice > 0 ? $"₺{Model.CurrentPrice:N2}" : "Bilinmiyor")</td>
+                            </tr>
+                            <tr>
+                                <th>Tahmin Edilen Fiyat:</th>
+                                <td>@(Model.PredictedPrice > 0 ? $"₺{Model.PredictedPrice:N2}" : "Hesaplanamadı")</td>
+                            </tr>
+                            <tr>
+                                <th>Mevcut Fiyat:</th>
+                                <td>@(Model.CurrentPrice > 0 ? $"₺{Model.CurrentPrice:N2}" : "Bilinmiyor")</td>
+                            </tr>
+                            <tr>
+                                <th>Değişim:</th>
+                                <td class="@(Model.PriceChange >= 0 ? "text-success" : "text-danger")">
+                                    @if (Model.PredictedPrice > 0 && Model.CurrentPrice > 0)
+                                    {
+                                        <i class="fas @(Model.PriceChange >= 0 ? "fa-arrow-up" : "fa-arrow-down") me-1"></i>
+                                        @($"{Model.PriceChange:N2} (% {Math.Abs(Model.PercentChange):N2})")
+                                    }
+                                    else
+                                    {
+                                        <span>API'den veri alınamadı</span>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Tahmin Tarihi:</th>
+                                <td>@(!string.IsNullOrEmpty(Model.PredictionDate) ? Model.PredictionDate : "Bilinmiyor")</td>
+                            </tr>
+                            <tr>
+                                <th>Son Kapanış Tarihi:</th>
+                                <td>@(!string.IsNullOrEmpty(Model.LastCloseDate) ? Model.LastCloseDate : "Bilinmiyor")</td>
+                            </tr>
+                            <tr>
+                                <th>Veri Noktası Sayısı:</th>
+                                <td>@Model.DataPoints</td>
+                            </tr>
+                            <tr>
+                                <th>Oluşturulma Tarihi:</th>
+                                <td>@Model.CreatedDate.ToString("dd.MM.yyyy HH:mm")</td>
+                            </tr>
+                            <tr>
+                                <th>Doğruluk:</th>
+                                <td>@($"%{Model.Accuracy * 100:N1}")</td>
+                            </tr>
+                            <tr>
+                                <th>Güven Seviyesi:</th>
+                                <td>@($"%{Model.ConfidenceLevel * 100}")</td>
+                            </tr>
+                            <tr>
+                                <th>Teknik Göstergeler:</th>
+                                <td>@(Model.IncludeTechnicalIndicators ? "Evet" : "Hayır")</td>
+                            </tr>
+                            <tr>
+                                <th>Duygu Analizi:</th>
+                                <td>@(Model.IncludeSentimentAnalysis ? "Evet" : "Hayır")</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-cogs me-1"></i>
+                    Model Parametreleri
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th>Eğitim Penceresi:</th>
+                                <td>@Model.TrainingWindow gün</td>
+                            </tr>
+                            <tr>
+                                <th>Güven Seviyesi:</th>
+                                <td>@($"%{Model.ConfidenceLevel * 100}")</td>
+                            </tr>
+                            <tr>
+                                <th>Teknik Göstergeler:</th>
+                                <td>@(Model.IncludeTechnicalIndicators ? "Evet" : "Hayır")</td>
+                            </tr>
+                            <tr>
+                                <th>Duygu Analizi:</th>
+                                <td>@(Model.IncludeSentimentAnalysis ? "Evet" : "Hayır")</td>
+                            </tr>
+                            <tr>
+                                <th>Tahmin Aralığı:</th>
+                                <td>@Model.StartDate.ToString("dd.MM.yyyy") - @Model.EndDate.ToString("dd.MM.yyyy")</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-line me-1"></i>
+                    Model Performansı
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th>Doğruluk:</th>
+                                <td>@($"%{Model.Accuracy * 100:N1}")</td>
+                            </tr>
+                            <tr>
+                                <th>Ortalama Mutlak Hata (MAE):</th>
+                                <td>@Model.MeanAbsoluteError.ToString("N4")</td>
+                            </tr>
+                            <tr>
+                                <th>Kök Ortalama Kare Hata (RMSE):</th>
+                                <td>@Model.RootMeanSquaredError.ToString("N4")</td>
+                            </tr>
+                            <tr>
+                                <th>R-Kare (R²):</th>
+                                <td>@Model.RSquared.ToString("N4")</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-secondary">Listeye Dön</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Tahmini Sil</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Tahmin grafiği
+        var ctx = document.getElementById('predictionChart').getContext('2d');
+        
+        // Güncel ve tahmin edilen fiyatları al
+        var actualPrices = @Html.Raw(Json.Serialize(Model.ActualPrices));
+        var predictedPrices = @Html.Raw(Json.Serialize(Model.PredictedPrices));
+        var dateLabels = @Html.Raw(Json.Serialize(Model.DateLabels));
+        
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dateLabels,
+                datasets: [{
+                    label: 'Gerçek Fiyat',
+                    data: actualPrices,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    tension: 0.1
+                },
+                {
+                    label: 'Tahmin Edilen Fiyat',
+                    data: predictedPrices,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2,
+                    pointRadius: 4,
+                    tension: 0.1,
+                    borderDash: [5, 5]
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value) {
+                                return '₺' + value.toFixed(2);
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ₺' + context.parsed.y.toFixed(2);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+} 

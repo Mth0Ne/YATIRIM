@@ -1,0 +1,81 @@
+@{
+    ViewData["Title"] = "Hisse Verisi Çekme";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">Hisse Verisi Çekme</h5>
+    </div>
+    <div class="card-body">
+        <p class="card-text">Borsa İstanbul'dan en güncel hisse verilerini çekmek için aşağıdaki butona tıklayın.</p>
+        
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle me-2"></i>
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        
+        <form asp-action="FetchStockData" method="post">
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-cloud-download me-2"></i>
+                    Hisse Verilerini Çek
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="card-footer text-muted">
+        <small>
+            <i class="bi bi-info-circle me-1"></i>
+            Veri çekme işlemi sunucu trafiğine bağlı olarak biraz zaman alabilir. Lütfen bekleyin.
+        </small>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">Bilgi</h5>
+    </div>
+    <div class="card-body">
+        <h6>Veri Çekme Süreci</h6>
+        <p>Bu işlem şunları yapar:</p>
+        <ul>
+            <li>Borsa İstanbul hisse senedi verilerini Mynet Finans'tan çeker</li>
+            <li>Veritabanındaki mevcut hisseleri günceller</li>
+            <li>Yeni hisseleri veritabanına ekler</li>
+            <li>Günlük fiyat geçmişini kaydeder</li>
+        </ul>
+        
+        <h6>Önerilen Kullanım</h6>
+        <p>Bu özelliği aşağıdaki durumlarda kullanabilirsiniz:</p>
+        <ul>
+            <li>Veritabanı ilk kez oluşturulduğunda</li>
+            <li>Borsa kapanış sonrası günlük verileri güncellemek için</li>
+            <li>Gün içi piyasa verilerini almak için</li>
+        </ul>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Veri çekme butonu tıklandığında
+            $("#fetchDataBtn").click(function() {
+                $(this).attr("disabled", true);
+                $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Veriler Çekiliyor...');
+            });
+        });
+    </script>
+} 

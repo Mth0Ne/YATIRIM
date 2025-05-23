@@ -1,0 +1,103 @@
+@model SmartBIST.WebUI.Models.UserSettingsViewModel
+@{
+    ViewData["Title"] = "Kullanıcı Ayarları";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Profil Ayarları</h3>
+                </div>
+                <div class="card-body">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success">
+                            <i class="bi bi-check-circle me-2"></i> @TempData["SuccessMessage"]
+                        </div>
+                    }
+                    
+                    <form asp-action="UserSettings" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input asp-for="Name" class="form-control" />
+                            </div>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input asp-for="Email" class="form-control" />
+                                @if (Model.EmailConfirmed)
+                                {
+                                    <span class="input-group-text bg-success text-white"><i class="bi bi-check-circle"></i></span>
+                                }
+                                else
+                                {
+                                    <span class="input-group-text bg-warning text-white"><i class="bi bi-exclamation-circle"></i></span>
+                                }
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                            @if (!Model.EmailConfirmed)
+                            {
+                                <small class="form-text text-muted">E-posta adresiniz henüz onaylanmamış. <a href="#">Onay e-postasını tekrar gönder</a></small>
+                            }
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Phone" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                <input asp-for="Phone" class="form-control" />
+                            </div>
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Güvenlik Ayarları</label>
+                            <div class="card">
+                                <div class="list-group list-group-flush">
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">İki Faktörlü Doğrulama</h6>
+                                            <p class="text-muted small mb-0">Hesabınıza ekstra güvenlik katmanı ekler</p>
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input asp-for="TwoFactorEnabled" class="form-check-input" type="checkbox" disabled />
+                                            <label asp-for="TwoFactorEnabled" class="form-check-label"></label>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <a href="#" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-shield"></i> Güvenlik Ayarlarını Yönet
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Anasayfaya Dön
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save"></i> Değişiklikleri Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

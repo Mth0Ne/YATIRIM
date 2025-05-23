@@ -1,0 +1,252 @@
+@{
+    ViewData["Title"] = "Yatırım Hesaplayıcı";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Yatırım Hesaplayıcı</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h5 class="mb-3">Hesaplama Türünü Seçin</h5>
+                        <ul class="nav nav-tabs" id="calculatorTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="return-tab" data-bs-toggle="tab" data-bs-target="#returnCalc" type="button" role="tab" aria-controls="returnCalc" aria-selected="true">
+                                    <i class="bi bi-graph-up-arrow me-2"></i>Getiri Hesaplama
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="dividend-tab" data-bs-toggle="tab" data-bs-target="#dividendCalc" type="button" role="tab" aria-controls="dividendCalc" aria-selected="false">
+                                    <i class="bi bi-cash-coin me-2"></i>Temettü Hesaplama
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="compound-tab" data-bs-toggle="tab" data-bs-target="#compoundCalc" type="button" role="tab" aria-controls="compoundCalc" aria-selected="false">
+                                    <i class="bi bi-currency-exchange me-2"></i>Bileşik Faiz
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tab-content" id="calculatorTabsContent">
+                        <!-- Getiri Hesaplama -->
+                        <div class="tab-pane fade show active" id="returnCalc" role="tabpanel" aria-labelledby="return-tab">
+                            <form id="returnCalcForm">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="initialInvestment" class="form-label">Başlangıç Yatırımı (TL)</label>
+                                        <input type="number" class="form-control" id="initialInvestment" min="0" value="10000">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="finalValue" class="form-label">Son Değer (TL)</label>
+                                        <input type="number" class="form-control" id="finalValue" min="0" value="12000">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="investmentPeriod" class="form-label">Yatırım Süresi (Gün)</label>
+                                        <input type="number" class="form-control" id="investmentPeriod" min="1" value="365">
+                                    </div>
+                                    <div class="col-md-6 mt-4">
+                                        <button type="button" id="calculateReturn" class="btn btn-primary w-100">
+                                            <i class="bi bi-calculator me-2"></i>Hesapla
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div id="returnResult" class="mt-4 d-none">
+                                    <div class="alert alert-primary">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h6 class="mb-2">Toplam Getiri:</h6>
+                                                <h3 id="totalReturn" class="mb-0 text-success">2,000 TL</h3>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="mb-2">Yıllık Getiri Oranı:</h6>
+                                                <h3 id="annualReturn" class="mb-0 text-success">%20.00</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Temettü Hesaplama -->
+                        <div class="tab-pane fade" id="dividendCalc" role="tabpanel" aria-labelledby="dividend-tab">
+                            <form id="dividendCalcForm">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="stockPrice" class="form-label">Hisse Fiyatı (TL)</label>
+                                        <input type="number" class="form-control" id="stockPrice" min="0" step="0.01" value="50">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="dividendYield" class="form-label">Temettü Verimi (%)</label>
+                                        <input type="number" class="form-control" id="dividendYield" min="0" step="0.01" max="100" value="5">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="shareCount" class="form-label">Hisse Adedi</label>
+                                        <input type="number" class="form-control" id="shareCount" min="1" value="100">
+                                    </div>
+                                    <div class="col-md-6 mt-4">
+                                        <button type="button" id="calculateDividend" class="btn btn-primary w-100">
+                                            <i class="bi bi-calculator me-2"></i>Hesapla
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div id="dividendResult" class="mt-4 d-none">
+                                    <div class="alert alert-primary">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h6 class="mb-2">Yıllık Temettü:</h6>
+                                                <h3 id="annualDividend" class="mb-0 text-success">250 TL</h3>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="mb-2">Hisse Başı Temettü:</h6>
+                                                <h3 id="dividendPerShare" class="mb-0 text-success">2.50 TL</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Bileşik Faiz -->
+                        <div class="tab-pane fade" id="compoundCalc" role="tabpanel" aria-labelledby="compound-tab">
+                            <form id="compoundCalcForm">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="initialAmount" class="form-label">Başlangıç Miktarı (TL)</label>
+                                        <input type="number" class="form-control" id="initialAmount" min="0" value="10000">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="annualRate" class="form-label">Yıllık Getiri Oranı (%)</label>
+                                        <input type="number" class="form-control" id="annualRate" min="0" step="0.01" max="100" value="15">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="years" class="form-label">Süre (Yıl)</label>
+                                        <input type="number" class="form-control" id="years" min="1" max="50" value="10">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="contributionAmount" class="form-label">Aylık Katkı (TL, isteğe bağlı)</label>
+                                        <input type="number" class="form-control" id="contributionAmount" min="0" value="0">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6 offset-md-6">
+                                        <button type="button" id="calculateCompound" class="btn btn-primary w-100">
+                                            <i class="bi bi-calculator me-2"></i>Hesapla
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div id="compoundResult" class="mt-4 d-none">
+                                    <div class="alert alert-primary">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h6 class="mb-2">Toplam Birikim:</h6>
+                                                <h3 id="totalAmount" class="mb-0 text-success">40,455.70 TL</h3>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="mb-2">Kazanç:</h6>
+                                                <h3 id="totalInterest" class="mb-0 text-success">30,455.70 TL</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('calculateReturn').addEventListener('click', function() {
+            const initialInvestment = parseFloat(document.getElementById('initialInvestment').value);
+            const finalValue = parseFloat(document.getElementById('finalValue').value);
+            const investmentPeriod = parseFloat(document.getElementById('investmentPeriod').value);
+            
+            // Hesaplamalar
+            const totalReturn = finalValue - initialInvestment;
+            const returnPercentage = (totalReturn / initialInvestment) * 100;
+            const annualReturnPercentage = (returnPercentage / investmentPeriod) * 365;
+            
+            // Sonuçları göster
+            document.getElementById('totalReturn').textContent = totalReturn.toLocaleString('tr-TR', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            }) + ' TL';
+            
+            document.getElementById('annualReturn').textContent = '%' + annualReturnPercentage.toLocaleString('tr-TR', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            });
+            
+            document.getElementById('returnResult').classList.remove('d-none');
+        });
+        
+        document.getElementById('calculateDividend').addEventListener('click', function() {
+            const stockPrice = parseFloat(document.getElementById('stockPrice').value);
+            const dividendYield = parseFloat(document.getElementById('dividendYield').value);
+            const shareCount = parseInt(document.getElementById('shareCount').value);
+            
+            // Hesaplamalar
+            const dividendPerShare = (stockPrice * dividendYield) / 100;
+            const annualDividend = dividendPerShare * shareCount;
+            
+            // Sonuçları göster
+            document.getElementById('dividendPerShare').textContent = dividendPerShare.toLocaleString('tr-TR', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            }) + ' TL';
+            
+            document.getElementById('annualDividend').textContent = annualDividend.toLocaleString('tr-TR', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            }) + ' TL';
+            
+            document.getElementById('dividendResult').classList.remove('d-none');
+        });
+        
+        document.getElementById('calculateCompound').addEventListener('click', function() {
+            const initialAmount = parseFloat(document.getElementById('initialAmount').value);
+            const annualRate = parseFloat(document.getElementById('annualRate').value);
+            const years = parseInt(document.getElementById('years').value);
+            const contributionAmount = parseFloat(document.getElementById('contributionAmount').value) || 0;
+            
+            // Hesaplamalar
+            let totalAmount = initialAmount;
+            const monthlyRate = annualRate / 100 / 12;
+            
+            for (let i = 0; i < years * 12; i++) {
+                totalAmount = totalAmount * (1 + monthlyRate) + contributionAmount;
+            }
+            
+            const totalInterest = totalAmount - initialAmount - (contributionAmount * years * 12);
+            
+            // Sonuçları göster
+            document.getElementById('totalAmount').textContent = totalAmount.toLocaleString('tr-TR', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            }) + ' TL';
+            
+            document.getElementById('totalInterest').textContent = totalInterest.toLocaleString('tr-TR', { 
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2 
+            }) + ' TL';
+            
+            document.getElementById('compoundResult').classList.remove('d-none');
+        });
+    </script>
+} 

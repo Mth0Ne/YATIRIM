@@ -1,0 +1,79 @@
+@model IEnumerable<SmartBIST.Application.DTOs.StockDto>
+
+@{
+    ViewData["Title"] = "Favori Hisselerim";
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Favori Hisselerim</h2>
+        <a asp-controller="StockData" asp-action="Index" class="btn btn-outline-primary">
+            <i class="fas fa-search me-2"></i> Tüm Hisseleri Görüntüle
+        </a>
+    </div>
+    
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i> Henüz favori hisseniz bulunmuyor.
+            Hisseler sayfasından favorilerinizi ekleyebilirsiniz.
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var stock in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title mb-0">
+                                    <a asp-controller="StockData" asp-action="Details" asp-route-id="@stock.Id">
+                                        @stock.Symbol
+                                    </a>
+                                </h5>
+                                <form asp-controller="UserPreference" asp-action="RemoveFavoriteStock" method="post" 
+                                      onsubmit="return confirm('Bu hisseyi favorilerinizden çıkarmak istediğinize emin misiniz?');">
+                                    <input type="hidden" name="stockId" value="@stock.Id" />
+                                    <button type="submit" class="btn btn-sm btn-link text-danger" title="Favorilerden Çıkar">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            
+                            <h6 class="card-subtitle mb-3 text-muted">@stock.Name</h6>
+                            
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Güncel Fiyat:</span>
+                                <span class="fw-bold">@stock.CurrentPrice.ToString("N2") ₺</span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between">
+                                <span>Günlük Değişim:</span>
+                                @{
+                                    var changeClass = stock.DailyChangePercentage >= 0 ? "text-success" : "text-danger";
+                                    var changeIcon = stock.DailyChangePercentage >= 0 ? "fa-arrow-up" : "fa-arrow-down";
+                                }
+                                <span class="@changeClass fw-bold">
+                                    <i class="fas @changeIcon me-1"></i>
+                                    @Math.Abs(stock.DailyChangePercentage).ToString("N2")%
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="d-flex justify-content-between">
+                                <a asp-controller="StockData" asp-action="Details" asp-route-id="@stock.Id" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-chart-line me-1"></i> Detaylar
+                                </a>
+                                <a asp-controller="PriceAlert" asp-action="Create" asp-route-stockId="@stock.Id" class="btn btn-sm btn-outline-warning">
+                                    <i class="fas fa-bell me-1"></i> Alarm Ekle
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div> 

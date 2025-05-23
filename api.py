@@ -1,0 +1,262 @@
+import os
+import logging
+import numpy as np
+import pandas as pd
+import datetime
+import json
+from flask import Flask, jsonify, request, abort
+from flask_cors import CORS
+import yfinance as yf
+from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.models import Sequential, load_model
+from werkzeug.middleware.proxy_fix import ProxyFix
+from shared_cache import get_shared_cache
+import ssl
+import urllib3
+
+# SSL certificate verification fix for Windows
+ssl._create_default_https_context = ssl._create_unverified_context
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("api.log"),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger("stock_prediction_api")
+
+
+app = Flask(__name__)
+CORS(app)  # Enable CORS for all domains
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)  # Fix for proxies
+
+
+MODEL_PATH = 'lstm_model.h5'
+CACHE_DIR = 'cache'
+TIME_STEP = 60  # Time steps for LSTM
+
+
+os.makedirs(CACHE_DIR, exist_ok=True)
+
+def convert_turkish_chars(text):
+    tr_chars = {
+        'İ': 'I', 'Ş': 'S', 'Ğ': 'G', 'Ü': 'U', 'Ö': 'O', 'Ç': 'C', 
+        'ı': 'i', 'ş': 's', 'ğ': 'g', 'ü': 'u', 'ö': 'o', 'ç': 'c'
+    }
+    for tr_char, en_char in tr_chars.items():
+        text = text.replace(tr_char, en_char)
+    return text
+
+class StockPredictor:
+    
+    def __init__(self):
+        self.model = self._load_model()
+        
+    def _load_model(self):
+        if os.path.exists(MODEL_PATH):
+            logger.info(f"Loading existing model from {MODEL_PATH}")
+            return load_model(MODEL_PATH)
+        logger.info("No existing model found")
+        return None
+    
+    def get_stock_data(self, stock_symbol, start_date, end_date):
+        stock_symbol = convert_turkish_chars(stock_symbol)
+        
+        cache_file = os.path.join(CACHE_DIR, f"{stock_symbol}_{start_date}_{end_date}.csv")
+        
+        if os.path.exists(cache_file):
+            logger.info(f"Using cached data for {stock_symbol}")
+            return pd.read_csv(cache_file, skiprows=3, index_col=0, parse_dates=True)
+        
+        logger.info(f"Fetching new data for {stock_symbol} from {start_date} to {end_date}")
+        data = yf.download(stock_symbol, start=start_date, end=end_date)
+        
+        if not data.empty:
+            data.to_csv(cache_file)
+            
+        return data
+    
+    def preprocess_data(self, data):
+        """LSTM model"""
+        if data.empty:
+            raise ValueError("No data available for this stock")
+            
+        scaler = MinMaxScaler(feature_range=(0, 1))
+        scaled_data = scaler.fit_transform(data[['Close']].values)
+        return scaled_data, scaler
+    
+    def prepare_data(self, scaled_data, time_step=TIME_STEP):
+        
+        if len(scaled_data) <= time_step:
+            raise ValueError(f"Insufficient data: {len(scaled_data)} points available, {time_step} required")
+            
+        X, y = [], []
+        for i in range(time_step, len(scaled_data)):
+            X.append(scaled_data[i - time_step:i, 0])
+            y.append(scaled_data[i, 0])
+            
+        X = np.array(X)
+        y = np.array(y)
+        X = np.reshape(X, (X.shape[0], X.shape[1], 1))
+        return X, y
+    
+    def create_model(self, input_shape):
+
+        model = Sequential()
+        model.add(LSTM(units=50, return_sequences=True, input_shape=input_shape))
+        model.add(LSTM(units=50, return_sequences=False))
+        model.add(Dense(units=1))
+        model.compile(optimizer='adam', loss='mean_squared_error')
+        return model
+    
+    def train_model(self, stock_symbol, start_date, end_date):
+        try:
+            logger.info(f"Training model for {stock_symbol}")
+            
+            train_start = (datetime.datetime.strptime(start_date, "%Y-%m-%d") - 
+                          datetime.timedelta(days=730)).strftime("%Y-%m-%d")
+            
+            data = self.get_stock_data(stock_symbol, train_start, end_date)
+            scaled_data, scaler = self.preprocess_data(data)
+            
+            X, y = self.prepare_data(scaled_data)
+            
+            model = self.create_model((X.shape[1], 1))
+            
+            history = model.fit(
+                X, y, 
+                epochs=50,  
+                batch_size=32, 
+                validation_split=0.2, 
+                verbose=1
+            )
+            
+            model.save(MODEL_PATH)
+            self.model = model
+            
+            logger.info(f"Model training completed for {stock_symbol}")
+            
+            metrics = {
+                "loss": [float(x) for x in history.history['loss']],
+                "val_loss": [float(x) for x in history.history.get('val_loss', [])]
+            }
+            
+            with open(os.path.join(CACHE_DIR, f"{stock_symbol}_metrics.json"), 'w') as f:
+                json.dump(metrics, f)
+                
+            return model, scaler
+            
+        except Exception as e:
+            logger.error(f"Error training model: {str(e)}")
+            raise
+    
+    def predict(self, stock_symbol, start_date, end_date):
+        try:
+            data = self.get_stock_data(stock_symbol, start_date, end_date)
+            
+            if data.empty:
+                raise ValueError(f"No data available for {stock_symbol}")
+                
+            scaled_data, scaler = self.preprocess_data(data)
+            
+            if self.model is None or len(scaled_data) < TIME_STEP:
+                logger.info(f"Training new model for {stock_symbol}")
+                self.model, scaler = self.train_model(stock_symbol, start_date, end_date)
+            
+            X, _ = self.prepare_data(scaled_data)
+            
+            if len(X) == 0:
+                raise ValueError("Not enough data points for prediction")
+            
+            predicted_scaled = self.model.predict(X[-1].reshape(1, X.shape[1], 1))
+            predicted_price = scaler.inverse_transform(predicted_scaled)
+            predicted_price = float(predicted_price[0][0])
+            
+            last_actual_price = data['Close'].iloc[-1]
+            price_change = predicted_price - last_actual_price
+            percent_change = (price_change / last_actual_price) * 100
+            
+            return {
+                "symbol": stock_symbol,
+                "predicted_price": predicted_price,
+                "current_price": float(last_actual_price),
+                "price_change": float(price_change),
+                "percent_change": float(percent_change),
+                "prediction_date": datetime.datetime.now().strftime("%Y-%m-%d"),
+                "last_close_date": data.index[-1].strftime("%Y-%m-%d"),
+                "data_points": len(data)
+            }
+            
+        except Exception as e:
+            logger.error(f"Prediction error for {stock_symbol}: {str(e)}")
+            raise
+
+predictor = StockPredictor()
+
+@app.route('/', methods=['GET'])
+def home():
+    """API home endpoint"""
+    return jsonify({
+        "name": "Stock Price Prediction API",
+        "version": "1.0.0",
+        "endpoints": {
+            "/predict": "GET - Predict stock price (params: symbol, start, end)",
+            "/": "GET - This help message"
+        }
+    })
+
+@app.route('/predict', methods=['GET'])
+def predict_endpoint():
+    """Stock price prediction endpoint"""
+    try:
+        # Get parameters with defaults
+        stock_symbol = request.args.get('symbol', 'ISCTR.BIST')
+        # Convert any Turkish characters in stock symbol to English equivalents
+        stock_symbol = convert_turkish_chars(stock_symbol)
+        
+        start_date = request.args.get('start', '2020-01-01')
+        end_date = request.args.get('end', '2023-01-01')
+        
+        logger.info(f"Prediction request for {stock_symbol} from {start_date} to {end_date}")
+        
+        try:
+            datetime.datetime.strptime(start_date, "%Y-%m-%d")
+            datetime.datetime.strptime(end_date, "%Y-%m-%d")
+        except ValueError:
+            return jsonify({"error": "Invalid date format. Use YYYY-MM-DD"}), 400
+            
+        result = predictor.predict(stock_symbol, start_date, end_date)
+        
+        print(f"\n--- PREDICTION RESULTS ---")
+        print(f"Symbol: {result['symbol']}")
+        print(f"Current Price: {result['current_price']:.2f}")
+        print(f"Predicted Price: {result['predicted_price']:.2f}")
+        print(f"Change: {result['price_change']:.2f} ({result['percent_change']:.2f}%)")
+        print(f"Prediction Date: {result['prediction_date']}")
+        print(f"Last Close Date: {result['last_close_date']}")
+        print(f"Data Points Used: {result['data_points']}")
+        print("-------------------------\n")
+        
+        return jsonify(result)
+        
+    except ValueError as e:
+        logger.warning(f"Value error: {str(e)}")
+        return jsonify({"error": str(e)}), 400
+    except Exception as e:
+        logger.error(f"Unexpected error: {str(e)}")
+        return jsonify({"error": "An unexpected error occurred"}), 500
+
+@app.errorhandler(404)
+def not_found(e):
+    return jsonify({"error": "Endpoint not found"}), 404
+
+@app.errorhandler(500)
+def server_error(e):
+    return jsonify({"error": "Internal server error"}), 500
+
+if __name__ == '__main__':
+    logger.info("Starting Stock Prediction API server")
+    app.run(host='0.0.0.0', port=5000, debug=False) 

@@ -1,0 +1,217 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CE91E420-EC11-48A0-97FE-8AAD22481133}|SmartBIST.WebUI\\SmartBIST.WebUI.csproj|c:\\users\\alper\\desktop\\yat\u0131r\u0131m\\smartbist\\src\\smartbist.webui\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{CE91E420-EC11-48A0-97FE-8AAD22481133}|SmartBIST.WebUI\\SmartBIST.WebUI.csproj|solutionrelative:smartbist.webui\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CE91E420-EC11-48A0-97FE-8AAD22481133}|SmartBIST.WebUI\\SmartBIST.WebUI.csproj|c:\\users\\alper\\desktop\\yat\u0131r\u0131m\\smartbist\\src\\smartbist.webui\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{CE91E420-EC11-48A0-97FE-8AAD22481133}|SmartBIST.WebUI\\SmartBIST.WebUI.csproj|solutionrelative:smartbist.webui\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93A5558-FBAF-464B-A24C-A488EF38508C}|SmartBIST.Infrastructure\\SmartBIST.Infrastructure.csproj|c:\\users\\alper\\desktop\\yat\u0131r\u0131m\\smartbist\\src\\smartbist.infrastructure\\services\\stockdataupdateservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C93A5558-FBAF-464B-A24C-A488EF38508C}|SmartBIST.Infrastructure\\SmartBIST.Infrastructure.csproj|solutionrelative:smartbist.infrastructure\\services\\stockdataupdateservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62A58CE4-9313-42AD-AC06-5ABE3864DED3}|SmartBIST.Application\\SmartBIST.Application.csproj|c:\\users\\alper\\desktop\\yat\u0131r\u0131m\\smartbist\\src\\smartbist.application\\services\\stockservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62A58CE4-9313-42AD-AC06-5ABE3864DED3}|SmartBIST.Application\\SmartBIST.Application.csproj|solutionrelative:smartbist.application\\services\\stockservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CE91E420-EC11-48A0-97FE-8AAD22481133}|SmartBIST.WebUI\\SmartBIST.WebUI.csproj|c:\\users\\alper\\desktop\\yat\u0131r\u0131m\\smartbist\\src\\smartbist.webui\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{CE91E420-EC11-48A0-97FE-8AAD22481133}|SmartBIST.WebUI\\SmartBIST.WebUI.csproj|solutionrelative:smartbist.webui\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93A5558-FBAF-464B-A24C-A488EF38508C}|SmartBIST.Infrastructure\\SmartBIST.Infrastructure.csproj|c:\\users\\alper\\desktop\\yat\u0131r\u0131m\\smartbist\\src\\smartbist.infrastructure\\data\\modelconfigurations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C93A5558-FBAF-464B-A24C-A488EF38508C}|SmartBIST.Infrastructure\\SmartBIST.Infrastructure.csproj|solutionrelative:smartbist.infrastructure\\data\\modelconfigurations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93A5558-FBAF-464B-A24C-A488EF38508C}|SmartBIST.Infrastructure\\SmartBIST.Infrastructure.csproj|c:\\users\\alper\\desktop\\yat\u0131r\u0131m\\smartbist\\src\\smartbist.infrastructure\\data\\designtimedbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C93A5558-FBAF-464B-A24C-A488EF38508C}|SmartBIST.Infrastructure\\SmartBIST.Infrastructure.csproj|solutionrelative:smartbist.infrastructure\\data\\designtimedbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93A5558-FBAF-464B-A24C-A488EF38508C}|SmartBIST.Infrastructure\\SmartBIST.Infrastructure.csproj|c:\\users\\alper\\desktop\\yat\u0131r\u0131m\\smartbist\\src\\smartbist.infrastructure\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C93A5558-FBAF-464B-A24C-A488EF38508C}|SmartBIST.Infrastructure\\SmartBIST.Infrastructure.csproj|solutionrelative:smartbist.infrastructure\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93A5558-FBAF-464B-A24C-A488EF38508C}|SmartBIST.Infrastructure\\SmartBIST.Infrastructure.csproj|c:\\users\\alper\\desktop\\yat\u0131r\u0131m\\smartbist\\src\\smartbist.infrastructure\\services\\stockscraperservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C93A5558-FBAF-464B-A24C-A488EF38508C}|SmartBIST.Infrastructure\\SmartBIST.Infrastructure.csproj|solutionrelative:smartbist.infrastructure\\services\\stockscraperservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93A5558-FBAF-464B-A24C-A488EF38508C}|SmartBIST.Infrastructure\\SmartBIST.Infrastructure.csproj|c:\\users\\alper\\desktop\\yat\u0131r\u0131m\\smartbist\\src\\smartbist.infrastructure\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{C93A5558-FBAF-464B-A24C-A488EF38508C}|SmartBIST.Infrastructure\\SmartBIST.Infrastructure.csproj|solutionrelative:smartbist.infrastructure\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62A58CE4-9313-42AD-AC06-5ABE3864DED3}|SmartBIST.Application\\SmartBIST.Application.csproj|c:\\users\\alper\\desktop\\yat\u0131r\u0131m\\smartbist\\src\\smartbist.application\\services\\predictionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62A58CE4-9313-42AD-AC06-5ABE3864DED3}|SmartBIST.Application\\SmartBIST.Application.csproj|solutionrelative:smartbist.application\\services\\predictionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{62A58CE4-9313-42AD-AC06-5ABE3864DED3}|SmartBIST.Application\\SmartBIST.Application.csproj|c:\\users\\alper\\desktop\\yat\u0131r\u0131m\\smartbist\\src\\smartbist.application\\services\\ipredictionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{62A58CE4-9313-42AD-AC06-5ABE3864DED3}|SmartBIST.Application\\SmartBIST.Application.csproj|solutionrelative:smartbist.application\\services\\ipredictionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.WebUI\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "SmartBIST.WebUI\\appsettings.Development.json",
+              "ToolTip": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.WebUI\\appsettings.Development.json",
+              "RelativeToolTip": "SmartBIST.WebUI\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-02T10:11:57.536Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "StockDataUpdateService.cs",
+              "DocumentMoniker": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Infrastructure\\Services\\StockDataUpdateService.cs",
+              "RelativeDocumentMoniker": "SmartBIST.Infrastructure\\Services\\StockDataUpdateService.cs",
+              "ToolTip": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Infrastructure\\Services\\StockDataUpdateService.cs",
+              "RelativeToolTip": "SmartBIST.Infrastructure\\Services\\StockDataUpdateService.cs",
+              "ViewState": "AgIAAHQAAAAAAAAAAAAIwHoAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-25T12:14:03.981Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DesignTimeDbContextFactory.cs",
+              "DocumentMoniker": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Infrastructure\\Data\\DesignTimeDbContextFactory.cs",
+              "RelativeDocumentMoniker": "SmartBIST.Infrastructure\\Data\\DesignTimeDbContextFactory.cs",
+              "ToolTip": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Infrastructure\\Data\\DesignTimeDbContextFactory.cs",
+              "RelativeToolTip": "SmartBIST.Infrastructure\\Data\\DesignTimeDbContextFactory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-25T12:13:56.012Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.WebUI\\appsettings.json",
+              "RelativeDocumentMoniker": "SmartBIST.WebUI\\appsettings.json",
+              "ToolTip": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.WebUI\\appsettings.json",
+              "RelativeToolTip": "SmartBIST.WebUI\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-04-25T12:13:43.223Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ModelConfigurations.cs",
+              "DocumentMoniker": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Infrastructure\\Data\\ModelConfigurations.cs",
+              "RelativeDocumentMoniker": "SmartBIST.Infrastructure\\Data\\ModelConfigurations.cs",
+              "ToolTip": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Infrastructure\\Data\\ModelConfigurations.cs",
+              "RelativeToolTip": "SmartBIST.Infrastructure\\Data\\ModelConfigurations.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-25T12:13:54.14Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Infrastructure\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "SmartBIST.Infrastructure\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Infrastructure\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "SmartBIST.Infrastructure\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAiwBYAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-25T12:13:57.092Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.WebUI\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "SmartBIST.WebUI\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.WebUI\\Properties\\launchSettings.json",
+              "RelativeToolTip": "SmartBIST.WebUI\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-04-25T12:13:47.997Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "StockService.cs",
+              "DocumentMoniker": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Application\\Services\\StockService.cs",
+              "RelativeDocumentMoniker": "SmartBIST.Application\\Services\\StockService.cs",
+              "ToolTip": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Application\\Services\\StockService.cs",
+              "RelativeToolTip": "SmartBIST.Application\\Services\\StockService.cs",
+              "ViewState": "AgIAAAABAAAAAAAAAADwvwEBAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-18T08:29:44.982Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "StockScraperService.cs",
+              "DocumentMoniker": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Infrastructure\\Services\\StockScraperService.cs",
+              "RelativeDocumentMoniker": "SmartBIST.Infrastructure\\Services\\StockScraperService.cs",
+              "ToolTip": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Infrastructure\\Services\\StockScraperService.cs",
+              "RelativeToolTip": "SmartBIST.Infrastructure\\Services\\StockScraperService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-25T12:14:06.3Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Infrastructure\\appsettings.json",
+              "RelativeDocumentMoniker": "SmartBIST.Infrastructure\\appsettings.json",
+              "ToolTip": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Infrastructure\\appsettings.json",
+              "RelativeToolTip": "SmartBIST.Infrastructure\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-04-25T12:13:36.169Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "PredictionService.cs",
+              "DocumentMoniker": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Application\\Services\\PredictionService.cs",
+              "RelativeDocumentMoniker": "SmartBIST.Application\\Services\\PredictionService.cs",
+              "ToolTip": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Application\\Services\\PredictionService.cs",
+              "RelativeToolTip": "SmartBIST.Application\\Services\\PredictionService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-25T12:13:13.168Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "IPredictionService.cs",
+              "DocumentMoniker": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Application\\Services\\IPredictionService.cs",
+              "RelativeDocumentMoniker": "SmartBIST.Application\\Services\\IPredictionService.cs",
+              "ToolTip": "C:\\Users\\alper\\Desktop\\Yat\u0131r\u0131m\\SmartBIST\\src\\SmartBIST.Application\\Services\\IPredictionService.cs",
+              "RelativeToolTip": "SmartBIST.Application\\Services\\IPredictionService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAUAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-25T12:12:51.899Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

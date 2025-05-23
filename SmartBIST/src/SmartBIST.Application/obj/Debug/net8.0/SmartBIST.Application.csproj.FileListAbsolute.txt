@@ -1,0 +1,15 @@
+C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.Application\bin\Debug\net8.0\SmartBIST.Application.deps.json
+C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.Application\bin\Debug\net8.0\SmartBIST.Application.dll
+C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.Application\bin\Debug\net8.0\SmartBIST.Application.pdb
+C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.Application\bin\Debug\net8.0\SmartBIST.Core.dll
+C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.Application\bin\Debug\net8.0\SmartBIST.Core.pdb
+C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.Application\obj\Debug\net8.0\SmartBIST.Application.csproj.AssemblyReference.cache
+C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.Application\obj\Debug\net8.0\SmartBIST.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.Application\obj\Debug\net8.0\SmartBIST.Application.AssemblyInfoInputs.cache
+C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.Application\obj\Debug\net8.0\SmartBIST.Application.AssemblyInfo.cs
+C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.Application\obj\Debug\net8.0\SmartBIST.Application.csproj.CoreCompileInputs.cache
+C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.Application\obj\Debug\net8.0\SmartBIS.AB18DBC7.Up2Date
+C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.Application\obj\Debug\net8.0\SmartBIST.Application.dll
+C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.Application\obj\Debug\net8.0\refint\SmartBIST.Application.dll
+C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.Application\obj\Debug\net8.0\SmartBIST.Application.pdb
+C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.Application\obj\Debug\net8.0\ref\SmartBIST.Application.dll

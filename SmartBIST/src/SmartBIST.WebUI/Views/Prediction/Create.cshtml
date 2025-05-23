@@ -1,0 +1,129 @@
+@model SmartBIST.WebUI.Models.CreatePredictionViewModel
+@{
+    ViewData["Title"] = "Yeni Tahmin Oluştur";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Yeni Hisse Fiyat Tahmini</h3>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.ErrorMessage != null)
+                    {
+                        <div class="alert alert-danger">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            @ViewBag.ErrorMessage
+                        </div>
+                    }
+                    
+                    @if (ViewBag.ApiError != null && ViewBag.ApiError == true)
+                    {
+                        <div class="alert alert-danger">
+                            <i class="bi bi-hdd-network-fill me-2"></i>
+                            <strong>API Hatası</strong>
+                            <p>@ViewBag.ApiErrorMessage</p>
+                            <hr>
+                            <p class="mb-0">Python tahmin API'sini çalıştırdığınızdan emin olun ve tekrar deneyin.</p>
+                        </div>
+                    }
+                    
+                    @if (ViewBag.NoStocks != null)
+                    {
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-circle me-2"></i>
+                            @ViewBag.NoStocks
+                            <hr>
+                            <p class="mb-0">Önce sistemde hisse senetleri oluşturulmalıdır.</p>
+                        </div>
+                    }
+                    
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="StockId" class="form-label"></label>
+                            <select asp-for="StockId" asp-items="ViewBag.Stocks" class="form-select" required>
+                                <option value="">-- Hisse Seçin --</option>
+                            </select>
+                            <span asp-validation-for="StockId" class="text-danger"></span>
+                        </div>
+                        
+                        <input type="hidden" asp-for="ModelType" value="0" />
+                        
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <strong>Tahmin Modeli: LSTM</strong>
+                            <p class="mb-0">Bu tahmin için LSTM (Long Short-Term Memory) derin öğrenme modeli kullanılacaktır.</p>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="StartDate" class="form-label"></label>
+                                    <input asp-for="StartDate" class="form-control" type="date" required />
+                                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="EndDate" class="form-label"></label>
+                                    <input asp-for="EndDate" class="form-control" type="date" required />
+                                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="TrainingWindow" class="form-label"></label>
+                                    <input asp-for="TrainingWindow" class="form-control" type="number" min="30" max="365" />
+                                    <span asp-validation-for="TrainingWindow" class="text-danger"></span>
+                                    <small class="form-text text-muted">30-365 gün arası</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="ConfidenceLevel" class="form-label"></label>
+                                    <input asp-for="ConfidenceLevel" class="form-control" type="number" step="0.01" min="0.8" max="0.99" />
+                                    <span asp-validation-for="ConfidenceLevel" class="text-danger"></span>
+                                    <small class="form-text text-muted">0.80-0.99 arası</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input asp-for="IncludeTechnicalIndicators" class="form-check-input" type="checkbox" />
+                                <label asp-for="IncludeTechnicalIndicators" class="form-check-label"></label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input asp-for="IncludeSentimentAnalysis" class="form-check-input" type="checkbox" />
+                                <label asp-for="IncludeSentimentAnalysis" class="form-check-label"></label>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Tahminlere Dön
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-magic"></i> Tahmin Oluştur
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 
