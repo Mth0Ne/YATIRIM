@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SmartBIST.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0f8e2ccb8abfe94a343ccc2cf52693b0cbed05d2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ac21651981d26827db4b3085555de487cd62702f")]
 [assembly: System.Reflection.AssemblyProductAttribute("SmartBIST.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SmartBIST.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,0 +1,113 @@
+2025-06-03 23:29:57,939 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-03 23:30:05,871 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.101:5001
+2025-06-03 23:30:05,871 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-03 23:30:05,877 - INFO -  * Restarting with stat
+2025-06-03 23:30:06,358 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-03 23:30:06,360 - WARNING -  * Debugger is active!
+2025-06-03 23:30:06,411 - INFO -  * Debugger PIN: 107-737-890
+2025-06-03 23:30:16,383 - INFO - 127.0.0.1 - - [03/Jun/2025 23:30:16] "GET / HTTP/1.1" 200 -
+2025-06-03 23:30:59,363 - INFO - Teknik analiz isteği: AKBNK.IS, süre: 90 gün
+2025-06-03 23:30:59,364 - INFO - Veri çekiliyor: AKBNK.IS
+2025-06-03 23:31:00,515 - INFO - Başarılı: 96 veri noktası
+2025-06-03 23:31:00,569 - INFO - 127.0.0.1 - - [03/Jun/2025 23:31:00] "GET /technical-analysis/AKBNK HTTP/1.1" 200 -
+2025-06-03 23:32:33,441 - INFO -  * Detected change in '/home/alperentoker/Projects/YATIRIM/technical_analysis_api.py', reloading
+2025-06-03 23:32:33,516 - INFO -  * Restarting with stat
+2025-06-03 23:32:33,991 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-03 23:32:33,993 - WARNING -  * Debugger is active!
+2025-06-03 23:32:33,993 - INFO -  * Debugger PIN: 107-737-890
+2025-06-03 23:32:38,101 - INFO -  * Detected change in '/home/alperentoker/Projects/YATIRIM/technical_analysis_api.py', reloading
+2025-06-03 23:32:38,226 - INFO -  * Restarting with stat
+2025-06-03 23:32:38,639 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-03 23:32:38,641 - WARNING -  * Debugger is active!
+2025-06-03 23:32:38,641 - INFO -  * Debugger PIN: 107-737-890
+2025-06-03 23:32:44,782 - INFO -  * Detected change in '/home/alperentoker/Projects/YATIRIM/technical_analysis_api.py', reloading
+2025-06-03 23:32:44,893 - INFO -  * Restarting with stat
+2025-06-03 23:32:45,376 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-03 23:32:45,378 - WARNING -  * Debugger is active!
+2025-06-03 23:32:45,378 - INFO -  * Debugger PIN: 107-737-890
+2025-06-03 23:33:23,877 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-03 23:33:31,872 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.101:5001
+2025-06-03 23:33:31,872 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-03 23:33:31,873 - INFO -  * Restarting with stat
+2025-06-03 23:33:32,313 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-03 23:33:32,314 - WARNING -  * Debugger is active!
+2025-06-03 23:33:32,315 - INFO -  * Debugger PIN: 107-737-890
+2025-06-03 23:34:17,247 - INFO - Veri çekiliyor: GARAN.IS
+2025-06-03 23:34:18,135 - INFO - Başarılı: 7 veri noktası
+2025-06-03 23:34:18,141 - INFO - 127.0.0.1 - - [03/Jun/2025 23:34:18] "GET /price-history/GARAN?period_days=10 HTTP/1.1" 200 -
+2025-06-03 23:35:45,472 - INFO - Teknik analiz isteği: AKBNK.IS, süre: 90 gün
+2025-06-03 23:35:45,472 - INFO - Veri çekiliyor: AKBNK.IS
+2025-06-03 23:35:45,850 - INFO - Başarılı: 96 veri noktası
+2025-06-03 23:35:45,900 - INFO - 127.0.0.1 - - [03/Jun/2025 23:35:45] "GET /technical-analysis/AKBNK HTTP/1.1" 200 -
+2025-06-03 23:37:57,662 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-03 23:38:05,677 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.101:5001
+2025-06-03 23:38:05,678 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-03 23:38:05,678 - INFO -  * Restarting with stat
+2025-06-03 23:38:06,155 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-03 23:38:06,157 - WARNING -  * Debugger is active!
+2025-06-03 23:38:06,157 - INFO -  * Debugger PIN: 107-737-890
+2025-06-03 23:38:15,429 - INFO - Teknik analiz isteği: AKBNK.IS, süre: 90 gün
+2025-06-03 23:38:15,429 - INFO - Veri çekiliyor: AKBNK.IS
+2025-06-03 23:38:16,153 - INFO - Başarılı: 96 veri noktası
+2025-06-03 23:38:16,154 - INFO - Toplam veri noktası: 96
+2025-06-03 23:38:16,154 - INFO - SMA hesaplanıyor...
+2025-06-03 23:38:16,156 - ERROR - SMA hesaplama hatası: 'DataFrame' object has no attribute 'tolist'
+2025-06-03 23:38:16,156 - WARNING - SMA hesaplanamadı
+2025-06-03 23:38:16,156 - INFO - EMA hesaplanıyor...
+2025-06-03 23:38:16,157 - ERROR - EMA hesaplama hatası: 'DataFrame' object has no attribute 'tolist'
+2025-06-03 23:38:16,157 - WARNING - EMA hesaplanamadı
+2025-06-03 23:38:16,157 - INFO - RSI hesaplanıyor...
+2025-06-03 23:38:16,160 - ERROR - RSI hesaplama hatası: 'DataFrame' object has no attribute 'tolist'
+2025-06-03 23:38:16,160 - WARNING - RSI hesaplanamadı
+2025-06-03 23:38:16,160 - INFO - MACD hesaplanıyor...
+2025-06-03 23:38:16,162 - ERROR - MACD hesaplama hatası: 'DataFrame' object has no attribute 'tolist'
+2025-06-03 23:38:16,162 - WARNING - MACD hesaplanamadı
+2025-06-03 23:38:16,162 - INFO - Bollinger hesaplanıyor...
+2025-06-03 23:38:16,164 - ERROR - Bollinger hesaplama hatası: 'DataFrame' object has no attribute 'tolist'
+2025-06-03 23:38:16,164 - WARNING - Bollinger hesaplanamadı
+2025-06-03 23:38:16,164 - INFO - Stochastic hesaplanıyor...
+2025-06-03 23:38:16,165 - INFO - Stochastic başarılı
+2025-06-03 23:38:16,165 - INFO - Williams %R hesaplanıyor...
+2025-06-03 23:38:16,167 - INFO - Williams %R başarılı
+2025-06-03 23:38:16,167 - INFO - Toplam hesaplanan gösterge sayısı: 2
+2025-06-03 23:38:16,210 - INFO - 127.0.0.1 - - [03/Jun/2025 23:38:16] "GET /technical-analysis/AKBNK HTTP/1.1" 200 -
+2025-06-03 23:50:13,839 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-03 23:50:21,809 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.101:5001
+2025-06-03 23:50:21,810 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-03 23:50:21,811 - INFO -  * Restarting with stat
+2025-06-03 23:50:22,292 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-03 23:50:22,294 - WARNING -  * Debugger is active!
+2025-06-03 23:50:22,295 - INFO -  * Debugger PIN: 107-737-890
+2025-06-03 23:50:53,607 - INFO - Teknik analiz isteği: AKBNK.IS, süre: 2 gün
+2025-06-03 23:50:53,608 - INFO - Veri çekiliyor: AKBNK.IS
+2025-06-03 23:50:54,270 - INFO - Başarılı: 34 veri noktası
+2025-06-03 23:50:54,271 - INFO - Toplam veri noktası: 34
+2025-06-03 23:50:54,271 - INFO - SMA hesaplanıyor...
+2025-06-03 23:50:54,272 - INFO - SMA başarılı
+2025-06-03 23:50:54,272 - INFO - EMA hesaplanıyor...
+2025-06-03 23:50:54,273 - INFO - EMA başarılı
+2025-06-03 23:50:54,273 - INFO - RSI hesaplanıyor...
+2025-06-03 23:50:54,276 - INFO - RSI başarılı
+2025-06-03 23:50:54,276 - INFO - MACD hesaplanıyor...
+2025-06-03 23:50:54,276 - WARNING - MACD hesabı için yeterli veri yok: 34 < 35
+2025-06-03 23:50:54,276 - WARNING - MACD hesaplanamadı
+2025-06-03 23:50:54,276 - INFO - Bollinger hesaplanıyor...
+2025-06-03 23:50:54,278 - INFO - Bollinger başarılı
+2025-06-03 23:50:54,278 - INFO - Stochastic hesaplanıyor...
+2025-06-03 23:50:54,279 - INFO - Stochastic başarılı
+2025-06-03 23:50:54,279 - INFO - Williams %R hesaplanıyor...
+2025-06-03 23:50:54,280 - INFO - Williams %R başarılı
+2025-06-03 23:50:54,280 - INFO - Toplam hesaplanan gösterge sayısı: 6
+2025-06-03 23:50:54,282 - INFO - 127.0.0.1 - - [03/Jun/2025 23:50:54] "GET /technical-analysis/AKBNK?period_days=2 HTTP/1.1" 200 -

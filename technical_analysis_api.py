@@ -34,25 +34,9 @@ logger = logging.getLogger("technical_analysis_api")
 app = Flask(__name__)
 CORS(app)
 
-# Türk hisse sembolleri
-TURKISH_STOCKS = {
-    'THYAO': 'THYAO.IS',
-    'AKBNK': 'AKBNK.IS', 
-    'ISCTR': 'ISCTR.IS',
-    'GARAN': 'GARAN.IS',
-    'TCELL': 'TCELL.IS',
-    'TUPRS': 'TUPRS.IS',
-    'ARCLK': 'ARCLK.IS',
-    'FROTO': 'FROTO.IS',
-    'PETKM': 'PETKM.IS',
-    'KOZAL': 'KOZAL.IS'
-}
-
 def fix_symbol(symbol):
     """Sembol formatını düzelt"""
     symbol = symbol.upper()
-    if symbol in TURKISH_STOCKS:
-        return TURKISH_STOCKS[symbol]
     if not symbol.endswith('.IS'):
         symbol += '.IS'
     return symbol
@@ -79,32 +63,56 @@ def get_stock_data(symbol, days=100):
 def calculate_sma(data, period=20):
     """Basit Hareketli Ortalama"""
     try:
+        if len(data) < period:
+            logger.warning(f"SMA hesabı için yeterli veri yok: {len(data)} < {period}")
+            return None
+            
         sma = data['Close'].rolling(window=period).mean()
         current = float(sma.iloc[-1])
+        
+        if np.isnan(current):
+            logger.warning("SMA hesabında NaN değer")
+            return None
+            
         return {
             'current': current,
             'period': period,
-            'values': sma.tail(30).dropna().tolist()
-        } if not np.isnan(current) else None
-    except:
+            'values': sma.tail(30).dropna().values.tolist()
+        }
+    except Exception as e:
+        logger.error(f"SMA hesaplama hatası: {e}")
         return None
 
 def calculate_ema(data, period=20):
     """Üstel Hareketli Ortalama"""
     try:
+        if len(data) < period:
+            logger.warning(f"EMA hesabı için yeterli veri yok: {len(data)} < {period}")
+            return None
+            
         ema = data['Close'].ewm(span=period).mean()
         current = float(ema.iloc[-1])
+        
+        if np.isnan(current):
+            logger.warning("EMA hesabında NaN değer")
+            return None
+            
         return {
             'current': current,
             'period': period,
-            'values': ema.tail(30).dropna().tolist()
-        } if not np.isnan(current) else None
-    except:
+            'values': ema.tail(30).dropna().values.tolist()
+        }
+    except Exception as e:
+        logger.error(f"EMA hesaplama hatası: {e}")
         return None
 
 def calculate_rsi(data, period=14):
     """RSI Göstergesi"""
     try:
+        if len(data) < period + 1:
+            logger.warning(f"RSI hesabı için yeterli veri yok: {len(data)} < {period + 1}")
+            return None
+            
         delta = data['Close'].diff()
         gain = delta.where(delta > 0, 0)
         loss = -delta.where(delta < 0, 0)
@@ -118,54 +126,90 @@ def calculate_rsi(data, period=14):
         rsi = 100 - (100 / (1 + rs))
         
         current = float(rsi.iloc[-1])
+        
+        if np.isnan(current):
+            logger.warning("RSI hesabında NaN değer")
+            return None
+            
         return {
             'current': current,
             'period': period,
-            'values': rsi.tail(30).dropna().tolist()
-        } if not np.isnan(current) else None
-    except:
+            'values': rsi.tail(30).dropna().values.tolist()
+        }
+    except Exception as e:
+        logger.error(f"RSI hesaplama hatası: {e}")
         return None
 
 def calculate_macd(data):
     """MACD Göstergesi"""
     try:
+        if len(data) < 35:  # En az 26 + 9 period
+            logger.warning(f"MACD hesabı için yeterli veri yok: {len(data)} < 35")
+            return None
+            
         ema12 = data['Close'].ewm(span=12).mean()
         ema26 = data['Close'].ewm(span=26).mean()
         macd_line = ema12 - ema26
         signal_line = macd_line.ewm(span=9).mean()
         histogram = macd_line - signal_line
         
+        macd_current = float(macd_line.iloc[-1])
+        signal_current = float(signal_line.iloc[-1])
+        histogram_current = float(histogram.iloc[-1])
+        
+        if any(np.isnan([macd_current, signal_current, histogram_current])):
+            logger.warning("MACD hesabında NaN değer")
+            return None
+        
         return {
-            'macd_line': float(macd_line.iloc[-1]),
-            'signal_line': float(signal_line.iloc[-1]),
-            'histogram': float(histogram.iloc[-1]),
-            'macd_values': macd_line.tail(30).dropna().tolist(),
-            'signal_values': signal_line.tail(30).dropna().tolist()
+            'macd_line': macd_current,
+            'signal_line': signal_current,
+            'histogram': histogram_current,
+            'macd_values': macd_line.tail(30).dropna().values.tolist(),
+            'signal_values': signal_line.tail(30).dropna().values.tolist()
         }
-    except:
+    except Exception as e:
+        logger.error(f"MACD hesaplama hatası: {e}")
         return None
 
 def calculate_bollinger(data, period=20):
     """Bollinger Bantları"""
     try:
+        if len(data) < period:
+            logger.warning(f"Bollinger hesabı için yeterli veri yok: {len(data)} < {period}")
+            return None
+            
         sma = data['Close'].rolling(window=period).mean()
         std = data['Close'].rolling(window=period).std()
         upper = sma + (2 * std)
         lower = sma - (2 * std)
         
+        upper_current = float(upper.iloc[-1])
+        middle_current = float(sma.iloc[-1])
+        lower_current = float(lower.iloc[-1])
+        
+        if any(np.isnan([upper_current, middle_current, lower_current])):
+            logger.warning("Bollinger hesabında NaN değer")
+            return None
+        
         return {
-            'upper_band': float(upper.iloc[-1]),
-            'middle_band': float(sma.iloc[-1]),
-            'lower_band': float(lower.iloc[-1]),
-            'upper_values': upper.tail(30).dropna().tolist(),
-            'lower_values': lower.tail(30).dropna().tolist()
+            'upper_band': upper_current,
+            'middle_band': middle_current,
+            'lower_band': lower_current,
+            'upper_values': upper.tail(30).dropna().values.tolist(),
+            'lower_values': lower.tail(30).dropna().values.tolist()
         }
-    except:
+    except Exception as e:
+        logger.error(f"Bollinger hesaplama hatası: {e}")
         return None
 
 def calculate_stochastic(data, period=14):
     """Stochastic Osilatör"""
     try:
+        if len(data) < period + 3:  # period + 3 for %D calculation
+            logger.warning(f"Stochastic hesabı için yeterli veri yok: {len(data)} < {period + 3}")
+            return None
+            
         low_min = data['Low'].rolling(window=period).min()
         high_max = data['High'].rolling(window=period).max()
         
@@ -176,16 +220,28 @@ def calculate_stochastic(data, period=14):
         k_percent = 100 * (data['Close'] - low_min) / denominator
         d_percent = k_percent.rolling(window=3).mean()
         
+        k_current = float(k_percent.iloc[-1])
+        d_current = float(d_percent.iloc[-1])
+        
+        if any(np.isnan([k_current, d_current])):
+            logger.warning("Stochastic hesabında NaN değer")
+            return None
+        
         return {
-            'k_percent': float(k_percent.iloc[-1]),
-            'd_percent': float(d_percent.iloc[-1])
+            'k_percent': k_current,
+            'd_percent': d_current
         }
-    except:
+    except Exception as e:
+        logger.error(f"Stochastic hesaplama hatası: {e}")
         return None
 
 def calculate_williams_r(data, period=14):
     """Williams %R"""
     try:
+        if len(data) < period:
+            logger.warning(f"Williams %R hesabı için yeterli veri yok: {len(data)} < {period}")
+            return None
+            
         low_min = data['Low'].rolling(window=period).min()
         high_max = data['High'].rolling(window=period).max()
         
@@ -195,38 +251,82 @@ def calculate_williams_r(data, period=14):
         
         willr = -100 * (high_max - data['Close']) / denominator
         
+        current = float(willr.iloc[-1])
+        
+        if np.isnan(current):
+            logger.warning("Williams %R hesabında NaN değer")
+            return None
+        
         return {
-            'current': float(willr.iloc[-1])
+            'current': current
         }
-    except:
+    except Exception as e:
+        logger.error(f"Williams %R hesaplama hatası: {e}")
         return None
 
 def calculate_all_indicators(data):
     """Tüm teknik göstergeleri hesapla"""
     indicators = {}
+    logger.info(f"Toplam veri noktası: {len(data)}")
     
     # Her göstergeyi ayrı ayrı hesapla
+    logger.info("SMA hesaplanıyor...")
     sma = calculate_sma(data)
-    if sma: indicators['sma'] = sma
+    if sma: 
+        indicators['sma'] = sma
+        logger.info("SMA başarılı")
+    else:
+        logger.warning("SMA hesaplanamadı")
     
+    logger.info("EMA hesaplanıyor...")
     ema = calculate_ema(data)
-    if ema: indicators['ema'] = ema
+    if ema: 
+        indicators['ema'] = ema
+        logger.info("EMA başarılı")
+    else:
+        logger.warning("EMA hesaplanamadı")
     
+    logger.info("RSI hesaplanıyor...")
     rsi = calculate_rsi(data)
-    if rsi: indicators['rsi'] = rsi
+    if rsi: 
+        indicators['rsi'] = rsi
+        logger.info("RSI başarılı")
+    else:
+        logger.warning("RSI hesaplanamadı")
     
+    logger.info("MACD hesaplanıyor...")
     macd = calculate_macd(data)
-    if macd: indicators['macd'] = macd
+    if macd: 
+        indicators['macd'] = macd
+        logger.info("MACD başarılı")
+    else:
+        logger.warning("MACD hesaplanamadı")
     
+    logger.info("Bollinger hesaplanıyor...")
     bollinger = calculate_bollinger(data)
-    if bollinger: indicators['bollinger'] = bollinger
+    if bollinger: 
+        indicators['bollinger'] = bollinger
+        logger.info("Bollinger başarılı")
+    else:
+        logger.warning("Bollinger hesaplanamadı")
     
+    logger.info("Stochastic hesaplanıyor...")
     stochastic = calculate_stochastic(data)
-    if stochastic: indicators['stochastic'] = stochastic
+    if stochastic: 
+        indicators['stochastic'] = stochastic
+        logger.info("Stochastic başarılı")
+    else:
+        logger.warning("Stochastic hesaplanamadı")
     
+    logger.info("Williams %R hesaplanıyor...")
     williams = calculate_williams_r(data)
-    if williams: indicators['williams_r'] = williams
+    if williams: 
+        indicators['williams_r'] = williams
+        logger.info("Williams %R başarılı")
+    else:
+        logger.warning("Williams %R hesaplanamadı")
     
+    logger.info(f"Toplam hesaplanan gösterge sayısı: {len(indicators)}")
     return indicators
 
 def calculate_signals(indicators, current_price):
@@ -333,7 +433,6 @@ def home():
         "name": "Teknik Analiz API",
         "version": "2.0.0",
         "status": "çalışıyor",
-        "available_symbols": list(TURKISH_STOCKS.keys()),
         "endpoints": {
             "/technical-analysis/<symbol>": "Teknik analiz",
             "/price-history/<symbol>": "Fiyat geçmişi"
