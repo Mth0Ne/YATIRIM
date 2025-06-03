@@ -8,6 +8,7 @@ using SmartBIST.Core.Interfaces;
 using SmartBIST.Infrastructure.Data;
 using SmartBIST.Infrastructure.Repositories;
 using SmartBIST.Infrastructure.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using System;
 
 namespace SmartBIST.Infrastructure;
@@ -62,7 +63,10 @@ public static class DependencyInjection
         // Real Technical Analysis Service (Clean Architecture)
         services.AddHttpClient<IRealTechnicalAnalysisService, RealTechnicalAnalysisService>();
         
-        // Add Identity
+        // Email Service for Identity
+        services.AddTransient<IEmailSender, EmailSender>();
+        
+        // Add Identity - Custom pages kullandığımız için AddDefaultUI() kaldırıldı
         services.AddIdentity<ApplicationUser, IdentityRole>(options => 
             {
                 options.SignIn.RequireConfirmedAccount = false; // Hesap doğrulama gerekmiyor demo için
@@ -73,8 +77,7 @@ public static class DependencyInjection
                 options.Password.RequiredLength = 8;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders()
-            .AddDefaultUI();
+            .AddDefaultTokenProviders();
         
         return services;
     }

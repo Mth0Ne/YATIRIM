@@ -815,31 +815,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\alper\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/home/alperentoker/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alper\\Desktop\\Yatırım\\SmartBIST\\src\\SmartBIST.Core\\SmartBIST.Core.csproj",
+      "projectUniqueName": "/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.Core/SmartBIST.Core.csproj",
       "projectName": "SmartBIST.Core",
-      "projectPath": "C:\\Users\\alper\\Desktop\\Yatırım\\SmartBIST\\src\\SmartBIST.Core\\SmartBIST.Core.csproj",
-      "packagesPath": "C:\\Users\\alper\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alper\\Desktop\\Yatırım\\SmartBIST\\src\\SmartBIST.Core\\obj\\",
+      "projectPath": "/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.Core/SmartBIST.Core.csproj",
+      "packagesPath": "/home/alperentoker/.nuget/packages/",
+      "outputPath": "/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.Core/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\alper\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/home/alperentoker/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -857,8 +850,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.200"
+      }
     },
     "frameworks": {
       "net8.0": {
@@ -885,7 +877,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.410/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

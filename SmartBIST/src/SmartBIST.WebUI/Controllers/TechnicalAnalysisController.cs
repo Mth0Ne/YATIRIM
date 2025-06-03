@@ -4,9 +4,10 @@ using SmartBIST.Application.Services;
 using SmartBIST.Core.Interfaces;
 using SmartBIST.WebUI.Models;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SmartBIST.WebUI.Controllers;
-
+[Authorize]
 public class TechnicalAnalysisController : Controller
 {   
     private readonly ITechnicalIndicatorService _technicalIndicatorService;

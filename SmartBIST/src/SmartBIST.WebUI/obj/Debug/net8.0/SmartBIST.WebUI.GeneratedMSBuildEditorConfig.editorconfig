@@ -17,105 +17,127 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = SmartBIST.WebUI
 build_property.RootNamespace = SmartBIST.WebUI
-build_property.ProjectDir = C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.WebUI\
+build_property.ProjectDir = /home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = true
-build_property.MSBuildProjectDirectory = C:\Users\alper\Desktop\Yatırım\SmartBIST\src\SmartBIST.WebUI
+build_property.MSBuildProjectDirectory = /home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI
 build_property._RazorSourceGeneratorDebug = 
-build_property.EffectiveAnalysisLevelStyle = 8.0
-build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Areas/Identity/Pages/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Areas/Identity/Pages/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9SZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Home/UserSettings.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxVc2VyU2V0dGluZ3MuY3NodG1s
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9fVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Portfolio/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9ydGZvbGlvXENyZWF0ZS5jc2h0bWw=
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Portfolio/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9ydGZvbGlvXERldGFpbHMuY3NodG1s
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Areas/Identity/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Portfolio/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9ydGZvbGlvXEVkaXQuY3NodG1s
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Areas/Identity/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Portfolio/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9ydGZvbGlvXEluZGV4LmNzaHRtbA==
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Prediction/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlZGljdGlvblxDcmVhdGUuY3NodG1s
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Prediction/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlZGljdGlvblxEZWxldGUuY3NodG1s
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Home/UserSettings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Vc2VyU2V0dGluZ3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Prediction/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlZGljdGlvblxEZXRhaWxzLmNzaHRtbA==
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Portfolio/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUG9ydGZvbGlvL0NyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Prediction/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlZGljdGlvblxJbmRleC5jc2h0bWw=
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Portfolio/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUG9ydGZvbGlvL0RldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Prediction/MarketInsights.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJlZGljdGlvblxNYXJrZXRJbnNpZ2h0cy5jc2h0bWw=
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Portfolio/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUG9ydGZvbGlvL0VkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Shared/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Portfolio/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUG9ydGZvbGlvL0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Shared/_LoginPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Prediction/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJlZGljdGlvbi9DcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Prediction/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJlZGljdGlvbi9EZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/StockData/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RvY2tEYXRhXEluZGV4LmNzaHRtbA==
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Prediction/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJlZGljdGlvbi9EZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/TechnicalAnalysis/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVjaG5pY2FsQW5hbHlzaXNcSW5kZXguY3NodG1s
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Prediction/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJlZGljdGlvbi9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Tools/Calculator.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG9vbHNcQ2FsY3VsYXRvci5jc2h0bWw=
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Prediction/MarketInsights.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJlZGljdGlvbi9NYXJrZXRJbnNpZ2h0cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Tools/TechnicalAnalysis.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG9vbHNcVGVjaG5pY2FsQW5hbHlzaXMuY3NodG1s
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/UserPreference/Favorites.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclByZWZlcmVuY2VcRmF2b3JpdGVzLmNzaHRtbA==
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/StockData/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3RvY2tEYXRhL0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/alper/Desktop/Yatırım/SmartBIST/src/SmartBIST.WebUI/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-vqo3z19fzv
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/TechnicalAnalysis/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVGVjaG5pY2FsQW5hbHlzaXMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Tools/Calculator.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVG9vbHMvQ2FsY3VsYXRvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Tools/TechnicalAnalysis.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVG9vbHMvVGVjaG5pY2FsQW5hbHlzaXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/UserPreference/Favorites.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlclByZWZlcmVuY2UvRmF2b3JpdGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-kcpl0bqy7q

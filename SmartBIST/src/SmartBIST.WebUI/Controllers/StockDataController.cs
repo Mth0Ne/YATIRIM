@@ -11,6 +11,7 @@ namespace SmartBIST.WebUI.Controllers;
 
 // Test amaçlı olarak herkesin erişebilmesi için Admin rolü şartını kaldırdık
 //[Authorize(Roles = "Admin")]
+[Authorize]
 public class StockDataController : Controller
 {
     private readonly IStockScraperService _stockScraperService;

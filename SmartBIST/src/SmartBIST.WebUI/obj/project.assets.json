@@ -9324,45 +9324,38 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\alper\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/home/alperentoker/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alper\\Desktop\\Yatırım\\SmartBIST\\src\\SmartBIST.WebUI\\SmartBIST.WebUI.csproj",
+      "projectUniqueName": "/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/SmartBIST.WebUI.csproj",
       "projectName": "SmartBIST.WebUI",
-      "projectPath": "C:\\Users\\alper\\Desktop\\Yatırım\\SmartBIST\\src\\SmartBIST.WebUI\\SmartBIST.WebUI.csproj",
-      "packagesPath": "C:\\Users\\alper\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alper\\Desktop\\Yatırım\\SmartBIST\\src\\SmartBIST.WebUI\\obj\\",
+      "projectPath": "/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/SmartBIST.WebUI.csproj",
+      "packagesPath": "/home/alperentoker/.nuget/packages/",
+      "outputPath": "/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.WebUI/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\alper\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/home/alperentoker/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\alper\\Desktop\\Yatırım\\SmartBIST\\src\\SmartBIST.Application\\SmartBIST.Application.csproj": {
-              "projectPath": "C:\\Users\\alper\\Desktop\\Yatırım\\SmartBIST\\src\\SmartBIST.Application\\SmartBIST.Application.csproj"
+            "/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.Application/SmartBIST.Application.csproj": {
+              "projectPath": "/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.Application/SmartBIST.Application.csproj"
             },
-            "C:\\Users\\alper\\Desktop\\Yatırım\\SmartBIST\\src\\SmartBIST.Core\\SmartBIST.Core.csproj": {
-              "projectPath": "C:\\Users\\alper\\Desktop\\Yatırım\\SmartBIST\\src\\SmartBIST.Core\\SmartBIST.Core.csproj"
+            "/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.Core/SmartBIST.Core.csproj": {
+              "projectPath": "/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.Core/SmartBIST.Core.csproj"
             },
-            "C:\\Users\\alper\\Desktop\\Yatırım\\SmartBIST\\src\\SmartBIST.Infrastructure\\SmartBIST.Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\alper\\Desktop\\Yatırım\\SmartBIST\\src\\SmartBIST.Infrastructure\\SmartBIST.Infrastructure.csproj"
+            "/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.Infrastructure/SmartBIST.Infrastructure.csproj": {
+              "projectPath": "/home/alperentoker/Projects/YATIRIM/SmartBIST/src/SmartBIST.Infrastructure/SmartBIST.Infrastructure.csproj"
             }
           }
         }
@@ -9376,8 +9369,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.200"
+      }
     },
     "frameworks": {
       "net8.0": {
@@ -9437,7 +9429,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.204/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.410/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
