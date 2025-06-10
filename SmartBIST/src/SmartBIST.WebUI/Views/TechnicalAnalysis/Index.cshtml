@@ -89,6 +89,188 @@
                         </div>
                     </form>
 
+                    <!-- Technical Signals Dashboard -->
+                    @if (Model.HasData)
+                    {
+                        <div class="mb-4">
+                            <!-- Individual Signals Cards -->
+                            <div class="row g-3">
+                                @foreach (var signal in Model.TechnicalAnalysis.Signals.IndividualSignals)
+                                {
+                                    <div class="col-md-3 col-sm-6">
+                                        <div class="card border-0 shadow-sm h-100">
+                                            <div class="card-body text-center">
+                                                <div class="mb-2">
+                                                    <div class="bg-light rounded-circle p-2 d-inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                                        <i class="bi bi-@(signal.Key == "rsi" ? "speedometer2" : signal.Key == "macd" ? "bar-chart" : signal.Key == "bollinger" ? "arrows-expand" : signal.Key == "sma" ? "graph-up" : signal.Key == "ema" ? "graph-up-arrow" : signal.Key == "stochastic" ? "graph-down" : "percent") text-secondary"></i>
+                                                    </div>
+                                                </div>
+                                                <h6 class="card-title mb-2">@GetIndicatorName(signal.Key)</h6>
+                                                <span class="badge @GetSignalClass(signal.Value) fs-6">
+                                                    <i class="bi bi-@(signal.Value == "BUY" ? "arrow-up" : signal.Value == "SELL" ? "arrow-down" : "dash") me-1"></i>
+                                                    @GetSignalText(signal.Value)
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <!-- Advanced Technical Signals Dashboard -->
+                            <div class="card border-0 shadow-sm mt-4">
+                                <div class="card-header bg-gradient-primary text-white">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h5 class="card-title mb-0">
+                                                <i class="bi bi-lightning-charge me-2"></i>Detaylı Teknik Analiz Sinyalleri
+                                            </h5>
+                                            <small class="opacity-75">Profesyonel teknik analiz özeti</small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="badge bg-white text-primary fs-6 px-3 py-2">
+                                                <i class="bi bi-graph-up me-1"></i>
+                                                Gerçek Zamanlı
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body p-4">
+                                    <!-- Signal Strength Meter -->
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <div class="d-flex align-items-center">
+                                                <div class="me-3">
+                                                    <div class="signal-meter-container position-relative" style="width: 80px; height: 80px;">
+                                                        <svg class="signal-meter" width="80" height="80">
+                                                            <circle cx="40" cy="40" r="35" fill="none" stroke="#e9ecef" stroke-width="8"></circle>
+                                                            <circle cx="40" cy="40" r="35" fill="none" 
+                                                                    stroke="@(Model.TechnicalAnalysis.Signals.OverallSignal == "BUY" ? "#198754" : Model.TechnicalAnalysis.Signals.OverallSignal == "SELL" ? "#dc3545" : "#ffc107")" 
+                                                                    stroke-width="8" 
+                                                                    stroke-dasharray="220" 
+                                                                    stroke-dashoffset="@(220 - (Model.TechnicalAnalysis.Signals.SignalStrength * 220))"
+                                                                    transform="rotate(-90 40 40)"
+                                                                    class="signal-progress"></circle>
+                                                        </svg>
+                                                        <div class="position-absolute top-50 start-50 translate-middle text-center">
+                                                            <div class="fs-5 fw-bold text-@(Model.TechnicalAnalysis.Signals.OverallSignal == "BUY" ? "success" : Model.TechnicalAnalysis.Signals.OverallSignal == "SELL" ? "danger" : "warning")">
+                                                                @((Model.TechnicalAnalysis.Signals.SignalStrength * 100).ToString("F0"))%
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <h4 class="mb-1">Sinyal Gücü</h4>
+                                                    <p class="text-muted mb-2">Genel trend analizi</p>
+                                                    <span class="badge @GetSignalClass(Model.TechnicalAnalysis.Signals.OverallSignal) fs-6 px-3 py-2">
+                                                        <i class="bi bi-@(Model.TechnicalAnalysis.Signals.OverallSignal == "BUY" ? "arrow-up" : Model.TechnicalAnalysis.Signals.OverallSignal == "SELL" ? "arrow-down" : "dash") me-1"></i>
+                                                        @GetSignalText(Model.TechnicalAnalysis.Signals.OverallSignal)
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row text-center">
+                                                <div class="col-4">
+                                                    <div class="border-end pe-3">
+                                                        <div class="signal-stat">
+                                                            <div class="signal-stat-icon bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 50px; height: 50px;">
+                                                                <i class="bi bi-arrow-up fs-5"></i>
+                                                            </div>
+                                                            <h3 class="text-success mb-0">@Model.TechnicalAnalysis.Signals.BuySignals</h3>
+                                                            <small class="text-muted">Alış Sinyali</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="border-end pe-3">
+                                                        <div class="signal-stat">
+                                                            <div class="signal-stat-icon bg-warning bg-opacity-10 text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 50px; height: 50px;">
+                                                                <i class="bi bi-dash fs-5"></i>
+                                                            </div>
+                                                            <h3 class="text-warning mb-0">@Model.TechnicalAnalysis.Signals.NeutralSignals</h3>
+                                                            <small class="text-muted">Nötr</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="signal-stat">
+                                                        <div class="signal-stat-icon bg-danger bg-opacity-10 text-danger rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 50px; height: 50px;">
+                                                            <i class="bi bi-arrow-down fs-5"></i>
+                                                        </div>
+                                                        <h3 class="text-danger mb-0">@Model.TechnicalAnalysis.Signals.SellSignals</h3>
+                                                        <small class="text-muted">Satış Sinyali</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Technical Indicators List -->
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h6 class="text-muted mb-3 text-uppercase fw-semibold">
+                                                <i class="bi bi-gear me-1"></i>İndikatör Detayları
+                                            </h6>
+                                            <div class="row g-2">
+                                                @foreach (var signal in Model.TechnicalAnalysis.Signals.IndividualSignals)
+                                                {
+                                                    <div class="col-md-4 col-sm-6">
+                                                        <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded">
+                                                            <div class="d-flex align-items-center">
+                                                                <i class="bi bi-@(signal.Key == "rsi" ? "speedometer2" : signal.Key == "macd" ? "bar-chart" : signal.Key == "bollinger" ? "arrows-expand" : signal.Key == "sma" ? "graph-up" : signal.Key == "ema" ? "graph-up-arrow" : signal.Key == "stochastic" ? "graph-down" : "percent") text-secondary me-2"></i>
+                                                                <span class="fw-medium">@GetIndicatorName(signal.Key)</span>
+                                                            </div>
+                                                            <span class="badge @GetSignalClass(signal.Value)">
+                                                                @GetSignalText(signal.Value)
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- No Data State -->
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body text-center py-5">
+                                <div class="mb-4">
+                                    <i class="bi bi-lightning text-muted" style="font-size: 64px;"></i>
+                                </div>
+                                <h4 class="text-muted mb-3">Teknik Analiz Bekleniyor</h4>
+                                <p class="text-muted mb-4">Hisse seçildiğinde detaylı teknik analiz sinyalleri burada görüntülenecek</p>
+                                <div class="row justify-content-center">
+                                    <div class="col-md-8">
+                                        <div class="row g-3">
+                                            <div class="col-4">
+                                                <div class="bg-light rounded p-3">
+                                                    <i class="bi bi-speedometer2 text-muted mb-2 d-block" style="font-size: 24px;"></i>
+                                                    <small class="text-muted">RSI</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="bg-light rounded p-3">
+                                                    <i class="bi bi-bar-chart text-muted mb-2 d-block" style="font-size: 24px;"></i>
+                                                    <small class="text-muted">MACD</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="bg-light rounded p-3">
+                                                    <i class="bi bi-graph-up text-muted mb-2 d-block" style="font-size: 24px;"></i>
+                                                    <small class="text-muted">SMA/EMA</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
                     <div class="row">
                         <!-- Charts Section -->
                         <div class="col-md-9">
@@ -158,51 +340,6 @@
                                         <div class="text-center py-4 text-muted">
                                             <i class="bi bi-info-circle" style="font-size: 36px;"></i>
                                             <p class="mt-2">Hisse seçildiğinde bilgiler burada görüntülenecek</p>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                            
-                            <!-- Technical Signals -->
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0">
-                                        <i class="bi bi-lightning me-2"></i>Teknik Sinyaller
-                                    </h5>
-                                </div>
-                                <div class="card-body">
-                                    @if (Model.HasData)
-                                    {
-                                        <div class="mb-3">
-                                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                                <span>Genel Sinyal</span>
-                                                <span class="badge @GetSignalClass(Model.TechnicalAnalysis!.Signals.OverallSignal)">
-                                                    @GetSignalText(Model.TechnicalAnalysis.Signals.OverallSignal)
-                                                </span>
-                                            </div>
-                                            <div class="progress">
-                                                <div class="progress-bar @GetSignalClass(Model.TechnicalAnalysis.Signals.OverallSignal)" 
-                                                     role="progressbar" style="width: @((Model.TechnicalAnalysis.Signals.SignalStrength * 100).ToString("F0"))%">
-                                                </div>
-                                            </div>
-                                            <small class="text-muted">Sinyal Gücü: @((Model.TechnicalAnalysis.Signals.SignalStrength * 100).ToString("F0"))%</small>
-                                        </div>
-                                        
-                                        <ul class="list-group list-group-flush">
-                                            @foreach (var signal in Model.TechnicalAnalysis.Signals.IndividualSignals)
-                                            {
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    @GetIndicatorName(signal.Key)
-                                                    <span class="badge @GetSignalClass(signal.Value)">@GetSignalText(signal.Value)</span>
-                                                </li>
-                                            }
-                                        </ul>
-                                    }
-                                    else
-                                    {
-                                        <div class="text-center py-4 text-muted">
-                                            <i class="bi bi-lightning" style="font-size: 36px;"></i>
-                                            <p class="mt-2">Hisse seçildiğinde teknik analiz sinyalleri burada görüntülenecek</p>
                                         </div>
                                     }
                                 </div>
@@ -357,5 +494,125 @@
     
     #symbol option[style*="display: none"] {
         display: none !important;
+    }
+
+    /* Advanced Technical Signals Styles */
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%) !important;
+    }
+
+    .signal-meter-container {
+        transition: transform 0.3s ease;
+    }
+
+    .signal-meter-container:hover {
+        transform: scale(1.05);
+    }
+
+    .signal-progress {
+        transition: stroke-dashoffset 0.8s ease-in-out;
+        filter: drop-shadow(0 0 3px rgba(0,0,0,0.1));
+    }
+
+    .signal-stat {
+        transition: transform 0.3s ease;
+    }
+
+    .signal-stat:hover {
+        transform: translateY(-2px);
+    }
+
+    .signal-stat-icon {
+        transition: all 0.3s ease;
+    }
+
+    .signal-stat:hover .signal-stat-icon {
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .card.border-0.shadow-sm {
+        transition: box-shadow 0.3s ease;
+    }
+
+    .card.border-0.shadow-sm:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+    }
+
+    /* Indicator Cards Enhancement */
+    .bg-light.rounded {
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .bg-light.rounded:hover {
+        background-color: #f8f9fa !important;
+        border-color: #dee2e6;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Badge Enhancements */
+    .badge {
+        transition: all 0.3s ease;
+    }
+
+    .badge:hover {
+        transform: scale(1.05);
+    }
+
+    /* Header Gradient */
+    .bg-gradient-primary::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    .card-header.bg-gradient-primary {
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Animation for signal strength display */
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .signal-stat {
+        animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .signal-stat:nth-child(1) { animation-delay: 0.1s; }
+    .signal-stat:nth-child(2) { animation-delay: 0.2s; }
+    .signal-stat:nth-child(3) { animation-delay: 0.3s; }
+
+    /* Responsive adjustments */
+    @@media (max-width: 768px) {
+        .signal-meter-container {
+            width: 60px !important;
+            height: 60px !important;
+        }
+        
+        .signal-meter {
+            width: 60px !important;
+            height: 60px !important;
+        }
+
+        .signal-stat-icon {
+            width: 40px !important;
+            height: 40px !important;
+        }
     }
 </style> 
