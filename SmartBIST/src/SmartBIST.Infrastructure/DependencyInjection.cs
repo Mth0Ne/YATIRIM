@@ -61,7 +61,15 @@ public static class DependencyInjection
         services.AddScoped<IPortfolioAnalysisService, PortfolioAnalysisService>();
         
         // Real Technical Analysis Service (Clean Architecture)
-        services.AddHttpClient<IRealTechnicalAnalysisService, RealTechnicalAnalysisService>();
+        services.AddHttpClient<IRealTechnicalAnalysisService, RealTechnicalAnalysisService>()
+            .ConfigureHttpClient((serviceProvider, client) =>
+            {
+                var config = serviceProvider.GetService<IConfiguration>();
+                var baseUrl = config?["PythonApi:BaseUrl"] ?? "http://localhost:5001";
+                client.BaseAddress = new Uri(baseUrl);
+                client.Timeout = TimeSpan.FromSeconds(60); // Increase timeout for Python API
+                client.DefaultRequestHeaders.Add("User-Agent", "SmartBIST/1.0");
+            });
         
         // Email Service for Identity
         services.AddTransient<IEmailSender, EmailSender>();

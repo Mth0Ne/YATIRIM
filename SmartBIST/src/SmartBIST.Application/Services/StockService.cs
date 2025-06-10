@@ -369,14 +369,14 @@ public class StockService : IStockService
         }
     }
     
-    public async Task<Dictionary<string, object>> GetTechnicalIndicatorsAsync(int stockId, string indicator, Dictionary<string, string> parameters)
+    public Task<Dictionary<string, object>> GetTechnicalIndicatorsAsync(int stockId, string indicator, Dictionary<string, string> parameters)
     {
         // This method is now deprecated - use ITechnicalIndicatorService instead
-        return new Dictionary<string, object>
+        return Task.FromResult(new Dictionary<string, object>
         {
             ["message"] = "Please use the new TechnicalIndicatorService for real technical analysis",
             ["deprecated"] = true
-        };
+        });
     }
     
     public async Task<bool> AddStockAsync(CreateStockDto stockDto)

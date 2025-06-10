@@ -94,11 +94,11 @@ public class PredictionController : Controller
             IsSuccess = prediction.Success,
             ErrorMessage = prediction.ErrorMessage,
             
-            // Performance metrics - performans metrikleri
+            // Performance metrics - performans metrikleri (API'den gelen gerçek değerler)
             Accuracy = prediction.Accuracy,
-            MeanAbsoluteError = prediction.PredictionData != null && prediction.PredictionData.TryGetValue("mae", out var mae) ? Convert.ToDecimal(mae) : 0.005m,
-            RootMeanSquaredError = prediction.PredictionData != null && prediction.PredictionData.TryGetValue("rmse", out var rmse) ? Convert.ToDecimal(rmse) : 0.01m,
-            RSquared = prediction.PredictionData != null && prediction.PredictionData.TryGetValue("r2", out var r2) ? Convert.ToDecimal(r2) : 0.85m
+            MeanAbsoluteError = prediction.PredictionData != null && prediction.PredictionData.TryGetValue("mae", out var mae) ? SafeToDecimal(mae) : 0,
+            RootMeanSquaredError = prediction.PredictionData != null && prediction.PredictionData.TryGetValue("rmse", out var rmse) ? SafeToDecimal(rmse) : 0,
+            RSquared = prediction.PredictionData != null && prediction.PredictionData.TryGetValue("r2", out var r2) ? SafeToDecimal(r2) : 0
         };
         
         // API'den gelen değerlerin gözden geçirilmesi
@@ -393,6 +393,47 @@ public class PredictionController : Controller
             _logger.LogError(ex, "Tahmin silinirken hata oluştu. ID: {ID}", id);
             TempData["ErrorMessage"] = "Tahmin silinirken bir hata oluştu.";
             return RedirectToAction(nameof(Index));
+        }
+    }
+    
+    private static decimal SafeToDecimal(object value)
+    {
+        try
+        {
+            if (value is System.Text.Json.JsonElement jsonElement)
+            {
+                if (jsonElement.ValueKind == System.Text.Json.JsonValueKind.Number)
+                {
+                    return (decimal)jsonElement.GetDouble();
+                }
+                return 0;
+            }
+            
+            if (value is double doubleValue)
+            {
+                return (decimal)doubleValue;
+            }
+            
+            if (value is decimal decimalValue)
+            {
+                return decimalValue;
+            }
+            
+            if (value is int intValue)
+            {
+                return intValue;
+            }
+            
+            if (decimal.TryParse(value?.ToString(), out var parsed))
+            {
+                return parsed;
+            }
+            
+            return 0;
+        }
+        catch
+        {
+            return 0;
         }
     }
 } 

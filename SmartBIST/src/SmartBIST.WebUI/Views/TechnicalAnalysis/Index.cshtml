@@ -218,12 +218,36 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Debug: Model durumunu logla
+        console.log('Model.HasData:', @Json.Serialize(Model.HasData));
+        console.log('Model.HasError:', @Json.Serialize(Model.HasError));
+        @if (Model.HasError)
+        {
+            <text>console.log('Error Message:', '@Html.Raw(Model.ErrorMessage)');</text>
+        }
+        @if (Model.TechnicalAnalysis != null)
+        {
+            <text>console.log('Technical Analysis:', @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.TechnicalAnalysis)));</text>
+        }
+        @if (Model.PriceHistory != null)
+        {
+            <text>console.log('Price History:', @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.PriceHistory)));</text>
+        }
+
         // Initialize chart when page loads
         $(document).ready(function() {
+            console.log('Document ready!');
             @if (Model.HasData && Model.PriceHistory?.PriceHistory != null)
             {
                 <text>
+                console.log('Initializing chart...');
                 initializePriceChart();
+                </text>
+            }
+            else
+            {
+                <text>
+                console.log('No data to initialize chart');
                 </text>
             }
         });
@@ -246,6 +270,7 @@
         }
 
         function initializePriceChart() {
+            console.log('initializePriceChart called');
             const ctx = document.getElementById('priceChart').getContext('2d');
             
             @if (Model.PriceHistory?.PriceHistory != null)
@@ -256,58 +281,67 @@
                     close = p.Close 
                 })));
                 
+                console.log('Price data:', priceData);
                 const dates = priceData.map(d => d.date);
                 const prices = priceData.map(d => d.close);
+                console.log('Dates:', dates);
+                console.log('Prices:', prices);
                 </text>
             }
             else
             {
                 <text>
+                console.log('No price history data');
                 const priceData = [];
                 const dates = [];
                 const prices = [];
                 </text>
             }
 
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: dates,
-                    datasets: [{
-                        label: 'Kapanış Fiyatı (@Model.Symbol)',
-                        data: prices,
-                        borderColor: 'rgb(75, 192, 192)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.1)',
-                        tension: 0.1,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: false,
-                            title: {
-                                display: true,
-                                text: 'Fiyat (TL)'
+            try {
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: dates,
+                        datasets: [{
+                            label: 'Kapanış Fiyatı (@Model.Symbol)',
+                            data: prices,
+                            borderColor: 'rgb(75, 192, 192)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                            tension: 0.1,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                title: {
+                                    display: true,
+                                    text: 'Fiyat (TL)'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Tarih'
+                                }
                             }
                         },
-                        x: {
-                            title: {
+                        plugins: {
+                            legend: {
                                 display: true,
-                                text: 'Tarih'
+                                position: 'top'
                             }
                         }
-                    },
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top'
-                        }
                     }
-                }
-            });
+                });
+                console.log('Chart created successfully');
+            } catch (error) {
+                console.error('Chart creation error:', error);
+            }
         }
     </script>
 }

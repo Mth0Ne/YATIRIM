@@ -62,13 +62,13 @@ namespace SmartBIST.Infrastructure.Migrations
                     Symbol = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CurrentPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DailyChangePercentage = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CurrentPrice = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    DailyChangePercentage = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     Volume = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     MarketCap = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PERatio = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    PBRatio = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    DividendYield = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    PERatio = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
+                    PBRatio = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
+                    DividendYield = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
                     LastUpdated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -122,8 +122,8 @@ namespace SmartBIST.Infrastructure.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -167,8 +167,8 @@ namespace SmartBIST.Infrastructure.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -217,9 +217,16 @@ namespace SmartBIST.Infrastructure.Migrations
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PredictionStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PredictionEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PredictedPrice = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    CurrentPrice = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    PriceChange = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    PercentChange = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    PredictionDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastCloseDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DataPoints = table.Column<int>(type: "int", nullable: false),
                     Parameters = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PredictionData = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Accuracy = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Accuracy = table.Column<decimal>(type: "decimal(18,4)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -246,10 +253,10 @@ namespace SmartBIST.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StockId = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Open = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    High = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Low = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Close = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Open = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    High = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Low = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Close = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     Volume = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
@@ -294,8 +301,8 @@ namespace SmartBIST.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PortfolioId = table.Column<int>(type: "int", nullable: false),
                     StockId = table.Column<int>(type: "int", nullable: false),
-                    AveragePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    AveragePrice = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Quantity = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -325,8 +332,8 @@ namespace SmartBIST.Infrastructure.Migrations
                     PortfolioId = table.Column<int>(type: "int", nullable: false),
                     StockId = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Quantity = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },

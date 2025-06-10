@@ -87,7 +87,12 @@ public class PredictionService : IPredictionService
                 ["percent_change"] = predictionResponse.PercentChange,
                 ["prediction_date"] = predictionResponse.PredictionDate,
                 ["last_close_date"] = predictionResponse.LastCloseDate,
-                ["data_points"] = predictionResponse.DataPoints
+                ["data_points"] = predictionResponse.DataPoints,
+                // Performance metrics
+                ["accuracy"] = predictionResponse.Accuracy,
+                ["mae"] = predictionResponse.Mae,
+                ["rmse"] = predictionResponse.Rmse,
+                ["r2"] = predictionResponse.R2
             };
             
             // Loglama
@@ -120,8 +125,8 @@ public class PredictionService : IPredictionService
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 }),
                 
-                // Sabit doğruluk değeri (gerçek bir LSTM modelinde dinamik hesaplanabilir)
-                Accuracy = 0.8m
+                // API'den gelen gerçek doğruluk değeri
+                Accuracy = (decimal)predictionResponse.Accuracy
             };
             
             // Save to database

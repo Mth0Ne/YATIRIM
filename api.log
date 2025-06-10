@@ -1,0 +1,51 @@
+2025-06-10 23:34:05,004 - stock_prediction_api - INFO - No existing model found
+2025-06-10 23:34:05,005 - stock_prediction_api - INFO - Starting Stock Prediction API server
+2025-06-10 23:34:12,939 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.101:5000
+2025-06-10 23:34:12,939 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-10 23:35:06,490 - stock_prediction_api - INFO - Prediction request for GSRAY.IS from 2025-02-23 to 2025-06-02
+2025-06-10 23:35:06,490 - stock_prediction_api - INFO - Fetching data for GSRAY.IS from 2025-02-23 to 2025-06-02
+2025-06-10 23:35:07,193 - stock_prediction_api - INFO - Training new model for GSRAY.IS
+2025-06-10 23:35:07,193 - stock_prediction_api - INFO - Training model for GSRAY.IS
+2025-06-10 23:35:07,193 - stock_prediction_api - INFO - Fetching data for GSRAY.IS from 2023-02-24 to 2025-06-02
+2025-06-10 23:35:22,008 - absl - WARNING - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+2025-06-10 23:35:22,054 - stock_prediction_api - INFO - Model training completed for GSRAY.IS
+2025-06-10 23:35:22,194 - werkzeug - INFO - 127.0.0.1 - - [10/Jun/2025 23:35:22] "GET /predict?symbol=GSRAY.IS&start=2025-02-23&end=2025-06-02 HTTP/1.1" 200 -
+2025-06-10 23:40:54,348 - stock_prediction_api - INFO - Loading existing model from lstm_model.h5
+2025-06-10 23:40:54,577 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-06-10 23:40:54,581 - stock_prediction_api - INFO - Starting Stock Prediction API server
+2025-06-10 23:41:02,544 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.101:5000
+2025-06-10 23:41:02,544 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-10 23:41:22,456 - stock_prediction_api - INFO - Prediction request for GSRAY.IS from 2025-02-03 to 2025-06-03
+2025-06-10 23:41:22,457 - stock_prediction_api - INFO - Fetching data for GSRAY.IS from 2025-02-03 to 2025-06-03
+2025-06-10 23:41:23,645 - werkzeug - INFO - 127.0.0.1 - - [10/Jun/2025 23:41:23] "GET /predict?symbol=GSRAY.IS&start=2025-02-03&end=2025-06-03 HTTP/1.1" 200 -
+2025-06-10 23:42:28,731 - stock_prediction_api - INFO - Prediction request for GSRAY.IS from 2025-02-03 to 2025-06-03
+2025-06-10 23:42:28,731 - stock_prediction_api - INFO - Fetching data for GSRAY.IS from 2025-02-03 to 2025-06-03
+2025-06-10 23:42:28,895 - werkzeug - INFO - 127.0.0.1 - - [10/Jun/2025 23:42:28] "GET /predict?symbol=GSRAY.IS&start=2025-02-03&end=2025-06-03 HTTP/1.1" 200 -
+2025-06-10 23:43:38,822 - stock_prediction_api - INFO - Prediction request for GSRAY.IS from 2025-02-25 to 2025-06-03
+2025-06-10 23:43:38,822 - stock_prediction_api - INFO - Fetching data for GSRAY.IS from 2025-02-25 to 2025-06-03
+2025-06-10 23:43:39,374 - werkzeug - INFO - 127.0.0.1 - - [10/Jun/2025 23:43:39] "GET /predict?symbol=GSRAY.IS&start=2025-02-25&end=2025-06-03 HTTP/1.1" 200 -
+2025-06-10 23:45:14,699 - stock_prediction_api - INFO - Loading existing model from lstm_model.h5
+2025-06-10 23:45:14,921 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-06-10 23:45:14,925 - stock_prediction_api - INFO - Starting Stock Prediction API server
+2025-06-10 23:45:22,847 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.101:5000
+2025-06-10 23:45:22,848 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-10 23:45:24,971 - stock_prediction_api - INFO - Prediction request for GSRAY.IS from 2025-02-25 to 2025-06-03
+2025-06-10 23:45:24,972 - stock_prediction_api - INFO - Fetching data for GSRAY.IS from 2025-02-25 to 2025-06-03
+2025-06-10 23:45:25,940 - werkzeug - INFO - 127.0.0.1 - - [10/Jun/2025 23:45:25] "GET /predict?symbol=GSRAY.IS&start=2025-02-25&end=2025-06-03 HTTP/1.1" 200 -
+2025-06-10 23:48:47,333 - stock_prediction_api - INFO - Prediction request for GSRAY.IS from 2025-03-04 to 2025-06-03
+2025-06-10 23:48:47,333 - stock_prediction_api - INFO - Fetching data for GSRAY.IS from 2025-03-04 to 2025-06-03
+2025-06-10 23:48:47,681 - stock_prediction_api - ERROR - Prediction error for GSRAY.IS: Insufficient data: 60 points available, 60 required
+2025-06-10 23:48:47,681 - stock_prediction_api - WARNING - Value error: Insufficient data: 60 points available, 60 required
+2025-06-10 23:48:47,681 - werkzeug - INFO - 127.0.0.1 - - [10/Jun/2025 23:48:47] "[31m[1mGET /predict?symbol=GSRAY.IS&start=2025-03-04&end=2025-06-03 HTTP/1.1[0m" 400 -
+2025-06-10 23:49:05,944 - stock_prediction_api - INFO - Prediction request for GSRAY.IS from 2025-01-28 to 2025-06-03
+2025-06-10 23:49:05,944 - stock_prediction_api - INFO - Fetching data for GSRAY.IS from 2025-01-28 to 2025-06-03
+2025-06-10 23:49:06,426 - werkzeug - INFO - 127.0.0.1 - - [10/Jun/2025 23:49:06] "GET /predict?symbol=GSRAY.IS&start=2025-01-28&end=2025-06-03 HTTP/1.1" 200 -

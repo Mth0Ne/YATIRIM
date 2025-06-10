@@ -476,9 +476,9 @@ public class TechnicalIndicatorService : ITechnicalIndicatorService
         foreach (var indicator in indicators)
         {
             if (indicator.Value is Dictionary<string, object> indicatorData && 
-                indicatorData.TryGetValue("signal", out var signal))
+                indicatorData.TryGetValue("signal", out var signal) && signal != null)
             {
-                signals[indicator.Key] = signal.ToString();
+                signals[indicator.Key] = signal.ToString() ?? "NEUTRAL";
             }
         }
 

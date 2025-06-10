@@ -111,3 +111,306 @@
 2025-06-03 23:50:54,280 - INFO - Williams %R başarılı
 2025-06-03 23:50:54,280 - INFO - Toplam hesaplanan gösterge sayısı: 6
 2025-06-03 23:50:54,282 - INFO - 127.0.0.1 - - [03/Jun/2025 23:50:54] "GET /technical-analysis/AKBNK?period_days=2 HTTP/1.1" 200 -
+2025-06-10 23:10:56,221 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:11:04,226 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.101:5001
+2025-06-10 23:11:04,227 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-10 23:11:04,233 - INFO -  * Restarting with stat
+2025-06-10 23:11:04,630 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:11:04,632 - WARNING -  * Debugger is active!
+2025-06-10 23:11:04,683 - INFO -  * Debugger PIN: 125-555-446
+2025-06-10 23:11:22,892 - INFO - Teknik analiz isteği: GSRAY.IS, süre: 90 gün
+2025-06-10 23:11:22,892 - INFO - Veri çekiliyor: GSRAY.IS
+2025-06-10 23:11:23,635 - INFO - Başarılı: 94 veri noktası
+2025-06-10 23:11:23,636 - INFO - Toplam veri noktası: 94
+2025-06-10 23:11:23,636 - INFO - SMA hesaplanıyor...
+2025-06-10 23:11:23,637 - INFO - SMA başarılı
+2025-06-10 23:11:23,637 - INFO - EMA hesaplanıyor...
+2025-06-10 23:11:23,639 - INFO - EMA başarılı
+2025-06-10 23:11:23,639 - INFO - RSI hesaplanıyor...
+2025-06-10 23:11:23,642 - INFO - RSI başarılı
+2025-06-10 23:11:23,642 - INFO - MACD hesaplanıyor...
+2025-06-10 23:11:23,645 - INFO - MACD başarılı
+2025-06-10 23:11:23,645 - INFO - Bollinger hesaplanıyor...
+2025-06-10 23:11:23,646 - INFO - Bollinger başarılı
+2025-06-10 23:11:23,647 - INFO - Stochastic hesaplanıyor...
+2025-06-10 23:11:23,648 - INFO - Stochastic başarılı
+2025-06-10 23:11:23,648 - INFO - Williams %R hesaplanıyor...
+2025-06-10 23:11:23,649 - INFO - Williams %R başarılı
+2025-06-10 23:11:23,649 - INFO - Toplam hesaplanan gösterge sayısı: 7
+2025-06-10 23:11:23,690 - INFO - 127.0.0.1 - - [10/Jun/2025 23:11:23] "GET /technical-analysis/GSRAY?period_days=90 HTTP/1.1" 200 -
+2025-06-10 23:11:23,702 - INFO - Veri çekiliyor: GSRAY.IS
+2025-06-10 23:11:23,980 - INFO - Başarılı: 58 veri noktası
+2025-06-10 23:11:24,010 - INFO - 127.0.0.1 - - [10/Jun/2025 23:11:24] "GET /price-history/GSRAY?period_days=90 HTTP/1.1" 200 -
+2025-06-10 23:17:20,331 - INFO - Teknik analiz isteği: GSRAY.IS, süre: 90 gün
+2025-06-10 23:17:20,331 - INFO - Veri çekiliyor: GSRAY.IS
+2025-06-10 23:17:20,694 - INFO - Başarılı: 94 veri noktası
+2025-06-10 23:17:20,695 - INFO - Toplam veri noktası: 94
+2025-06-10 23:17:20,695 - INFO - SMA hesaplanıyor...
+2025-06-10 23:17:20,696 - INFO - SMA başarılı
+2025-06-10 23:17:20,696 - INFO - EMA hesaplanıyor...
+2025-06-10 23:17:20,697 - INFO - EMA başarılı
+2025-06-10 23:17:20,698 - INFO - RSI hesaplanıyor...
+2025-06-10 23:17:20,701 - INFO - RSI başarılı
+2025-06-10 23:17:20,701 - INFO - MACD hesaplanıyor...
+2025-06-10 23:17:20,703 - INFO - MACD başarılı
+2025-06-10 23:17:20,703 - INFO - Bollinger hesaplanıyor...
+2025-06-10 23:17:20,705 - INFO - Bollinger başarılı
+2025-06-10 23:17:20,705 - INFO - Stochastic hesaplanıyor...
+2025-06-10 23:17:20,706 - INFO - Stochastic başarılı
+2025-06-10 23:17:20,706 - INFO - Williams %R hesaplanıyor...
+2025-06-10 23:17:20,707 - INFO - Williams %R başarılı
+2025-06-10 23:17:20,707 - INFO - Toplam hesaplanan gösterge sayısı: 7
+2025-06-10 23:17:20,747 - INFO - 127.0.0.1 - - [10/Jun/2025 23:17:20] "GET /technical-analysis/GSRAY?period_days=90 HTTP/1.1" 200 -
+2025-06-10 23:17:20,763 - INFO - Veri çekiliyor: GSRAY.IS
+2025-06-10 23:17:21,015 - INFO - Başarılı: 58 veri noktası
+2025-06-10 23:17:21,041 - INFO - 127.0.0.1 - - [10/Jun/2025 23:17:21] "GET /price-history/GSRAY?period_days=90 HTTP/1.1" 200 -
+2025-06-10 23:18:39,456 - INFO -  * Detected change in '/home/alperentoker/.local/lib/python3.10/site-packages/numpy/typing/tests/data/pass/ma.py', reloading
+2025-06-10 23:18:39,628 - INFO -  * Restarting with stat
+2025-06-10 23:18:40,214 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:18:40,216 - WARNING -  * Debugger is active!
+2025-06-10 23:18:40,216 - INFO -  * Debugger PIN: 125-555-446
+2025-06-10 23:21:39,444 - INFO - 127.0.0.1 - - [10/Jun/2025 23:21:39] "[33mGET /api/TechnicalAnalysis/THYAO HTTP/1.1[0m" 404 -
+2025-06-10 23:22:01,154 - INFO - 127.0.0.1 - - [10/Jun/2025 23:22:01] "[33mGET /api/TechnicalAnalysis/THYAO HTTP/1.1[0m" 404 -
+2025-06-10 23:25:38,928 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:25:46,934 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.101:5001
+2025-06-10 23:25:46,934 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-10 23:25:46,934 - INFO -  * Restarting with stat
+2025-06-10 23:25:47,383 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:25:47,385 - WARNING -  * Debugger is active!
+2025-06-10 23:25:47,385 - INFO -  * Debugger PIN: 125-555-446
+2025-06-10 23:26:14,883 - INFO - Teknik analiz isteği: GSRAY.IS, süre: 90 gün
+2025-06-10 23:26:14,884 - INFO - Veri çekiliyor: GSRAY.IS
+2025-06-10 23:26:15,512 - INFO - Başarılı: 94 veri noktası
+2025-06-10 23:26:15,513 - INFO - Toplam veri noktası: 94
+2025-06-10 23:26:15,513 - INFO - SMA hesaplanıyor...
+2025-06-10 23:26:15,515 - INFO - SMA başarılı
+2025-06-10 23:26:15,515 - INFO - EMA hesaplanıyor...
+2025-06-10 23:26:15,517 - INFO - EMA başarılı
+2025-06-10 23:26:15,517 - INFO - RSI hesaplanıyor...
+2025-06-10 23:26:15,520 - INFO - RSI başarılı
+2025-06-10 23:26:15,520 - INFO - MACD hesaplanıyor...
+2025-06-10 23:26:15,522 - INFO - MACD başarılı
+2025-06-10 23:26:15,522 - INFO - Bollinger hesaplanıyor...
+2025-06-10 23:26:15,524 - INFO - Bollinger başarılı
+2025-06-10 23:26:15,524 - INFO - Stochastic hesaplanıyor...
+2025-06-10 23:26:15,525 - INFO - Stochastic başarılı
+2025-06-10 23:26:15,525 - INFO - Williams %R hesaplanıyor...
+2025-06-10 23:26:15,527 - INFO - Williams %R başarılı
+2025-06-10 23:26:15,527 - INFO - Toplam hesaplanan gösterge sayısı: 7
+2025-06-10 23:26:15,569 - INFO - 127.0.0.1 - - [10/Jun/2025 23:26:15] "GET /technical-analysis/GSRAY.IS?period_days=90 HTTP/1.1" 200 -
+2025-06-10 23:26:15,573 - INFO - Veri çekiliyor: GSRAY.IS
+2025-06-10 23:26:15,820 - INFO - Başarılı: 58 veri noktası
+2025-06-10 23:26:15,849 - INFO - 127.0.0.1 - - [10/Jun/2025 23:26:15] "GET /price-history/GSRAY.IS?period_days=90 HTTP/1.1" 200 -
+2025-06-10 23:26:43,312 - INFO - Teknik analiz isteği: THYAO.IS, süre: 90 gün
+2025-06-10 23:26:43,312 - INFO - Veri çekiliyor: THYAO.IS
+2025-06-10 23:26:43,661 - INFO - Başarılı: 94 veri noktası
+2025-06-10 23:26:43,662 - INFO - Toplam veri noktası: 94
+2025-06-10 23:26:43,662 - INFO - SMA hesaplanıyor...
+2025-06-10 23:26:43,664 - INFO - SMA başarılı
+2025-06-10 23:26:43,664 - INFO - EMA hesaplanıyor...
+2025-06-10 23:26:43,665 - INFO - EMA başarılı
+2025-06-10 23:26:43,665 - INFO - RSI hesaplanıyor...
+2025-06-10 23:26:43,667 - INFO - RSI başarılı
+2025-06-10 23:26:43,667 - INFO - MACD hesaplanıyor...
+2025-06-10 23:26:43,669 - INFO - MACD başarılı
+2025-06-10 23:26:43,669 - INFO - Bollinger hesaplanıyor...
+2025-06-10 23:26:43,670 - INFO - Bollinger başarılı
+2025-06-10 23:26:43,671 - INFO - Stochastic hesaplanıyor...
+2025-06-10 23:26:43,672 - INFO - Stochastic başarılı
+2025-06-10 23:26:43,672 - INFO - Williams %R hesaplanıyor...
+2025-06-10 23:26:43,674 - INFO - Williams %R başarılı
+2025-06-10 23:26:43,674 - INFO - Toplam hesaplanan gösterge sayısı: 7
+2025-06-10 23:26:43,714 - INFO - 127.0.0.1 - - [10/Jun/2025 23:26:43] "GET /technical-analysis/THYAO?period_days=90 HTTP/1.1" 200 -
+2025-06-10 23:26:43,716 - INFO - Veri çekiliyor: THYAO.IS
+2025-06-10 23:26:43,940 - INFO - Başarılı: 58 veri noktası
+2025-06-10 23:26:43,968 - INFO - 127.0.0.1 - - [10/Jun/2025 23:26:43] "GET /price-history/THYAO?period_days=90 HTTP/1.1" 200 -
+2025-06-10 23:27:10,556 - INFO - Teknik analiz isteği: THYAO.IS, süre: 90 gün
+2025-06-10 23:27:10,556 - INFO - Veri çekiliyor: THYAO.IS
+2025-06-10 23:27:10,779 - INFO - Başarılı: 94 veri noktası
+2025-06-10 23:27:10,779 - INFO - Toplam veri noktası: 94
+2025-06-10 23:27:10,779 - INFO - SMA hesaplanıyor...
+2025-06-10 23:27:10,780 - INFO - SMA başarılı
+2025-06-10 23:27:10,781 - INFO - EMA hesaplanıyor...
+2025-06-10 23:27:10,781 - INFO - EMA başarılı
+2025-06-10 23:27:10,781 - INFO - RSI hesaplanıyor...
+2025-06-10 23:27:10,783 - INFO - RSI başarılı
+2025-06-10 23:27:10,783 - INFO - MACD hesaplanıyor...
+2025-06-10 23:27:10,785 - INFO - MACD başarılı
+2025-06-10 23:27:10,785 - INFO - Bollinger hesaplanıyor...
+2025-06-10 23:27:10,788 - INFO - Bollinger başarılı
+2025-06-10 23:27:10,788 - INFO - Stochastic hesaplanıyor...
+2025-06-10 23:27:10,790 - INFO - Stochastic başarılı
+2025-06-10 23:27:10,790 - INFO - Williams %R hesaplanıyor...
+2025-06-10 23:27:10,792 - INFO - Williams %R başarılı
+2025-06-10 23:27:10,792 - INFO - Toplam hesaplanan gösterge sayısı: 7
+2025-06-10 23:27:10,835 - INFO - 127.0.0.1 - - [10/Jun/2025 23:27:10] "GET /technical-analysis/THYAO?period_days=90 HTTP/1.1" 200 -
+2025-06-10 23:27:25,537 - INFO - Teknik analiz isteği: GSRAY.IS, süre: 90 gün
+2025-06-10 23:27:25,537 - INFO - Veri çekiliyor: GSRAY.IS
+2025-06-10 23:27:25,865 - INFO - Başarılı: 94 veri noktası
+2025-06-10 23:27:25,866 - INFO - Toplam veri noktası: 94
+2025-06-10 23:27:25,866 - INFO - SMA hesaplanıyor...
+2025-06-10 23:27:25,867 - INFO - SMA başarılı
+2025-06-10 23:27:25,867 - INFO - EMA hesaplanıyor...
+2025-06-10 23:27:25,868 - INFO - EMA başarılı
+2025-06-10 23:27:25,868 - INFO - RSI hesaplanıyor...
+2025-06-10 23:27:25,870 - INFO - RSI başarılı
+2025-06-10 23:27:25,870 - INFO - MACD hesaplanıyor...
+2025-06-10 23:27:25,873 - INFO - MACD başarılı
+2025-06-10 23:27:25,873 - INFO - Bollinger hesaplanıyor...
+2025-06-10 23:27:25,875 - INFO - Bollinger başarılı
+2025-06-10 23:27:25,876 - INFO - Stochastic hesaplanıyor...
+2025-06-10 23:27:25,878 - INFO - Stochastic başarılı
+2025-06-10 23:27:25,878 - INFO - Williams %R hesaplanıyor...
+2025-06-10 23:27:25,879 - INFO - Williams %R başarılı
+2025-06-10 23:27:25,879 - INFO - Toplam hesaplanan gösterge sayısı: 7
+2025-06-10 23:27:25,937 - INFO - 127.0.0.1 - - [10/Jun/2025 23:27:25] "GET /technical-analysis/GSRAY?period_days=90 HTTP/1.1" 200 -
+2025-06-10 23:27:46,209 - INFO - Veri çekiliyor: GSRAY.IS
+2025-06-10 23:27:46,529 - INFO - Başarılı: 58 veri noktası
+2025-06-10 23:27:46,556 - INFO - 127.0.0.1 - - [10/Jun/2025 23:27:46] "GET /price-history/GSRAY?period_days=90 HTTP/1.1" 200 -
+2025-06-10 23:29:38,888 - INFO - Teknik analiz isteği: GSRAY.IS, süre: 90 gün
+2025-06-10 23:29:38,888 - INFO - Veri çekiliyor: GSRAY.IS
+2025-06-10 23:29:39,256 - INFO - Başarılı: 94 veri noktası
+2025-06-10 23:29:39,256 - INFO - Toplam veri noktası: 94
+2025-06-10 23:29:39,256 - INFO - SMA hesaplanıyor...
+2025-06-10 23:29:39,257 - INFO - SMA başarılı
+2025-06-10 23:29:39,257 - INFO - EMA hesaplanıyor...
+2025-06-10 23:29:39,258 - INFO - EMA başarılı
+2025-06-10 23:29:39,258 - INFO - RSI hesaplanıyor...
+2025-06-10 23:29:39,260 - INFO - RSI başarılı
+2025-06-10 23:29:39,260 - INFO - MACD hesaplanıyor...
+2025-06-10 23:29:39,262 - INFO - MACD başarılı
+2025-06-10 23:29:39,262 - INFO - Bollinger hesaplanıyor...
+2025-06-10 23:29:39,263 - INFO - Bollinger başarılı
+2025-06-10 23:29:39,263 - INFO - Stochastic hesaplanıyor...
+2025-06-10 23:29:39,265 - INFO - Stochastic başarılı
+2025-06-10 23:29:39,265 - INFO - Williams %R hesaplanıyor...
+2025-06-10 23:29:39,266 - INFO - Williams %R başarılı
+2025-06-10 23:29:39,266 - INFO - Toplam hesaplanan gösterge sayısı: 7
+2025-06-10 23:29:39,307 - INFO - 127.0.0.1 - - [10/Jun/2025 23:29:39] "GET /technical-analysis/GSRAY?period_days=90 HTTP/1.1" 200 -
+2025-06-10 23:29:39,309 - INFO - Veri çekiliyor: GSRAY.IS
+2025-06-10 23:29:39,564 - INFO - Başarılı: 58 veri noktası
+2025-06-10 23:29:39,594 - INFO - 127.0.0.1 - - [10/Jun/2025 23:29:39] "GET /price-history/GSRAY?period_days=90 HTTP/1.1" 200 -
+2025-06-10 23:30:18,042 - INFO - Teknik analiz isteği: GSRAY.IS, süre: 90 gün
+2025-06-10 23:30:18,042 - INFO - Veri çekiliyor: GSRAY.IS
+2025-06-10 23:30:18,270 - INFO - Başarılı: 94 veri noktası
+2025-06-10 23:30:18,270 - INFO - Toplam veri noktası: 94
+2025-06-10 23:30:18,270 - INFO - SMA hesaplanıyor...
+2025-06-10 23:30:18,271 - INFO - SMA başarılı
+2025-06-10 23:30:18,271 - INFO - EMA hesaplanıyor...
+2025-06-10 23:30:18,272 - INFO - EMA başarılı
+2025-06-10 23:30:18,272 - INFO - RSI hesaplanıyor...
+2025-06-10 23:30:18,274 - INFO - RSI başarılı
+2025-06-10 23:30:18,274 - INFO - MACD hesaplanıyor...
+2025-06-10 23:30:18,276 - INFO - MACD başarılı
+2025-06-10 23:30:18,276 - INFO - Bollinger hesaplanıyor...
+2025-06-10 23:30:18,277 - INFO - Bollinger başarılı
+2025-06-10 23:30:18,277 - INFO - Stochastic hesaplanıyor...
+2025-06-10 23:30:18,279 - INFO - Stochastic başarılı
+2025-06-10 23:30:18,279 - INFO - Williams %R hesaplanıyor...
+2025-06-10 23:30:18,280 - INFO - Williams %R başarılı
+2025-06-10 23:30:18,280 - INFO - Toplam hesaplanan gösterge sayısı: 7
+2025-06-10 23:30:18,322 - INFO - 127.0.0.1 - - [10/Jun/2025 23:30:18] "GET /technical-analysis/GSRAY?period_days=90 HTTP/1.1" 200 -
+2025-06-10 23:30:18,325 - INFO - Veri çekiliyor: GSRAY.IS
+2025-06-10 23:30:18,560 - INFO - Başarılı: 58 veri noktası
+2025-06-10 23:30:18,586 - INFO - 127.0.0.1 - - [10/Jun/2025 23:30:18] "GET /price-history/GSRAY?period_days=90 HTTP/1.1" 200 -
+2025-06-10 23:32:27,647 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:32:35,640 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.101:5001
+2025-06-10 23:32:35,640 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-10 23:32:35,641 - INFO -  * Restarting with stat
+2025-06-10 23:32:36,038 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:32:36,039 - WARNING -  * Debugger is active!
+2025-06-10 23:32:36,040 - INFO -  * Debugger PIN: 125-555-446
+2025-06-10 23:32:48,693 - INFO -  * Detected change in '/home/alperentoker/Projects/YATIRIM/api.py', reloading
+2025-06-10 23:32:48,755 - INFO -  * Restarting with stat
+2025-06-10 23:32:49,165 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:32:49,166 - WARNING -  * Debugger is active!
+2025-06-10 23:32:49,167 - INFO -  * Debugger PIN: 125-555-446
+2025-06-10 23:34:00,891 - INFO -  * Detected change in '/home/alperentoker/Projects/YATIRIM/api.py', reloading
+2025-06-10 23:34:01,001 - INFO -  * Restarting with stat
+2025-06-10 23:34:01,517 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:34:01,519 - WARNING -  * Debugger is active!
+2025-06-10 23:34:01,520 - INFO -  * Debugger PIN: 125-555-446
+2025-06-10 23:37:47,372 - INFO - Teknik analiz isteği: GSRAY.IS, süre: 90 gün
+2025-06-10 23:37:47,372 - INFO - Veri çekiliyor: GSRAY.IS
+2025-06-10 23:37:48,301 - INFO - Başarılı: 94 veri noktası
+2025-06-10 23:37:48,302 - INFO - Toplam veri noktası: 94
+2025-06-10 23:37:48,302 - INFO - SMA hesaplanıyor...
+2025-06-10 23:37:48,303 - INFO - SMA başarılı
+2025-06-10 23:37:48,304 - INFO - EMA hesaplanıyor...
+2025-06-10 23:37:48,306 - INFO - EMA başarılı
+2025-06-10 23:37:48,306 - INFO - RSI hesaplanıyor...
+2025-06-10 23:37:48,310 - INFO - RSI başarılı
+2025-06-10 23:37:48,310 - INFO - MACD hesaplanıyor...
+2025-06-10 23:37:48,313 - INFO - MACD başarılı
+2025-06-10 23:37:48,313 - INFO - Bollinger hesaplanıyor...
+2025-06-10 23:37:48,315 - INFO - Bollinger başarılı
+2025-06-10 23:37:48,316 - INFO - Stochastic hesaplanıyor...
+2025-06-10 23:37:48,318 - INFO - Stochastic başarılı
+2025-06-10 23:37:48,318 - INFO - Williams %R hesaplanıyor...
+2025-06-10 23:37:48,319 - INFO - Williams %R başarılı
+2025-06-10 23:37:48,319 - INFO - Toplam hesaplanan gösterge sayısı: 7
+2025-06-10 23:37:48,368 - INFO - 127.0.0.1 - - [10/Jun/2025 23:37:48] "GET /technical-analysis/GSRAY?period_days=90 HTTP/1.1" 200 -
+2025-06-10 23:39:55,293 - INFO -  * Detected change in '/home/alperentoker/Projects/YATIRIM/api.py', reloading
+2025-06-10 23:39:55,346 - INFO -  * Restarting with stat
+2025-06-10 23:39:55,740 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:39:55,742 - WARNING -  * Debugger is active!
+2025-06-10 23:39:55,742 - INFO -  * Debugger PIN: 125-555-446
+2025-06-10 23:40:44,207 - INFO -  * Detected change in '/home/alperentoker/Projects/YATIRIM/api.py', reloading
+2025-06-10 23:40:44,304 - INFO -  * Restarting with stat
+2025-06-10 23:40:44,759 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:40:44,760 - WARNING -  * Debugger is active!
+2025-06-10 23:40:44,761 - INFO -  * Debugger PIN: 125-555-446
+2025-06-10 23:44:36,505 - INFO -  * Detected change in '/home/alperentoker/Projects/YATIRIM/api.py', reloading
+2025-06-10 23:44:36,604 - INFO -  * Restarting with stat
+2025-06-10 23:44:37,050 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:44:37,052 - WARNING -  * Debugger is active!
+2025-06-10 23:44:37,052 - INFO -  * Debugger PIN: 125-555-446
+2025-06-10 23:45:04,653 - INFO -  * Detected change in '/home/alperentoker/Projects/YATIRIM/api.py', reloading
+2025-06-10 23:45:04,771 - INFO -  * Restarting with stat
+2025-06-10 23:45:05,282 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:45:05,285 - WARNING -  * Debugger is active!
+2025-06-10 23:45:05,285 - INFO -  * Debugger PIN: 125-555-446
+2025-06-10 23:50:58,512 - INFO -  * Detected change in '/home/alperentoker/Projects/YATIRIM/api.py', reloading
+2025-06-10 23:50:58,587 - INFO -  * Restarting with stat
+2025-06-10 23:50:59,035 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:50:59,038 - WARNING -  * Debugger is active!
+2025-06-10 23:50:59,038 - INFO -  * Debugger PIN: 125-555-446
+2025-06-10 23:51:06,508 - INFO -  * Detected change in '/home/alperentoker/Projects/YATIRIM/api.py', reloading
+2025-06-10 23:51:06,585 - INFO -  * Restarting with stat
+2025-06-10 23:51:07,024 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:51:07,025 - WARNING -  * Debugger is active!
+2025-06-10 23:51:07,025 - INFO -  * Debugger PIN: 125-555-446
+2025-06-10 23:51:13,450 - INFO -  * Detected change in '/home/alperentoker/Projects/YATIRIM/api.py', reloading
+2025-06-10 23:51:13,524 - INFO -  * Restarting with stat
+2025-06-10 23:51:13,985 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:51:13,988 - WARNING -  * Debugger is active!
+2025-06-10 23:51:13,988 - INFO -  * Debugger PIN: 125-555-446
+2025-06-10 23:51:18,304 - INFO -  * Detected change in '/home/alperentoker/Projects/YATIRIM/api.py', reloading
+2025-06-10 23:51:18,442 - INFO -  * Restarting with stat
+2025-06-10 23:51:18,989 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:51:18,991 - WARNING -  * Debugger is active!
+2025-06-10 23:51:18,991 - INFO -  * Debugger PIN: 125-555-446
+2025-06-10 23:51:20,166 - INFO -  * Detected change in '/home/alperentoker/Projects/YATIRIM/api.py', reloading
+2025-06-10 23:51:20,315 - INFO -  * Restarting with stat
+2025-06-10 23:51:20,864 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:51:20,866 - WARNING -  * Debugger is active!
+2025-06-10 23:51:20,867 - INFO -  * Debugger PIN: 125-555-446
+2025-06-10 23:51:27,305 - INFO -  * Detected change in '/home/alperentoker/Projects/YATIRIM/api.py', reloading
+2025-06-10 23:51:27,542 - INFO -  * Restarting with stat
+2025-06-10 23:51:28,003 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:51:28,005 - WARNING -  * Debugger is active!
+2025-06-10 23:51:28,005 - INFO -  * Debugger PIN: 125-555-446
+2025-06-10 23:51:38,618 - INFO -  * Detected change in '/home/alperentoker/Projects/YATIRIM/api.py', reloading
+2025-06-10 23:51:38,749 - INFO -  * Restarting with stat
+2025-06-10 23:51:39,233 - INFO - Teknik Analiz API başlatılıyor...
+2025-06-10 23:51:39,235 - WARNING -  * Debugger is active!
+2025-06-10 23:51:39,235 - INFO -  * Debugger PIN: 125-555-446

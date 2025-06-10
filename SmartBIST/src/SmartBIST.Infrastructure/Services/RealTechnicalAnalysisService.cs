@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using SmartBIST.Application.DTOs;
 using SmartBIST.Application.Services;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace SmartBIST.Infrastructure.Services;
 
@@ -41,9 +42,14 @@ public class RealTechnicalAnalysisService : IRealTechnicalAnalysisService
             }
 
             var jsonContent = await response.Content.ReadAsStringAsync();
+            
+            // Debug: Raw JSON'u log'la
+            _logger.LogInformation("Raw JSON response for {Symbol}: {JsonContent}", symbol, jsonContent);
+            
             var options = new JsonSerializerOptions
             {
-                PropertyNameCaseInsensitive = true
+                PropertyNameCaseInsensitive = true,
+                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
             };
             
             var pythonResponse = JsonSerializer.Deserialize<PythonTechnicalAnalysisResponse>(jsonContent, options);
@@ -52,6 +58,10 @@ public class RealTechnicalAnalysisService : IRealTechnicalAnalysisService
             {
                 throw new InvalidOperationException("Python API'den geçersiz yanıt alındı");
             }
+
+            // Debug: Deserialize edilmiş objeyi log'la
+            _logger.LogInformation("Deserialized response for {Symbol}: Symbol={ResponseSymbol}, DataPoints={DataPoints}, PriceHistoryCount={PriceHistoryCount}", 
+                symbol, pythonResponse.Symbol, pythonResponse.DataPoints, pythonResponse.PriceHistory.Count);
 
             return MapToDto(pythonResponse);
         }
@@ -91,7 +101,8 @@ public class RealTechnicalAnalysisService : IRealTechnicalAnalysisService
             var jsonContent = await response.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions
             {
-                PropertyNameCaseInsensitive = true
+                PropertyNameCaseInsensitive = true,
+                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
             };
             
             var pythonResponse = JsonSerializer.Deserialize<PythonPriceHistoryResponse>(jsonContent, options);
@@ -107,7 +118,7 @@ public class RealTechnicalAnalysisService : IRealTechnicalAnalysisService
                 DataPoints = pythonResponse.DataPoints,
                 PriceHistory = pythonResponse.PriceHistory.Select(p => new PriceDataDto
                 {
-                    Date = DateTime.Parse(p.Date),
+                    Date = DateTime.TryParse(p.Date, out var date) ? date : DateTime.MinValue,
                     Open = p.Open,
                     High = p.High,
                     Low = p.Low,
@@ -125,11 +136,11 @@ public class RealTechnicalAnalysisService : IRealTechnicalAnalysisService
 
     private static TechnicalAnalysisResultDto MapToDto(PythonTechnicalAnalysisResponse pythonResponse)
     {
-        return new TechnicalAnalysisResultDto
+                    return new TechnicalAnalysisResultDto
         {
             Symbol = pythonResponse.Symbol,
             CurrentPrice = pythonResponse.CurrentPrice,
-            AnalysisDate = DateTime.Parse(pythonResponse.AnalysisDate),
+            AnalysisDate = DateTime.TryParse(pythonResponse.AnalysisDate, out var analysisDate) ? analysisDate : DateTime.Now,
             PeriodDays = pythonResponse.PeriodDays,
             DataPoints = pythonResponse.DataPoints,
             Indicators = pythonResponse.Indicators,
@@ -144,7 +155,7 @@ public class RealTechnicalAnalysisService : IRealTechnicalAnalysisService
             },
             PriceHistory = pythonResponse.PriceHistory.Select(p => new PriceDataDto
             {
-                Date = DateTime.Parse(p.Date),
+                Date = DateTime.TryParse(p.Date, out var priceDate) ? priceDate : DateTime.MinValue,
                 Open = p.Open,
                 High = p.High,
                 Low = p.Low,

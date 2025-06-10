@@ -455,23 +455,23 @@ public class PortfolioService : IPortfolioService
         return result;
     }
     
-    public async Task<Dictionary<string, object>> GetPortfolioAnalysisAsync(int portfolioId, string userId)
+    public Task<Dictionary<string, object>> GetPortfolioAnalysisAsync(int portfolioId, string userId)
     {
         // This method is now deprecated - use IPortfolioAnalysisService instead
-        return new Dictionary<string, object>
+        return Task.FromResult(new Dictionary<string, object>
         {
             { "message", "Please use the new PortfolioAnalysisService for real portfolio analysis" },
             { "deprecated", true }
-        };
+        });
     }
     
-    public async Task<Dictionary<string, object>> GetPortfolioRecommendationsAsync(int portfolioId, string userId)
+    public Task<Dictionary<string, object>> GetPortfolioRecommendationsAsync(int portfolioId, string userId)
     {
         // This method is now deprecated - use IPortfolioAnalysisService instead
-        return new Dictionary<string, object>
+        return Task.FromResult(new Dictionary<string, object>
         {
             { "message", "Please use the new PortfolioAnalysisService for real portfolio recommendations" },
             { "deprecated", true }
-        };
+        });
     }
 } 

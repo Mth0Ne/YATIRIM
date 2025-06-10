@@ -263,11 +263,11 @@ public class PortfolioAnalysisService : IPortfolioAnalysisService
         return portfolio;
     }
 
-    private async Task<double> CalculateDailyReturn(Core.Entities.Portfolio portfolio)
+    private Task<double> CalculateDailyReturn(Core.Entities.Portfolio portfolio)
     {
         // Calculate weighted average of stock daily changes
         var totalValue = portfolio.Items.Sum(item => item.Quantity * item.Stock.CurrentPrice);
-        if (totalValue == 0) return 0;
+        if (totalValue == 0) return Task.FromResult(0.0);
 
         var weightedReturn = 0.0;
         foreach (var item in portfolio.Items)
@@ -276,7 +276,7 @@ public class PortfolioAnalysisService : IPortfolioAnalysisService
             weightedReturn += weight * (double)item.Stock.DailyChangePercentage / 100;
         }
 
-        return weightedReturn;
+        return Task.FromResult(weightedReturn);
     }
 
     private async Task<List<double>> CalculateHistoricalReturns(Core.Entities.Portfolio portfolio)
@@ -378,7 +378,7 @@ public class PortfolioAnalysisService : IPortfolioAnalysisService
         };
     }
 
-    private async Task<double> CalculatePortfolioBeta(Core.Entities.Portfolio portfolio)
+    private Task<double> CalculatePortfolioBeta(Core.Entities.Portfolio portfolio)
     {
         // Simplified beta calculation - in real implementation, you'd use market index data
         var weightedBeta = 0.0;
@@ -391,7 +391,7 @@ public class PortfolioAnalysisService : IPortfolioAnalysisService
             weightedBeta += weight * stockBeta;
         }
 
-        return weightedBeta;
+        return Task.FromResult(weightedBeta);
     }
 
     private double EstimateStockBeta(string symbol)

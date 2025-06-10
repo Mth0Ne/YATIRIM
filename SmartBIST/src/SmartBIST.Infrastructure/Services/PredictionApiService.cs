@@ -107,6 +107,14 @@ public class PredictionApiService : IPredictionApiService
                     CurrentPrice = apiResponse?.CurrentPrice ?? 0,
                     PriceChange = apiResponse?.PriceChange ?? 0,
                     PercentChange = apiResponse?.PercentChange ?? 0,
+                    PredictionDate = apiResponse?.PredictionDate ?? string.Empty,
+                    LastCloseDate = apiResponse?.LastCloseDate ?? string.Empty,
+                    DataPoints = apiResponse?.DataPoints ?? 0,
+                    // Performance metrics
+                    Accuracy = apiResponse?.Accuracy ?? 0,
+                    Mae = apiResponse?.Mae ?? 0,
+                    Rmse = apiResponse?.Rmse ?? 0,
+                    R2 = apiResponse?.R2 ?? 0,
                     Success = true,
                     ErrorMessage = null
                 };
@@ -178,6 +186,14 @@ public class PredictionApiService : IPredictionApiService
         public double CurrentPrice { get; set; }
         public double PriceChange { get; set; }
         public double PercentChange { get; set; }
+        public string? PredictionDate { get; set; }
+        public string? LastCloseDate { get; set; }
+        public int DataPoints { get; set; }
+        // Performance metrics
+        public double Accuracy { get; set; }
+        public double Mae { get; set; }
+        public double Rmse { get; set; }
+        public double R2 { get; set; }
     }
     
     // Hata yanıtlarını ayrıştırmak için

@@ -170,7 +170,7 @@ namespace SmartBIST.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("CurrentPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("DataPoints")
                         .HasColumnType("int");
@@ -187,10 +187,10 @@ namespace SmartBIST.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("PercentChange")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal>("PredictedPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<string>("PredictionData")
                         .IsRequired()
@@ -207,7 +207,7 @@ namespace SmartBIST.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("PriceChange")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("StockId")
                         .HasColumnType("int");
