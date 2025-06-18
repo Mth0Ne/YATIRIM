@@ -8,6 +8,7 @@ using SmartBIST.Core.Entities;
 using SmartBIST.Core.Interfaces;
 using SmartBIST.WebUI.Models;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace SmartBIST.WebUI.Controllers;
 
@@ -16,17 +17,20 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly IStockService _stockService;
     private readonly IPredictionService _predictionService;
+    private readonly IPortfolioService _portfolioService;
     private readonly UserManager<ApplicationUser> _userManager;
 
     public HomeController(
         ILogger<HomeController> logger,
         IStockService stockService,
         IPredictionService predictionService,
+        IPortfolioService portfolioService,
         UserManager<ApplicationUser> userManager)
     {
         _logger = logger;
         _stockService = stockService;
         _predictionService = predictionService;
+        _portfolioService = portfolioService;
         _userManager = userManager;
     }
 
@@ -53,6 +57,40 @@ public class HomeController : Controller
                 
                 MarketInsights = new Dictionary<string, object>()
             };
+
+            // Kullanıcı giriş yapmışsa portföy verilerini çek
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    try
+                    {
+                        var portfolios = await _portfolioService.GetUserPortfoliosAsync(userId);
+                        var activePortfolios = portfolios.Where(p => p.IsActive).ToList();
+                        
+                        viewModel.UserPortfolios = activePortfolios;
+                        viewModel.TotalPortfolioValue = activePortfolios.Sum(p => p.TotalValue);
+                        viewModel.TotalProfit = activePortfolios.Sum(p => p.TotalProfit);
+                        viewModel.ActivePositions = activePortfolios.Sum(p => p.StockCount);
+                        
+                        // Günlük değişim hesaplama (örnek - daha detaylı hesaplama gerekebilir)
+                        if (viewModel.TotalPortfolioValue > 0)
+                        {
+                            var totalCost = activePortfolios.Sum(p => p.TotalCost);
+                            if (totalCost > 0)
+                            {
+                                viewModel.TotalPortfolioChangePercentage = (viewModel.TotalProfit / totalCost) * 100;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Kullanıcı portföy verileri çekilirken hata oluştu: {UserId}", userId);
+                        // Portföy hatası ana sayfa yüklenmesini engellemez
+                    }
+                }
+            }
             
             return View(viewModel);
         }

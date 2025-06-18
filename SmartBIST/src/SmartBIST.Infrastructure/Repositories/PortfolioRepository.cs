@@ -46,6 +46,41 @@ public class PortfolioRepository : BaseRepository<Portfolio>, IPortfolioReposito
         return portfolios;
     }
     
+    public async Task<IReadOnlyList<Portfolio>> GetUserPortfoliosWithItemsAsync(string userId)
+    {
+        // Portföyleri hisseleriyle birlikte getir
+        var portfolios = await _dbContext.Portfolios
+            .Where(p => p.UserId == userId)
+            .Select(p => new Portfolio
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                UserId = p.UserId,
+                CreatedDate = p.CreatedDate,
+                UpdatedDate = p.UpdatedDate,
+                IsActive = p.IsActive
+            })
+            .ToListAsync();
+            
+        // Her portföy için hisseleri stock bilgileriyle birlikte yükle
+        foreach (var portfolio in portfolios)
+        {
+            var items = await _dbContext.PortfolioItems
+                .Include(pi => pi.Stock)
+                .Where(pi => pi.PortfolioId == portfolio.Id)
+                .ToListAsync();
+                
+            // Portföye hisseleri ekle
+            foreach (var item in items)
+            {
+                portfolio.Items.Add(item);
+            }
+        }
+        
+        return portfolios;
+    }
+    
     public async Task<Portfolio?> GetPortfolioWithItemsAsync(int id)
     {
         // IsActive özelliğini sorgulara dahil ediyoruz

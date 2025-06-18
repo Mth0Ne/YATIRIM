@@ -11,18 +11,15 @@ namespace SmartBIST.WebUI.Controllers;
 // [Authorize] // Geçici olarak kaldırıldı - test için
 public class TechnicalAnalysisController : Controller
 {   
-    private readonly ITechnicalIndicatorService _technicalIndicatorService;
     private readonly IStockService _stockService;
     private readonly IRealTechnicalAnalysisService _realTechnicalAnalysisService;
     private readonly ILogger<TechnicalAnalysisController> _logger;
 
     public TechnicalAnalysisController(        
-        ITechnicalIndicatorService technicalIndicatorService,
         IStockService stockService,
         IRealTechnicalAnalysisService realTechnicalAnalysisService,
         ILogger<TechnicalAnalysisController> logger)    
     {        
-        _technicalIndicatorService = technicalIndicatorService;
         _stockService = stockService;
         _realTechnicalAnalysisService = realTechnicalAnalysisService;
         _logger = logger;
@@ -206,56 +203,6 @@ public class TechnicalAnalysisController : Controller
         }
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetTechnicalAnalysis(int stockId, int period = 90)
-    {
-        try
-        {
-            var analysis = await _technicalIndicatorService.GetFullTechnicalAnalysisAsync(stockId, period);
-            
-            return Json(new
-            {
-                success = true,
-                data = analysis
-            });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting technical analysis for stock {StockId}", stockId);
-            return StatusCode(500, new { error = ex.Message });
-        }
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetIndicator(int stockId, string indicator, string period = "14", string fastPeriod = "12", string slowPeriod = "26", string signalPeriod = "9", string stdDev = "2.0")
-    {
-        try
-        {
-            var parameters = new Dictionary<string, string>
-            {
-                ["period"] = period,
-                ["fast"] = fastPeriod,
-                ["slow"] = slowPeriod,
-                ["signal"] = signalPeriod,
-                ["k_period"] = period,
-                ["d_period"] = "3",
-                ["stddev"] = stdDev
-            };
-
-            var result = await _technicalIndicatorService.CalculateIndicatorAsync(stockId, indicator, parameters);
-            
-            return Json(new
-            {
-                success = !result.ContainsKey("error"),
-                data = result
-            });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error calculating indicator {Indicator} for stock {StockId}", indicator, stockId);
-            return StatusCode(500, new { error = ex.Message });
-        }
-    }
 
     [HttpGet]
     public async Task<IActionResult> GetPriceHistory(int stockId, int period = 90)

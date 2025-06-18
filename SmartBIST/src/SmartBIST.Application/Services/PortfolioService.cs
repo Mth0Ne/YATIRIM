@@ -30,7 +30,7 @@ public class PortfolioService : IPortfolioService
     
     public async Task<IEnumerable<PortfolioDto>> GetUserPortfoliosAsync(string userId)
     {
-        var portfolios = await _unitOfWork.Portfolios.GetUserPortfoliosAsync(userId);
+        var portfolios = await _unitOfWork.Portfolios.GetUserPortfoliosWithItemsAsync(userId);
         return _mapper.Map<IEnumerable<PortfolioDto>>(portfolios);
     }
     

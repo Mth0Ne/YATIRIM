@@ -226,122 +226,99 @@ public class PredictionService : IPredictionService
     {
         try
         {
-            // Get all stocks to calculate real market insights
+            _logger.LogInformation("GetMarketInsightsAsync başlatıldı");
+            
+            // Direkt veritabanından tüm hisseleri al
             var stocks = await _stockService.GetAllStocksAsync();
             
             if (stocks == null || !stocks.Any())
             {
+                _logger.LogWarning("StockService'den hiç hisse gelmedi - Fallback kullanılacak");
                 return GetFallbackMarketInsights();
             }
+
+            _logger.LogInformation($"StockService'den {stocks.Count()} hisse alındı");
             
-            // Calculate overall market trend based on average change percentage
-            var avgChange = stocks.Average(s => s.DailyChangePercentage);
-            var trendDescription = avgChange > 1 ? "Güçlü yükseliş" : 
-                                  avgChange > 0 ? "Yükseliş" : 
-                                  avgChange > -1 ? "Yatay" : "Düşüş";
-            
-            // Find top performing sector
-            var sectorPerformance = stocks
-                .Where(s => !string.IsNullOrEmpty(s.Sector))
-                .GroupBy(s => s.Sector)
-                .Select(g => new { 
-                    Sector = g.Key, 
-                    AvgChange = g.Average(s => s.DailyChangePercentage)
-                })
-                .OrderByDescending(s => s.AvgChange)
-                .FirstOrDefault();
-                
-            var topSector = sectorPerformance?.Sector ?? "Belirsiz";
-            var sectorChange = sectorPerformance?.AvgChange.ToString("0.00") ?? "0.00";
-            
-            // Find market movers (top gainers and losers)
-            var marketMovers = stocks
-                .OrderByDescending(s => s.DailyChangePercentage)
-                .Take(5)
-                .Concat(stocks.OrderBy(s => s.DailyChangePercentage).Take(2))
-                .Select(s => new Dictionary<string, string> {
-                    ["symbol"] = s.Symbol,
-                    ["name"] = s.Name,
-                    ["change_percentage"] = s.DailyChangePercentage.ToString("0.00")
-                })
-                .ToList();
-            
-            // Generate simple predicted trends based on recent performance
-            // In a real app, this would use more sophisticated analysis or ML models
-            var predictedTrends = stocks
-                .GroupBy(s => s.Sector)
-                .Where(g => !string.IsNullOrEmpty(g.Key))
-                .Take(3)
-                .Select(g => {
-                    var avgSectorChange = g.Average(s => s.DailyChangePercentage);
-                    string prediction = avgSectorChange > 1 ? "Yükseliş" : 
-                                       avgSectorChange > 0 ? "Yatay/Yükseliş" : 
-                                       avgSectorChange > -1 ? "Yatay" : "Düşüş";
-                    
-                    // Confidence is just a simplified metric based on consistency
-                    var stdDev = Math.Sqrt(g.Average(s => Math.Pow((double)s.DailyChangePercentage - (double)avgSectorChange, 2)));
-                    var confidence = 100 - Math.Min(95, stdDev * 10);
-                    
-                    return new { 
-                        sector = g.Key, 
-                        prediction = prediction, 
-                        confidence = $"{confidence:0}%" 
-                    };
-                })
-                .ToList();
-            
-            // Generate market summary
-            var topGainer = stocks.OrderByDescending(s => s.DailyChangePercentage).FirstOrDefault();
-            var topLoser = stocks.OrderBy(s => s.DailyChangePercentage).FirstOrDefault();
-            
-            string marketSummary = $"Borsa İstanbul bugün {trendDescription.ToLower()} eğilimi gösterdi, BIST 100 endeksi %{avgChange:0.00} değişim gösterdi. ";
-            
-            if (topGainer != null && topLoser != null)
+            // DEBUG: İlk birkaç hissenin detaylarını logla
+            var firstFewStocks = stocks.Take(3).ToList();
+            foreach (var stock in firstFewStocks)
             {
-                marketSummary += $"En yüksek performans gösteren hisse {topGainer.Symbol} (%{topGainer.DailyChangePercentage:0.00}), " +
-                                $"en düşük performans gösteren hisse ise {topLoser.Symbol} (%{topLoser.DailyChangePercentage:0.00}) oldu. ";
+                _logger.LogInformation($"DEBUG Stock: {stock.Symbol} - DailyChangePercentage: {stock.DailyChangePercentage}");
             }
             
-            if (!string.IsNullOrEmpty(topSector))
-            {
-                marketSummary += $"{topSector} sektörü %{sectorChange} değişimle öne çıktı.";
-            }
+            // SADECE DailyChangePercentage değerine göre hesaplama
+            var totalStocks = stocks.Count();
+            var risingStocks = stocks.Count(s => s.DailyChangePercentage > 0);
+            var fallingStocks = stocks.Count(s => s.DailyChangePercentage < 0);
+            var unchangedStocks = stocks.Count(s => s.DailyChangePercentage == 0);
+
+            _logger.LogInformation($"HESAPLAMA: Toplam={totalStocks}, Yükselen={risingStocks}, Düşen={fallingStocks}, Değişmeyen={unchangedStocks}");
             
-            // Put everything together
-            var insights = new Dictionary<string, object>
+            // Market stats dictionary oluştur
+            var marketStats = new Dictionary<string, object>
             {
-                ["market_trend"] = trendDescription,
-                ["bist100_change"] = avgChange.ToString("0.00"),
-                ["top_sector"] = topSector,
-                ["sector_change"] = sectorChange,
-                ["market_summary"] = marketSummary,
-                ["market_movers"] = marketMovers,
-                ["predicted_trends"] = predictedTrends
+                ["total_stocks"] = totalStocks,
+                ["rising_stocks"] = risingStocks,
+                ["falling_stocks"] = fallingStocks,
+                ["unchanged_stocks"] = unchangedStocks,
+                ["market_breadth"] = totalStocks > 0 ? (risingStocks * 100.0 / totalStocks) : 0
             };
             
-            return insights;
+            _logger.LogInformation($"Market Stats Dictionary oluşturuldu");
+            
+            // Piyasa trend hesaplaması
+            var marketTrend = risingStocks > fallingStocks ? "Yükseliş" : fallingStocks > risingStocks ? "Düşüş" : "Karışık";
+            
+            // BIST100 değişimi hesaplaması - tüm hisselerin günlük değişim yüzdelerinin ortalaması
+            var averageChangePercent = stocks.Any() ? stocks.Average(s => (double)s.DailyChangePercentage) : 0;
+            var bist100ChangeStr = averageChangePercent >= 0 ? $"+{averageChangePercent:F2}" : $"{averageChangePercent:F2}";
+            
+            _logger.LogInformation($"Piyasa trend hesaplaması: Ortalama değişim yüzdesi={averageChangePercent:F2}%");
+
+            // Ana sonuç dictionary'si
+            var result = new Dictionary<string, object>
+            {
+                ["market_trend"] = marketTrend,
+                ["bist100_change"] = bist100ChangeStr,
+                ["market_summary"] = $"Veritabanından: {totalStocks} hisse, {risingStocks} yükselen, {fallingStocks} düşen (Ort. değişim: {averageChangePercent:F2}%)",
+                ["market_stats"] = marketStats  // ÖNEMLİ: Bu anahtar mutlaka olmalı
+            };
+            
+            _logger.LogInformation($"Sonuç döndürülüyor - market_stats anahtarı eklendi");
+            
+            // DEBUG: Döndürülen key'leri logla
+            var resultKeys = string.Join(", ", result.Keys);
+            _logger.LogInformation($"Döndürülen anahtarlar: {resultKeys}");
+            
+            return result;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Piyasa bilgileri alınırken hata oluştu");
+            _logger.LogError(ex, "GetMarketInsightsAsync'de hata oluştu");
             return GetFallbackMarketInsights();
         }
     }
     
     private Dictionary<string, object> GetFallbackMarketInsights()
     {
-        // Fallback data in case of errors
+        _logger.LogWarning("GetFallbackMarketInsights çağrıldı - gerçek veri bulunamadı");
+        
+        // Fallback data with realistic market_stats
+        var marketStats = new Dictionary<string, object>
+        {
+            ["total_stocks"] = 0,
+            ["rising_stocks"] = 0,
+            ["falling_stocks"] = 0,
+            ["unchanged_stocks"] = 0,
+            ["market_breadth"] = 0
+        };
+
         return new Dictionary<string, object>
         {
-            ["market_trend"] = "Belirsiz",
-            ["bist100_change"] = "0.0",
-            ["error"] = "Piyasa bilgileri alınamadı",
-            ["market_summary"] = "Piyasa verileri şu anda erişilebilir değil.",
-            ["market_movers"] = new List<Dictionary<string, string>>
-            {
-                new Dictionary<string, string> { ["symbol"] = "THYAO", ["name"] = "Türk Hava Yolları", ["change_percentage"] = "0.0" },
-                new Dictionary<string, string> { ["symbol"] = "GARAN", ["name"] = "Garanti Bankası", ["change_percentage"] = "0.0" }
-            }
+            ["market_trend"] = "Veri Yok",
+            ["bist100_change"] = "0.00",
+            ["market_summary"] = "Veritabanından veri alınamadı - lütfen hisse verilerini kontrol edin",
+            ["market_stats"] = marketStats  // ÖNEMLİ: Bu anahtar mutlaka olmalı
         };
     }
 } 

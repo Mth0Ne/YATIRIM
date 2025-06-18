@@ -20,12 +20,19 @@ warnings.filterwarnings('ignore')
 os.environ['PYTHONHTTPSVERIFY'] = '0'
 ssl._create_default_https_context = ssl._create_unverified_context
 
+# Dosya yollarını ayarla
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LOG_PATH = os.path.join(BASE_DIR, 'logs', 'technical_analysis.log')
+
+# Log klasörünü oluştur
+os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
+
 # Logging ayarları
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("technical_analysis.log", encoding='utf-8'),
+        logging.FileHandler(LOG_PATH, encoding='utf-8'),
         logging.StreamHandler()
     ]
 )

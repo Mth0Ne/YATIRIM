@@ -15,7 +15,7 @@ public class MappingProfile : Profile
         
         // Portfolio mappings
         CreateMap<Portfolio, PortfolioDto>()
-            .ForMember(dest => dest.TotalValue, opt => opt.Ignore())
+            .ForMember(dest => dest.TotalValue, opt => opt.MapFrom(src => src.TotalValue))
             .ForMember(dest => dest.TotalCost, opt => opt.MapFrom(src => src.TotalCost))
             .ForMember(dest => dest.TotalProfit, opt => opt.MapFrom(src => src.TotalProfit))
             .ForMember(dest => dest.TotalProfitPercentage, opt => opt.MapFrom(src => src.TotalProfitPercentage))

@@ -1,0 +1,42 @@
+@page
+@model LogoutModel
+@{
+    ViewData["Title"] = "Çıkış Yapılıyor...";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+            <div class="card identity-card">
+                <div class="card-header text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-box-arrow-right text-white" style="font-size: 3rem;"></i>
+                    </div>
+                    <h4 class="mb-0">Çıkış Yapılıyor...</h4>
+                    <p class="text-white-50 mb-0">Hesabınızdan güvenli bir şekilde çıkış yapılıyor</p>
+                </div>
+                <div class="card-body text-center py-5">
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Yükleniyor...</span>
+                    </div>
+                    <p class="text-muted">Lütfen bekleyin...</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <p class="text-muted">
+                    <a asp-controller="Home" asp-action="Index" class="text-decoration-none">
+                        <i class="bi bi-house-door me-1"></i>Anasayfaya dön
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Otomatik yönlendirme
+    setTimeout(function() {
+        window.location.href = '@Url.Action("Index", "Home")';
+    }, 2000);
+</script> 

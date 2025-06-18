@@ -57,7 +57,6 @@ public static class DependencyInjection
         services.AddHostedService<StockDataUpdateService>();
         
         // Application Services
-        services.AddScoped<ITechnicalIndicatorService, TechnicalIndicatorService>();
         services.AddScoped<IPortfolioAnalysisService, PortfolioAnalysisService>();
         
         // Real Technical Analysis Service (Clean Architecture)
@@ -71,8 +70,6 @@ public static class DependencyInjection
                 client.DefaultRequestHeaders.Add("User-Agent", "SmartBIST/1.0");
             });
         
-        // Email Service for Identity
-        services.AddTransient<IEmailSender, EmailSender>();
         
         // Add Identity - Custom pages kullandığımız için AddDefaultUI() kaldırıldı
         services.AddIdentity<ApplicationUser, IdentityRole>(options => 

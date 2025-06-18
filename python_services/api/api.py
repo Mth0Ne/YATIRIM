@@ -19,11 +19,19 @@ import urllib3
 ssl._create_default_https_context = ssl._create_unverified_context
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+# Dosya yollarını ayarla
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MODEL_PATH = os.path.join(BASE_DIR, 'models', 'lstm_model.h5')
+LOG_PATH = os.path.join(BASE_DIR, 'logs', 'api.log')
+
+# Log klasörünü oluştur
+os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("api.log"),
+        logging.FileHandler(LOG_PATH),
         logging.StreamHandler()
     ]
 )
@@ -33,7 +41,6 @@ app = Flask(__name__)
 CORS(app)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
-MODEL_PATH = 'lstm_model.h5'
 TIME_STEP = 90  # Daha uzun pattern yakalamak için artırıldı
 
 def convert_turkish_chars(text):
