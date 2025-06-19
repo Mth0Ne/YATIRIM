@@ -9,6 +9,35 @@ from flask_cors import CORS
 import yfinance as yf
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+
+
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+# GPU sorunlarından dolayı CPU'yu zorla kullan
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+
+import tensorflow as tf
+
+# TensorFlow JIT compilation'ı devre dışı bırak
+tf.config.optimizer.set_jit(False)
+
+print("GPU devre dışı bırakıldı, CPU kullanılacak")
+
+# GPU bellek ayarları ve konfigürasyon (eğer GPU kullanmak isterseniz üstteki CUDA_VISIBLE_DEVICES satırını silin)
+# try:
+#     gpus = tf.config.experimental.list_physical_devices('GPU')
+#     if gpus:
+#         for gpu in gpus:
+#             tf.config.experimental.set_memory_growth(gpu, True)
+#         # XLA JIT derlemeyi devre dışı bırak
+#         tf.config.optimizer.set_jit(False)
+#         print(f"GPU bulundu: {len(gpus)} adet GPU kullanılabilir")
+#     else:
+#         print("GPU bulunamadı, CPU kullanılacak")
+# except RuntimeError as e:
+#     print(f"GPU konfigürasyon hatası: {e}")
+
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import LSTM, Dense
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -114,7 +143,7 @@ class StockPredictor:
             
             model = self.create_model((X.shape[1], 1))
             
-            model.fit(X, y, epochs=100, batch_size=16, validation_split=0.2, verbose=1)
+            model.fit(X, y, epochs=10, batch_size=64, validation_split=0.2, verbose=1)
             
             model.save(MODEL_PATH)
             self.model = model
