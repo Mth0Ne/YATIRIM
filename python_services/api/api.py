@@ -4,56 +4,37 @@ import numpy as np
 import pandas as pd
 import datetime
 import json
+import joblib # YENİ: Scaler'ı kaydetmek için
 from flask import Flask, jsonify, request, abort
 from flask_cors import CORS
 import yfinance as yf
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-
-import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
-# GPU sorunlarından dolayı CPU'yu zorla kullan
-os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
-
 import tensorflow as tf
 
-# TensorFlow JIT compilation'ı devre dışı bırak
-tf.config.optimizer.set_jit(False)
-
-print("GPU devre dışı bırakıldı, CPU kullanılacak")
-
-# GPU bellek ayarları ve konfigürasyon (eğer GPU kullanmak isterseniz üstteki CUDA_VISIBLE_DEVICES satırını silin)
-# try:
-#     gpus = tf.config.experimental.list_physical_devices('GPU')
-#     if gpus:
-#         for gpu in gpus:
-#             tf.config.experimental.set_memory_growth(gpu, True)
-#         # XLA JIT derlemeyi devre dışı bırak
-#         tf.config.optimizer.set_jit(False)
-#         print(f"GPU bulundu: {len(gpus)} adet GPU kullanılabilir")
-#     else:
-#         print("GPU bulunamadı, CPU kullanılacak")
-# except RuntimeError as e:
-#     print(f"GPU konfigürasyon hatası: {e}")
+# TensorFlow'u sadece CPU kullanmaya zorla
+tf.config.set_visible_devices([], 'GPU')
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 from tensorflow.keras.models import Sequential, load_model
-from tensorflow.keras.layers import LSTM, Dense
+from tensorflow.keras.layers import LSTM, Dense, Dropout # YENİ: Dropout eklendi
+from tensorflow.keras.callbacks import EarlyStopping # YENİ: EarlyStopping eklendi
 from werkzeug.middleware.proxy_fix import ProxyFix
 import ssl
 import urllib3
 
-# SSL certificate verification fix for Windows
+# SSL sertifika doğrulaması düzeltmesi
 ssl._create_default_https_context = ssl._create_unverified_context
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Dosya yollarını ayarla
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MODEL_PATH = os.path.join(BASE_DIR, 'models', 'lstm_model.h5')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__)) # DEĞİŞİKLİK: Daha basit path tanımı
+MODELS_DIR = os.path.join(BASE_DIR, 'models')
 LOG_PATH = os.path.join(BASE_DIR, 'logs', 'api.log')
 
-# Log klasörünü oluştur
+# Klasörleri oluştur
+os.makedirs(MODELS_DIR, exist_ok=True)
 os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
 
 logging.basicConfig(
@@ -70,11 +51,11 @@ app = Flask(__name__)
 CORS(app)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
-TIME_STEP = 90  # Daha uzun pattern yakalamak için artırıldı
+TIME_STEP = 100  # DEĞİŞİKLİK: 100'e yuvarlandı
 
 def convert_turkish_chars(text):
     tr_chars = {
-        'İ': 'I', 'Ş': 'S', 'Ğ': 'G', 'Ü': 'U', 'Ö': 'O', 'Ç': 'C', 
+        'İ': 'I', 'Ş': 'S', 'Ğ': 'G', 'Ü': 'U', 'Ö': 'O', 'Ç': 'C',
         'ı': 'i', 'ş': 's', 'ğ': 'g', 'ü': 'u', 'ö': 'o', 'ç': 'c'
     }
     for tr_char, en_char in tr_chars.items():
@@ -82,237 +63,244 @@ def convert_turkish_chars(text):
     return text
 
 class StockPredictor:
-    
-    def __init__(self):
-        self.model = self._load_model()
+
+    def __init__(self, stock_symbol):
+        self.stock_symbol_tr = stock_symbol
+        self.stock_symbol = convert_turkish_chars(stock_symbol)
         
+        # DEĞİŞİKLİK: Model ve scaler yolları hisse sembolüne özel
+        self.model_path = os.path.join(MODELS_DIR, f'{self.stock_symbol}_model.h5')
+        self.scaler_path = os.path.join(MODELS_DIR, f'{self.stock_symbol}_scaler.gz')
+        
+        self.model = self._load_model()
+        self.scaler = self._load_scaler()
+
     def _load_model(self):
-        if os.path.exists(MODEL_PATH):
-            logger.info(f"Loading existing model from {MODEL_PATH}")
-            return load_model(MODEL_PATH)
-        logger.info("No existing model found")
+        if os.path.exists(self.model_path):
+            logger.info(f"Mevcut model yükleniyor: {self.model_path}")
+            return load_model(self.model_path)
+        logger.info(f"{self.stock_symbol} için mevcut bir model bulunamadı.")
         return None
-    
-    def get_stock_data(self, stock_symbol, start_date, end_date):
-        stock_symbol = convert_turkish_chars(stock_symbol)
-        logger.info(f"Fetching data for {stock_symbol} from {start_date} to {end_date}")
-        return yf.download(stock_symbol, start=start_date, end=end_date)
-    
-    def preprocess_data(self, data):
-        if data.empty:
-            raise ValueError("No data available for this stock")
-            
-        scaler = MinMaxScaler(feature_range=(0, 1))
-        scaled_data = scaler.fit_transform(data[['Close']].values)
-        return scaled_data, scaler
-    
-    def prepare_data(self, scaled_data, time_step=TIME_STEP):
-        if len(scaled_data) <= time_step:
-            raise ValueError(f"Insufficient data: {len(scaled_data)} points available, {time_step} required")
-            
+
+    def _load_scaler(self): # YENİ: Scaler'ı yüklemek için fonksiyon
+        if os.path.exists(self.scaler_path):
+            logger.info(f"Mevcut scaler yükleniyor: {self.scaler_path}")
+            return joblib.load(self.scaler_path)
+        return None
+
+    def get_stock_data(self, start_date, end_date):
+        logger.info(f"{self.stock_symbol} için veri çekiliyor: {start_date} - {end_date}")
+        return yf.download(self.stock_symbol, start=start_date, end=end_date)
+
+    def prepare_data(self, data, time_step=TIME_STEP):
         X, y = [], []
-        for i in range(time_step, len(scaled_data)):
-            X.append(scaled_data[i - time_step:i, 0])
-            y.append(scaled_data[i, 0])
-            
-        X = np.array(X)
-        y = np.array(y)
-        X = np.reshape(X, (X.shape[0], X.shape[1], 1))
-        return X, y
+        for i in range(time_step, len(data)):
+            X.append(data[i - time_step:i, 0])
+            y.append(data[i, 0])
+        return np.array(X), np.array(y)
     
+    # DEĞİŞİKLİK: Model iyileştirildi (Dropout, daha basit yapı)
     def create_model(self, input_shape):
-        model = Sequential()
-        model.add(LSTM(units=100, return_sequences=True, input_shape=input_shape))
-        model.add(LSTM(units=50, return_sequences=True))
-        model.add(LSTM(units=25, return_sequences=False))
-        model.add(Dense(units=1))
+        model = Sequential([
+            LSTM(units=75, return_sequences=True, input_shape=input_shape),
+            Dropout(0.1),
+            LSTM(units=50, return_sequences=False),
+            Dropout(0.1),
+            Dense(units=25),
+            Dense(units=1)
+        ])
         model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mae'])
         return model
-    
-    def train_model(self, stock_symbol, start_date, end_date):
+
+    # DEĞİŞİKLİK: Eğitim mantığı tamamen yeniden yazıldı
+    def train_model(self, data):
         try:
-            logger.info(f"Training model for {stock_symbol}")
+            logger.info(f"{self.stock_symbol} için model eğitiliyor...")
             
-            train_start = (datetime.datetime.strptime(start_date, "%Y-%m-%d") - 
-                          datetime.timedelta(days=730)).strftime("%Y-%m-%d")
+            # 1. Veriyi Ölçekle ve Scaler'ı Kaydet
+            close_prices = data['Close'].values.reshape(-1, 1)
+            self.scaler = MinMaxScaler(feature_range=(0, 1))
+            scaled_data = self.scaler.fit_transform(close_prices)
+            joblib.dump(self.scaler, self.scaler_path) # Scaler'ı diske kaydet
+            logger.info(f"Scaler kaydedildi: {self.scaler_path}")
+
+            # 2. Eğitim ve Doğrulama Setlerini Oluştur
+            training_data_len = int(np.ceil(len(scaled_data) * 0.8))
             
-            data = self.get_stock_data(stock_symbol, train_start, end_date)
-            scaled_data, scaler = self.preprocess_data(data)
+            train_data = scaled_data[0:training_data_len]
+            validation_data = scaled_data[training_data_len - TIME_STEP:]
+
+            X_train, y_train = self.prepare_data(train_data)
+            X_val, y_val = self.prepare_data(validation_data)
             
-            X, y = self.prepare_data(scaled_data)
+            X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
+            X_val = np.reshape(X_val, (X_val.shape[0], X_val.shape[1], 1))
+
+            # 3. Modeli Oluştur ve Eğit
+            self.model = self.create_model((X_train.shape[1], 1))
             
-            model = self.create_model((X.shape[1], 1))
+            # EarlyStopping: Modelin gereksiz yere ezberlemesini önler
+            early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
             
-            model.fit(X, y, epochs=10, batch_size=64, validation_split=0.2, verbose=1)
+            history = self.model.fit(
+                X_train, y_train,
+                epochs=50, # Epoch sayısını artırabiliriz, EarlyStopping en iyi yerde durdurur
+                batch_size=32,
+                validation_data=(X_val, y_val),
+                callbacks=[early_stopping],
+                verbose=1
+            )
             
-            model.save(MODEL_PATH)
-            self.model = model
+            # 4. Modeli Kaydet
+            self.model.save(self.model_path)
+            logger.info(f"Model eğitimi tamamlandı ve kaydedildi: {self.model_path}")
             
-            logger.info(f"Model training completed for {stock_symbol}")
-            return model, scaler
-            
+            # 5. Performans metriklerini hesapla ve döndür
+            return self.calculate_performance_metrics(X_val, y_val)
+
         except Exception as e:
-            logger.error(f"Error training model: {str(e)}")
+            logger.error(f"Model eğitimi sırasında hata: {e}", exc_info=True)
             raise
-    
-    def predict(self, stock_symbol, start_date, end_date):
+
+    # DEĞİŞİKLİK: Metrik hesaplama mantığı basitleştirildi ve doğrulama setini kullanıyor
+    def calculate_performance_metrics(self, X_val, y_val_actual_scaled):
         try:
-            data = self.get_stock_data(stock_symbol, start_date, end_date)
+            # Tahminleri yap
+            y_val_pred_scaled = self.model.predict(X_val)
             
-            if data.empty:
-                raise ValueError(f"No data available for {stock_symbol}")
-                
-            scaled_data, scaler = self.preprocess_data(data)
+            # Ölçeği geri al
+            y_val_actual = self.scaler.inverse_transform(y_val_actual_scaled.reshape(-1, 1))
+            y_val_pred = self.scaler.inverse_transform(y_val_pred_scaled)
+
+            # Metrikleri hesapla
+            mae = mean_absolute_error(y_val_actual, y_val_pred)
+            rmse = np.sqrt(mean_squared_error(y_val_actual, y_val_pred))
+            r2 = r2_score(y_val_actual, y_val_pred)
             
-            if self.model is None or len(scaled_data) < TIME_STEP:
-                logger.info(f"Training new model for {stock_symbol}")
-                self.model, scaler = self.train_model(stock_symbol, start_date, end_date)
+            # "Doğruluk" metriği (gerçek değerin +/- %5 aralığındaki tahminlerin oranı)
+            within_5_percent = np.mean(np.abs((y_val_pred - y_val_actual) / y_val_actual) <= 0.05) * 100
+
+            return {
+                "accuracy_within_5_percent": float(within_5_percent),
+                "mae": float(mae),
+                "rmse": float(rmse),
+                "r2_score": float(r2)
+            }
+        except Exception as e:
+            logger.warning(f"Performans metrikleri hesaplanırken hata: {e}")
+            return {"accuracy_within_5_percent": 0.0, "mae": 0.0, "rmse": 0.0, "r2_score": 0.0}
+
+    # DEĞİŞİKLİK: Ana tahmin fonksiyonu tamamen yeniden yapılandırıldı
+    def predict_next_day(self, force_retrain=False):
+        try:
+            # 1. Geniş bir tarih aralığında veri çek
+            end_date = datetime.datetime.now()
+            start_date = end_date - datetime.timedelta(days=7 * 365) # Son 10 yıllık veri
+            data = self.get_stock_data(start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d"))
+
+            if data.empty or len(data) < TIME_STEP * 2: # Eğitim için minimum veri kontrolü
+                raise ValueError(f"{self.stock_symbol} için yeterli geçmiş veri bulunamadı (en az {TIME_STEP*2} gün gerekli).")
+
+            # 2. Modelin eğitilmesi gerekip gerekmediğini kontrol et
+            performance_metrics = {}
+            if self.model is None or self.scaler is None or force_retrain:
+                performance_metrics = self.train_model(data)
+            else:
+                # Eğer model varsa, mevcut test verisiyle metrikleri tekrar hesapla
+                logger.info("Mevcut model kullanılıyor, performans metrikleri hesaplanıyor...")
+                training_data_len = int(np.ceil(len(data) * 0.8))
+                scaled_data = self.scaler.transform(data['Close'].values.reshape(-1, 1))
+                validation_data = scaled_data[training_data_len - TIME_STEP:]
+                X_val, y_val = self.prepare_data(validation_data)
+                X_val = np.reshape(X_val, (X_val.shape[0], X_val.shape[1], 1))
+                performance_metrics = self.calculate_performance_metrics(X_val, y_val)
+
+
+            # 3. Sonraki gün için tahminde bulun
+            close_prices = data['Close'].values.reshape(-1, 1)
+            scaled_data = self.scaler.transform(close_prices) # Tüm veriyi aynı scaler ile dönüştür
             
-            X, y = self.prepare_data(scaled_data)
+            last_sequence = scaled_data[-TIME_STEP:]
+            last_sequence = np.reshape(last_sequence, (1, TIME_STEP, 1))
             
-            if len(X) == 0:
-                raise ValueError("Not enough data points for prediction")
+            predicted_scaled_price = self.model.predict(last_sequence)
+            predicted_price = self.scaler.inverse_transform(predicted_scaled_price)[0][0]
             
-            # Predict for the last point (future prediction)
-            predicted_scaled = self.model.predict(X[-1].reshape(1, X.shape[1], 1))
-            predicted_price = scaler.inverse_transform(predicted_scaled)
-            predicted_price = float(predicted_price[0][0])
-            
-            # Calculate performance metrics on validation data
-            performance_metrics = self.calculate_performance_metrics(X, y, scaler)
-            
-            last_actual_price = data['Close'].iloc[-1]
-            price_change = predicted_price - last_actual_price
-            percent_change = (price_change / last_actual_price) * 100
-            
+            # 4. Sonuçları hazırla
+            last_actual_price = float(data['Close'].iloc[-1])  # FutureWarning düzeltmesi
+            price_change = float(predicted_price - last_actual_price)  # FutureWarning düzeltmesi
+            percent_change = float((price_change / last_actual_price) * 100)  # FutureWarning düzeltmesi
+
             result = {
-                "symbol": stock_symbol,
-                "predicted_price": predicted_price,
-                "current_price": float(last_actual_price),
-                "price_change": float(price_change),
-                "percent_change": float(percent_change),
-                "prediction_date": datetime.datetime.now().strftime("%Y-%m-%d"),
+                "symbol": self.stock_symbol_tr,
+                "predicted_price": float(predicted_price),
+                "current_price": last_actual_price,
+                "price_change": price_change,
+                "percent_change": percent_change,
+                "prediction_date": (data.index[-1] + datetime.timedelta(days=1)).strftime("%Y-%m-%d"),
                 "last_close_date": data.index[-1].strftime("%Y-%m-%d"),
                 "data_points": len(data),
-                # Performance metrics
-                "accuracy": performance_metrics["accuracy"],
-                "mae": performance_metrics["mae"],
-                "rmse": performance_metrics["rmse"],
-                "r2": performance_metrics["r2"]
+                # Performance metrics'i düz yapıya çevir - C# mapping için
+                "accuracy": float(performance_metrics.get("accuracy_within_5_percent", 0)),
+                "mae": float(performance_metrics.get("mae", 0)),
+                "rmse": float(performance_metrics.get("rmse", 0)),
+                "r2": float(performance_metrics.get("r2_score", 0))
             }
-            
             return result
-            
+
         except Exception as e:
-            logger.error(f"Prediction error for {stock_symbol}: {str(e)}")
+            logger.error(f"Tahmin hatası ({self.stock_symbol}): {e}", exc_info=True)
             raise
-    
-    def calculate_performance_metrics(self, X, y_actual, scaler):
-        """Calculate model performance metrics"""
-        try:
-            # Use last 20% of data for validation metrics
-            val_size = max(1, len(X) // 5)
-            X_val = X[-val_size:]
-            y_val = y_actual[-val_size:]
-            
-            # Predict on validation data
-            y_pred_scaled = self.model.predict(X_val)
-            
-            # Convert back to original scale
-            y_actual_original = scaler.inverse_transform(y_val.reshape(-1, 1)).flatten()
-            y_pred_original = scaler.inverse_transform(y_pred_scaled).flatten()
-            
-            # Calculate metrics
-            mae = float(mean_absolute_error(y_actual_original, y_pred_original))
-            mse = float(mean_squared_error(y_actual_original, y_pred_original))
-            rmse = float(np.sqrt(mse))
-            r2 = float(r2_score(y_actual_original, y_pred_original))
-            
-            # Calculate accuracy as percentage of predictions within 5% of actual values
-            percentage_errors = np.abs((y_actual_original - y_pred_original) / y_actual_original) * 100
-            accuracy = np.mean(percentage_errors <= 5.0)  # % of predictions within 5% error
-            
-            # Handle NaN/inf values to ensure valid JSON
-            def safe_float(value):
-                if np.isnan(value) or np.isinf(value):
-                    return 0.0
-                return float(value)
-            
-            return {
-                "accuracy": safe_float(accuracy),
-                "mae": safe_float(mae),
-                "rmse": safe_float(rmse),
-                "r2": safe_float(r2)
-            }
-            
-        except Exception as e:
-            logger.warning(f"Error calculating performance metrics: {str(e)}")
-            # Return default metrics if calculation fails
-            return {
-                "accuracy": 0.0,
-                "mae": 0.0,
-                "rmse": 0.0,
-                "r2": 0.0
-            }
 
-predictor = StockPredictor()
 
+# DEĞİŞİKLİK: API endpoint'leri daha mantıklı hale getirildi
 @app.route('/', methods=['GET'])
 def home():
     return jsonify({
         "name": "Stock Price Prediction API",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "endpoints": {
-            "/predict": "GET - Predict stock price (params: symbol, start, end)",
+            "/predict": "GET - Predict next day's stock price (params: symbol, force_retrain (optional, true/false))",
             "/": "GET - This help message"
         }
     })
 
 @app.route('/predict', methods=['GET'])
 def predict_endpoint():
+    stock_symbol = request.args.get('symbol')
+    force_retrain_str = request.args.get('force_retrain', 'false').lower()
+    
+    if not stock_symbol:
+        return jsonify({"error": "Hisse sembolü ('symbol') parametresi zorunludur."}), 400
+        
+    if force_retrain_str not in ['true', 'false']:
+        return jsonify({"error": "'force_retrain' parametresi 'true' ya da 'false' olmalıdır."}), 400
+        
+    force_retrain = force_retrain_str == 'true'
+
     try:
-        stock_symbol = request.args.get('symbol', 'ISCTR.BIST')
-        stock_symbol = convert_turkish_chars(stock_symbol)
-        start_date = request.args.get('start', '2020-01-01')
-        end_date = request.args.get('end', '2023-01-01')
+        logger.info(f"Tahmin isteği: {stock_symbol}, Yeniden Eğitim Zorunlu: {force_retrain}")
         
-        logger.info(f"Prediction request for {stock_symbol} from {start_date} to {end_date}")
+        # Her istek için yeni bir StockPredictor nesnesi oluşturulur
+        predictor = StockPredictor(stock_symbol)
+        result = predictor.predict_next_day(force_retrain)
         
-        try:
-            datetime.datetime.strptime(start_date, "%Y-%m-%d")
-            datetime.datetime.strptime(end_date, "%Y-%m-%d")
-        except ValueError:
-            return jsonify({"error": "Invalid date format. Use YYYY-MM-DD"}), 400
-            
-        result = predictor.predict(stock_symbol, start_date, end_date)
-        
-        print(f"\n--- PREDICTION RESULTS ---")
-        print(f"Symbol: {result['symbol']}")
-        print(f"Current Price: {result['current_price']:.2f}")
-        print(f"Predicted Price: {result['predicted_price']:.2f}")
-        print(f"Change: {result['price_change']:.2f} ({result['percent_change']:.2f}%)")
-        print(f"Prediction Date: {result['prediction_date']}")
-        print(f"Last Close Date: {result['last_close_date']}")
-        print(f"Data Points Used: {result['data_points']}")
-        print("-------------------------\n")
+        # Sonucu daha okunaklı yazdırmak için
+        print(json.dumps(result, indent=4))
         
         return jsonify(result)
         
     except ValueError as e:
-        logger.warning(f"Value error: {str(e)}")
+        logger.warning(f"Değer hatası: {e}")
         return jsonify({"error": str(e)}), 400
     except Exception as e:
-        logger.error(f"Unexpected error: {str(e)}")
-        return jsonify({"error": "An unexpected error occurred"}), 500
+        logger.error(f"Beklenmedik bir hata oluştu: {e}", exc_info=True)
+        return jsonify({"error": "Sunucuda beklenmedik bir hata oluştu."}), 500
 
 @app.errorhandler(404)
 def not_found(e):
-    return jsonify({"error": "Endpoint not found"}), 404
-
-@app.errorhandler(500)
-def server_error(e):
-    return jsonify({"error": "Internal server error"}), 500
+    return jsonify({"error": "Endpoint bulunamadı"}), 404
 
 if __name__ == '__main__':
-    logger.info("Starting Stock Prediction API server")
+    logger.info("Hisse Tahmin API sunucusu başlatılıyor")
     app.run(host='0.0.0.0', port=5000, debug=False)

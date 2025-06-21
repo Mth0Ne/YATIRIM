@@ -55,35 +55,73 @@
                     <!-- Stock Selection Form -->
                     <form method="get" asp-action="Index">
                         <div class="row mb-4">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="symbol" class="form-label">Hisse Seçin</label>
-                                <div class="input-group">
-                                    <select class="form-select" id="symbol" name="symbol" required>
-                                        <option value="">Hisse senedi seçin</option>
-                                        @foreach (var stock in Model.AvailableStocks)
-                                        {
-                                            <option value="@stock.Value" selected="@(stock.Value == Model.Symbol)">@stock.Text</option>
-                                        }
-                                    </select>
-                                    <button class="btn btn-primary" type="submit">
-                                        <i class="bi bi-analytics me-1"></i>Analiz Et
-                                    </button>
-                                </div>
+                                <select class="form-select" id="symbol" name="symbol" required>
+                                    <option value="">Hisse senedi seçin</option>
+                                    @foreach (var stock in Model.AvailableStocks)
+                                    {
+                                        <option value="@stock.Value" selected="@(stock.Value == Model.Symbol)">@stock.Text</option>
+                                    }
+                                </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label for="period" class="form-label">Periyot</label>
                                 <select class="form-select" id="period" name="period">
-                                    <option value="30" selected="@(Model.Period == 30)">Son 30 Gün</option>
-                                    <option value="60" selected="@(Model.Period == 60)">Son 60 Gün</option>
                                     <option value="90" selected="@(Model.Period == 90)">Son 90 Gün</option>
-                                    <option value="180" selected="@(Model.Period == 180)">Son 180 Gün</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <div class="d-flex align-items-end h-100">
-                                    <button class="btn btn-success w-100" type="submit">
-                                        <i class="bi bi-arrow-clockwise me-1"></i>Yenile
-                                    </button>
+                                <label class="form-label">Analiz Türü</label>
+                                <div class="form-check-container">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="enableDataMining" id="classicalAnalysis" value="false" checked="@(!Model.EnableDataMining)">
+                                        <label class="form-check-label" for="classicalAnalysis">
+                                            <i class="bi bi-graph-up me-1"></i>Klasik Analiz
+                                        </label>
+                                    </div>
+                                    <!-- <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="enableDataMining" id="dataMiningAnalysis" value="true" checked="@Model.EnableDataMining">
+                                        <label class="form-check-label" for="dataMiningAnalysis">
+                                            <i class="bi bi-cpu me-1"></i>Veri Madenciliği
+                                        </label>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label d-block">&nbsp;</label>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="includePredictions" id="includePredictions" value="true" checked="@Model.IncludePredictions">
+                                    <label class="form-check-label" for="includePredictions">
+                                        <i class="bi bi-graph-up-arrow me-1"></i>Fiyat Tahminleri
+                                    </label>
+                                </div>
+                                <button class="btn btn-primary w-100" type="submit">
+                                    <i class="bi bi-analytics me-1"></i>Analiz Et
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Analysis Type Information -->
+                        <div class="alert alert-info border-0 shadow-sm mb-4" id="analysisInfo">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <i class="bi bi-info-circle-fill fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="alert-heading mb-1">
+                                        <span id="analysisTypeTitle">@(Model.EnableDataMining ? "Veri Madenciliği Analizi" : "Klasik Teknik Analiz")</span>
+                                    </h6>
+                                    <p class="mb-0" id="analysisTypeDescription">
+                                        @if (Model.EnableDataMining)
+                                        {
+                                            <span>Makine öğrenmesi, anomali tespiti, clustering ve gelişmiş istatistiksel analiz ile derinlemesine piyasa analizi</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Geleneksel teknik göstergeler (SMA, EMA, RSI, MACD, Bollinger Bands) ile temel analiz</span>
+                                        }
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -93,28 +131,46 @@
                     @if (Model.HasData)
                     {
                         <div class="mb-4">
-                            <!-- Individual Signals Cards -->
-                            <div class="row g-3">
-                                @foreach (var signal in Model.TechnicalAnalysis?.Signals?.IndividualSignals ?? new Dictionary<string, string>())
-                                {
-                                    <div class="col-md-3 col-sm-6">
-                                        <div class="card border-0 shadow-sm h-100">
-                                            <div class="card-body text-center">
-                                                <div class="mb-2">
-                                                    <div class="bg-light rounded-circle p-2 d-inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                                                        <i class="bi bi-@(signal.Key == "rsi" ? "speedometer2" : signal.Key == "macd" ? "bar-chart" : signal.Key == "bollinger" ? "arrows-expand" : signal.Key == "sma" ? "graph-up" : signal.Key == "ema" ? "graph-up-arrow" : signal.Key == "stochastic" ? "graph-down" : "percent") text-secondary"></i>
-                                                    </div>
+                                                    <!-- Individual Signals Cards -->
+                        <div class="row g-3">
+                            @{
+                                var signalsToShow = Model.IsDataMiningAnalysis 
+                                    ? Model.DataMiningAnalysis?.Signals?.IndividualSignals ?? new Dictionary<string, string>()
+                                    : Model.TechnicalAnalysis?.Signals?.IndividualSignals ?? new Dictionary<string, string>();
+                            }
+                            @foreach (var signal in signalsToShow)
+                            {
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="card border-0 shadow-sm h-100">
+                                        <div class="card-body text-center">
+                                            <div class="mb-2">
+                                                <div class="bg-light rounded-circle p-2 d-inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                                    <i class="bi bi-@(signal.Key == "rsi" ? "speedometer2" : signal.Key == "macd" ? "bar-chart" : signal.Key == "bollinger" ? "arrows-expand" : signal.Key == "sma" ? "graph-up" : signal.Key == "ema" ? "graph-up-arrow" : signal.Key == "stochastic" ? "graph-down" : "percent") text-secondary"></i>
                                                 </div>
-                                                <h6 class="card-title mb-2">@GetIndicatorName(signal.Key)</h6>
-                                                <span class="badge @GetSignalClass(signal.Value) fs-6">
-                                                    <i class="bi bi-@(signal.Value == "BUY" ? "arrow-up" : signal.Value == "SELL" ? "arrow-down" : "dash") me-1"></i>
-                                                    @GetSignalText(signal.Value)
-                                                </span>
                                             </div>
+                                            <h6 class="card-title mb-2">@GetIndicatorName(signal.Key)</h6>
+                                            <span class="badge @GetSignalClass(signal.Value) fs-6">
+                                                <i class="bi bi-@(signal.Value == "BUY" ? "arrow-up" : signal.Value == "SELL" ? "arrow-down" : "dash") me-1"></i>
+                                                @GetSignalText(signal.Value)
+                                            </span>
                                         </div>
                                     </div>
-                                }
+                                </div>
+                            }
+                        </div>
+                        
+                        @if (Model.IsDataMiningAnalysis)
+                        {
+                            <div class="alert alert-info border-0 shadow-sm mt-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-cpu me-2 fs-4"></i>
+                                    <div>
+                                        <strong>Veri Madenciliği Sinyalleri:</strong> Bu sinyaller makine öğrenmesi algoritmaları, 
+                                        anomali tespiti ve gelişmiş istatistiksel analiz yöntemleri kullanılarak elde edilmiştir.
+                                    </div>
+                                </div>
                             </div>
+                        }
 
                             <!-- Advanced Technical Signals Dashboard -->
                             <div class="card border-0 shadow-sm mt-4">
@@ -143,17 +199,22 @@
                                                     <div class="signal-meter-container position-relative" style="width: 80px; height: 80px;">
                                                         <svg class="signal-meter" width="80" height="80">
                                                             <circle cx="40" cy="40" r="35" fill="none" stroke="#e9ecef" stroke-width="8"></circle>
-                                                            <circle cx="40" cy="40" r="35" fill="none" 
-                                                                    stroke="@(Model.TechnicalAnalysis?.Signals?.OverallSignal == "BUY" ? "#198754" : Model.TechnicalAnalysis?.Signals?.OverallSignal == "SELL" ? "#dc3545" : "#ffc107")" 
-                                                                    stroke-width="8" 
-                                                                    stroke-dasharray="220" 
-                                                                    stroke-dashoffset="@(220 - (Model.TechnicalAnalysis?.Signals?.SignalStrength * 220 ?? 0))"
-                                                                    transform="rotate(-90 40 40)"
-                                                                    class="signal-progress"></circle>
-                                                        </svg>
-                                                        <div class="position-absolute top-50 start-50 translate-middle text-center">
-                                                            <div class="fs-5 fw-bold text-@(Model.TechnicalAnalysis.Signals.OverallSignal == "BUY" ? "success" : Model.TechnicalAnalysis.Signals.OverallSignal == "SELL" ? "danger" : "warning")">
-                                                                @((Model.TechnicalAnalysis.Signals.SignalStrength * 100).ToString("F0"))%
+                                                                                                        @{
+                                                var currentSignals = Model.IsDataMiningAnalysis ? Model.DataMiningAnalysis?.Signals : Model.TechnicalAnalysis?.Signals;
+                                                var overallSignal = currentSignals?.OverallSignal ?? "NEUTRAL";
+                                                var signalStrength = currentSignals?.SignalStrength ?? 0;
+                                            }
+                                            <circle cx="40" cy="40" r="35" fill="none" 
+                                                    stroke="@(overallSignal == "BUY" ? "#198754" : overallSignal == "SELL" ? "#dc3545" : "#ffc107")" 
+                                                    stroke-width="8" 
+                                                    stroke-dasharray="220" 
+                                                    stroke-dashoffset="@(220 - (signalStrength * 220))"
+                                                    transform="rotate(-90 40 40)"
+                                                    class="signal-progress"></circle>
+                                        </svg>
+                                        <div class="position-absolute top-50 start-50 translate-middle text-center">
+                                            <div class="fs-5 fw-bold text-@(overallSignal == "BUY" ? "success" : overallSignal == "SELL" ? "danger" : "warning")">
+                                                @((signalStrength * 100).ToString("F0"))%
                                                             </div>
                                                         </div>
                                                     </div>
@@ -161,9 +222,9 @@
                                                 <div>
                                                     <h4 class="mb-1">Sinyal Gücü</h4>
                                                     <p class="text-muted mb-2">Genel trend analizi</p>
-                                                    <span class="badge @GetSignalClass(Model.TechnicalAnalysis.Signals.OverallSignal) fs-6 px-3 py-2">
-                                                        <i class="bi bi-@(Model.TechnicalAnalysis.Signals.OverallSignal == "BUY" ? "arrow-up" : Model.TechnicalAnalysis.Signals.OverallSignal == "SELL" ? "arrow-down" : "dash") me-1"></i>
-                                                        @GetSignalText(Model.TechnicalAnalysis.Signals.OverallSignal)
+                                                    <span class="badge @GetSignalClass(overallSignal) fs-6 px-3 py-2">
+                                                        <i class="bi bi-@(overallSignal == "BUY" ? "arrow-up" : overallSignal == "SELL" ? "arrow-down" : "dash") me-1"></i>
+                                                        @GetSignalText(overallSignal)
                                                     </span>
                                                 </div>
                                             </div>
@@ -176,7 +237,7 @@
                                                             <div class="signal-stat-icon bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 50px; height: 50px;">
                                                                 <i class="bi bi-arrow-up fs-5"></i>
                                                             </div>
-                                                            <h3 class="text-success mb-0">@Model.TechnicalAnalysis.Signals.BuySignals</h3>
+                                                            <h3 class="text-success mb-0">@(currentSignals?.BuySignals ?? 0)</h3>
                                                             <small class="text-muted">Alış Sinyali</small>
                                                         </div>
                                                     </div>
@@ -187,7 +248,7 @@
                                                             <div class="signal-stat-icon bg-warning bg-opacity-10 text-warning rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 50px; height: 50px;">
                                                                 <i class="bi bi-dash fs-5"></i>
                                                             </div>
-                                                            <h3 class="text-warning mb-0">@Model.TechnicalAnalysis.Signals.NeutralSignals</h3>
+                                                            <h3 class="text-warning mb-0">@(currentSignals?.NeutralSignals ?? 0)</h3>
                                                             <small class="text-muted">Nötr</small>
                                                         </div>
                                                     </div>
@@ -197,7 +258,7 @@
                                                         <div class="signal-stat-icon bg-danger bg-opacity-10 text-danger rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 50px; height: 50px;">
                                                             <i class="bi bi-arrow-down fs-5"></i>
                                                         </div>
-                                                        <h3 class="text-danger mb-0">@Model.TechnicalAnalysis.Signals.SellSignals</h3>
+                                                        <h3 class="text-danger mb-0">@(currentSignals?.SellSignals ?? 0)</h3>
                                                         <small class="text-muted">Satış Sinyali</small>
                                                     </div>
                                                 </div>
@@ -314,9 +375,9 @@
                                     </h5>
                                 </div>
                                 <div class="card-body">
-                                    @if (Model.HasData)
+                                    @if (Model.HasData && Model.TechnicalAnalysis != null)
                                     {
-                                        <h4>@Model.TechnicalAnalysis!.Symbol</h4>
+                                        <h4>@Model.TechnicalAnalysis.Symbol</h4>
                                         <h2 class="text-primary">@Model.Symbol</h2>
                                         <h3 class="mb-3">@Model.TechnicalAnalysis.CurrentPrice.ToString("N2") TL</h3>
                                         
@@ -480,8 +541,474 @@
                 console.error('Chart creation error:', error);
             }
         }
+
+        // Analysis type change handler
+        document.querySelectorAll('input[name="enableDataMining"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const isDataMining = this.value === 'true';
+                const titleElement = document.getElementById('analysisTypeTitle');
+                const descriptionElement = document.getElementById('analysisTypeDescription');
+                
+                if (isDataMining) {
+                    titleElement.textContent = 'Veri Madenciliği Analizi';
+                    descriptionElement.innerHTML = 'Makine öğrenmesi, anomali tespiti, clustering ve gelişmiş istatistiksel analiz ile derinlemesine piyasa analizi';
+                } else {
+                    titleElement.textContent = 'Klasik Teknik Analiz';
+                    descriptionElement.innerHTML = 'Geleneksel teknik göstergeler (SMA, EMA, RSI, MACD, Bollinger Bands) ile temel analiz';
+                }
+                
+                // Add visual feedback
+                const analysisInfo = document.getElementById('analysisInfo');
+                analysisInfo.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    analysisInfo.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+
+        // Form submission enhancement
+        document.querySelector('form').addEventListener('submit', function() {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="bi bi-hourglass-split me-1"></i>Analiz Ediliyor...';
+            submitBtn.disabled = true;
+            
+            // Re-enable after 3 seconds as fallback
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 3000);
+        });
     </script>
 }
+
+    <!-- Data Mining Analysis Results -->
+    @if (Model.IsDataMiningAnalysis)
+    {
+        <div class="mt-4">
+            <!-- Advanced Features Section -->
+            @if (Model.HasAdvancedFeatures)
+            {
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-gradient text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-cpu me-2"></i>Gelişmiş Özellikler (Feature Engineering)
+                        </h5>
+                        <small class="opacity-75">Makine öğrenmesi tabanlı piyasa özellikleri</small>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-md-3">
+                                <div class="feature-stat-card h-100 p-3 border rounded-3 bg-light">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <i class="bi bi-graph-up text-primary fs-4"></i>
+                                        <span class="badge bg-primary">Vol</span>
+                                    </div>
+                                    <small class="text-muted d-block">Fiyat Volatilitesi</small>
+                                    <h5 class="mb-0 text-dark">@(Model.DataMiningAnalysis?.AdvancedFeatures?.PriceVolatility.ToString("F2") ?? "N/A")</h5>
+                                    <div class="progress mt-2" style="height: 4px;">
+                                        <div class="progress-bar bg-primary" style="width: @(Math.Min((Model.DataMiningAnalysis?.AdvancedFeatures?.PriceVolatility ?? 0) * 10, 100))%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="feature-stat-card h-100 p-3 border rounded-3 bg-light">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <i class="bi bi-arrow-up-right text-success fs-4"></i>
+                                        <span class="badge bg-success">R²</span>
+                                    </div>
+                                    <small class="text-muted d-block">Trend Gücü</small>
+                                    <h5 class="mb-0 text-dark">@(Model.DataMiningAnalysis?.AdvancedFeatures?.TrendRSquared.ToString("F3") ?? "N/A")</h5>
+                                    <div class="progress mt-2" style="height: 4px;">
+                                        <div class="progress-bar bg-success" style="width: @((Model.DataMiningAnalysis?.AdvancedFeatures?.TrendRSquared ?? 0) * 100)%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="feature-stat-card h-100 p-3 border rounded-3 bg-light">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <i class="bi bi-speedometer text-warning fs-4"></i>
+                                        <span class="badge bg-warning text-dark">MOM</span>
+                                    </div>
+                                    <small class="text-muted d-block">1 Günlük Momentum</small>
+                                    <h5 class="mb-0 @((Model.DataMiningAnalysis?.AdvancedFeatures?.Momentum1D ?? 0) > 0 ? "text-success" : "text-danger")">
+                                        @(Model.DataMiningAnalysis?.AdvancedFeatures?.Momentum1D.ToString("F2") ?? "N/A")%
+                                    </h5>
+                                    <div class="progress mt-2" style="height: 4px;">
+                                        <div class="progress-bar @((Model.DataMiningAnalysis?.AdvancedFeatures?.Momentum1D ?? 0) > 0 ? "bg-success" : "bg-danger")" 
+                                             style="width: @(Math.Abs(Model.DataMiningAnalysis?.AdvancedFeatures?.Momentum1D ?? 0) * 2)%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="feature-stat-card h-100 p-3 border rounded-3 bg-light">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <i class="bi bi-bullseye text-info fs-4"></i>
+                                        <span class="badge bg-info">POS</span>
+                                    </div>
+                                    <small class="text-muted d-block">Fiyat Pozisyonu</small>
+                                    <h5 class="mb-0 text-dark">@(((Model.DataMiningAnalysis?.AdvancedFeatures?.PricePosition ?? 0) * 100).ToString("F1"))%</h5>
+                                    <div class="progress mt-2" style="height: 4px;">
+                                        <div class="progress-bar bg-info" style="width: @((Model.DataMiningAnalysis?.AdvancedFeatures?.PricePosition ?? 0) * 100)%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional Feature Details -->
+                        <div class="mt-4 p-3 bg-light rounded-3">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <small class="text-muted">5 Günlük Momentum:</small>
+                                    <span class="fw-bold @((Model.DataMiningAnalysis?.AdvancedFeatures?.Momentum5D ?? 0) > 0 ? "text-success" : "text-danger")">
+                                        @(Model.DataMiningAnalysis?.AdvancedFeatures?.Momentum5D.ToString("F2") ?? "N/A")%
+                                    </span>
+                                </div>
+                                <div class="col-md-4">
+                                    <small class="text-muted">20 Günlük Momentum:</small>
+                                    <span class="fw-bold @((Model.DataMiningAnalysis?.AdvancedFeatures?.Momentum20D ?? 0) > 0 ? "text-success" : "text-danger")">
+                                        @(Model.DataMiningAnalysis?.AdvancedFeatures?.Momentum20D.ToString("F2") ?? "N/A")%
+                                    </span>
+                                </div>
+                                <div class="col-md-4">
+                                    <small class="text-muted">Fiyat-Hacim Korelasyonu:</small>
+                                    <span class="fw-bold">@(Model.DataMiningAnalysis?.AdvancedFeatures?.PriceVolumeCorrelation.ToString("F3") ?? "N/A")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Chart Patterns Section -->
+            @if (Model.HasChartPatterns)
+            {
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-diagram-3 me-2"></i>Chart Pattern Analizi
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                @if (Model.DataMiningAnalysis?.ChartPatterns?.LastResistance.HasValue == true)
+                                {
+                                    <div class="mb-2">
+                                        <strong>Son Direnç:</strong> 
+                                        <span class="badge bg-danger">@Model.DataMiningAnalysis.ChartPatterns.LastResistance.Value.ToString("F2") TL</span>
+                                    </div>
+                                }
+                                @if (Model.DataMiningAnalysis?.ChartPatterns?.LastSupport.HasValue == true)
+                                {
+                                    <div class="mb-2">
+                                        <strong>Son Destek:</strong> 
+                                        <span class="badge bg-success">@Model.DataMiningAnalysis.ChartPatterns.LastSupport.Value.ToString("F2") TL</span>
+                                    </div>
+                                }
+                            </div>
+                            <div class="col-md-6">
+                                @if (Model.DataMiningAnalysis?.ChartPatterns?.DoubleTop == true)
+                                {
+                                    <div class="alert alert-warning py-2 px-3 mb-2">
+                                        <i class="bi bi-exclamation-triangle me-1"></i>Double Top Pattern Tespit Edildi
+                                    </div>
+                                }
+                                @if (Model.DataMiningAnalysis?.ChartPatterns?.DoubleBottom == true)
+                                {
+                                    <div class="alert alert-info py-2 px-3 mb-2">
+                                        <i class="bi bi-info-circle me-1"></i>Double Bottom Pattern Tespit Edildi
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Anomalies Section -->
+            @if (Model.HasAnomalies)
+            {
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header text-white" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-exclamation-diamond me-2"></i>Anomali Tespiti
+                        </h5>
+                        <small class="opacity-75">Isolation Forest ve İstatistiksel Analiz</small>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-md-3">
+                                <div class="anomaly-stat-card h-100 p-3 border rounded-3 text-center" style="background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);">
+                                    <i class="bi bi-exclamation-triangle text-warning fs-2 mb-2"></i>
+                                    <h3 class="text-dark mb-1">@(Model.DataMiningAnalysis?.Anomalies?.TotalAnomalies ?? 0)</h3>
+                                    <small class="text-dark fw-bold">Toplam Anomali</small>
+                                    <div class="mt-2">
+                                        <span class="badge bg-warning text-dark">
+                                            Son 90 Gün
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="anomaly-stat-card h-100 p-3 border rounded-3 text-center" style="background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);">
+                                    <i class="bi bi-percent text-white fs-2 mb-2"></i>
+                                    <h3 class="text-white mb-1">@((Model.DataMiningAnalysis?.Anomalies?.AnomalyRatio * 100 ?? 0).ToString("F1"))%</h3>
+                                    <small class="text-white fw-bold">Anomali Oranı</small>
+                                    <div class="progress mt-2" style="height: 6px;">
+                                        <div class="progress-bar bg-light" style="width: @((Model.DataMiningAnalysis?.Anomalies?.AnomalyRatio * 100 ?? 0))%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="anomaly-stat-card h-100 p-3 border rounded-3 text-center @(Model.DataMiningAnalysis?.Anomalies?.RecentAnomalies == true ? "bg-danger" : "bg-success")">
+                                    <i class="bi @(Model.DataMiningAnalysis?.Anomalies?.RecentAnomalies == true ? "bi-exclamation-circle" : "bi-check-circle") text-white fs-2 mb-2"></i>
+                                    <div class="text-white">
+                                        <div class="fw-bold mb-1">Son 5 Gün</div>
+                                        <span class="badge @(Model.DataMiningAnalysis?.Anomalies?.RecentAnomalies == true ? "bg-light text-danger" : "bg-light text-success")">
+                                            @(Model.DataMiningAnalysis?.Anomalies?.RecentAnomalies == true ? "Anomali Tespit Edildi" : "Normal Durum")
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="anomaly-stat-card h-100 p-3 border rounded-3">
+                                    <div class="text-center mb-2">
+                                        <i class="bi bi-speedometer2 text-primary fs-4"></i>
+                                    </div>
+                                    <h6 class="text-center mb-2">Anomali Skoru</h6>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="badge @((Model.DataMiningAnalysis?.Anomalies?.AnomalyScore ?? 0) < -0.5 ? "bg-danger" : (Model.DataMiningAnalysis?.Anomalies?.AnomalyScore ?? 0) < 0 ? "bg-warning" : "bg-success") me-2">
+                                            @((Model.DataMiningAnalysis?.Anomalies?.AnomalyScore ?? 0).ToString("F3"))
+                                        </span>
+                                        <small class="text-muted">
+                                            @if ((Model.DataMiningAnalysis?.Anomalies?.AnomalyScore ?? 0) < -0.5)
+                                            {
+                                                <text>Yüksek Risk</text>
+                                            }
+                                            else if ((Model.DataMiningAnalysis?.Anomalies?.AnomalyScore ?? 0) < 0)
+                                            {
+                                                <text>Orta Risk</text>
+                                            }
+                                            else
+                                            {
+                                                <text>Düşük Risk</text>
+                                            }
+                                        </small>
+                                    </div>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar @((Model.DataMiningAnalysis?.Anomalies?.AnomalyScore ?? 0) < -0.5 ? "bg-danger" : (Model.DataMiningAnalysis?.Anomalies?.AnomalyScore ?? 0) < 0 ? "bg-warning" : "bg-success")" 
+                                             style="width: @(Math.Min(Math.Abs(Model.DataMiningAnalysis?.Anomalies?.AnomalyScore ?? 0) * 100, 100))%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional Anomaly Details -->
+                        <div class="mt-4 p-3 bg-light rounded-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="text-muted mb-2">
+                                        <i class="bi bi-bar-chart me-1"></i>İstatistiksel Anomaliler
+                                    </h6>
+                                    <span class="fs-5 fw-bold text-primary">@(Model.DataMiningAnalysis?.Anomalies?.StatisticalAnomalies ?? 0)</span>
+                                    <small class="text-muted ms-2">adet (Z-score > 3)</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-muted mb-2">
+                                        <i class="bi bi-volume-up me-1"></i>Hacim Anomalileri
+                                    </h6>
+                                    <span class="fs-5 fw-bold text-info">@(Model.DataMiningAnalysis?.Anomalies?.VolumeAnomalies ?? 0)</span>
+                                    <small class="text-muted ms-2">adet (Z-score > 3)</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Risk Analysis Section -->
+            @if (Model.HasRiskAnalysis)
+            {
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header text-white" style="background: linear-gradient(135deg, #e17055 0%, #d63031 100%);">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-shield-exclamation me-2"></i>Risk Analizi
+                        </h5>
+                        <small class="opacity-75">Kapsamlı risk değerlendirmesi ve portföy metrikleri</small>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            @if (Model.DataMiningAnalysis?.RiskAnalysis?.ValueAtRisk != null)
+                            {
+                                <div class="col-md-4">
+                                    <div class="risk-card h-100 p-3 border rounded-3" style="background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);">
+                                        <div class="text-center text-white">
+                                            <i class="bi bi-graph-down fs-1 mb-2"></i>
+                                            <h6 class="fw-bold mb-3">Value at Risk (VaR)</h6>
+                                            <div class="mb-2">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="badge bg-light text-dark">95% VaR</span>
+                                                    <span class="fw-bold fs-5">@((Model.DataMiningAnalysis?.RiskAnalysis?.ValueAtRisk?.VAR95 ?? 0) * 100).ToString("F2")%</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="badge bg-light text-dark">99% VaR</span>
+                                                    <span class="fw-bold fs-5">@((Model.DataMiningAnalysis?.RiskAnalysis?.ValueAtRisk?.VAR99 ?? 0) * 100).ToString("F2")%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @if (Model.DataMiningAnalysis?.RiskAnalysis?.Volatility != null)
+                            {
+                                <div class="col-md-4">
+                                    <div class="risk-card h-100 p-3 border rounded-3" style="background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);">
+                                        <div class="text-center text-white">
+                                            <i class="bi bi-activity fs-1 mb-2"></i>
+                                            <h6 class="fw-bold mb-3">Volatilite</h6>
+                                            <div class="mb-2">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="badge bg-light text-dark">Günlük</span>
+                                                    <span class="fw-bold fs-5">@(Model.DataMiningAnalysis.RiskAnalysis.Volatility.Daily * 100).ToString("F2")%</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="badge bg-light text-dark">Yıllık</span>
+                                                    <span class="fw-bold fs-5">@(Model.DataMiningAnalysis.RiskAnalysis.Volatility.Annualized * 100).ToString("F2")%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="col-md-4">
+                                <div class="risk-card h-100 p-3 border rounded-3" style="background: linear-gradient(135deg, #00b894 0%, #00a085 100%);">
+                                    <div class="text-center text-white">
+                                        <i class="bi bi-trophy fs-1 mb-2"></i>
+                                        <h6 class="fw-bold mb-3">Performans Metrikleri</h6>
+                                        @if (Model.DataMiningAnalysis?.RiskAnalysis?.SharpeRatio.HasValue == true)
+                                        {
+                                            <div class="mb-2">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="badge bg-light text-dark">Sharpe Oranı</span>
+                                                    <span class="fw-bold fs-5 @(Model.DataMiningAnalysis.RiskAnalysis.SharpeRatio > 1 ? "text-light" : Model.DataMiningAnalysis.RiskAnalysis.SharpeRatio > 0 ? "text-light" : "text-warning")">
+                                                        @Model.DataMiningAnalysis.RiskAnalysis.SharpeRatio.Value.ToString("F2")
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        }
+                                        @if (Model.DataMiningAnalysis?.RiskAnalysis?.MaxDrawdown.HasValue == true)
+                                        {
+                                            <div>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <span class="badge bg-light text-dark">Max Düşüş</span>
+                                                    <span class="fw-bold fs-5">@(Model.DataMiningAnalysis.RiskAnalysis.MaxDrawdown.Value * 100).ToString("F2")%</span>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Risk Interpretation -->
+                        <div class="mt-4 p-3 bg-light rounded-3">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h6 class="text-muted mb-1">
+                                        <i class="bi bi-lightbulb me-1"></i>Risk Değerlendirmesi
+                                    </h6>
+                                    @{
+                                        var sharpeRatio = Model.DataMiningAnalysis?.RiskAnalysis?.SharpeRatio ?? 0;
+                                        var volatility = (Model.DataMiningAnalysis?.RiskAnalysis?.Volatility?.Annualized ?? 0) * 100;
+                                        string riskLevel = "Orta";
+                                        string riskColor = "warning";
+                                        
+                                        if (sharpeRatio > 1 && volatility < 20)
+                                        {
+                                            riskLevel = "Düşük"; riskColor = "success";
+                                        }
+                                        else if (sharpeRatio < 0 || volatility > 40)
+                                        {
+                                            riskLevel = "Yüksek"; riskColor = "danger";
+                                        }
+                                    }
+                                    <span class="badge bg-@riskColor fs-6 me-2">@riskLevel Risk</span>
+                                    <small class="text-muted">
+                                        @if (riskLevel == "Düşük")
+                                        {
+                                            <text>Bu hisse düşük risk profili gösteriyor. Volatilite kontrollü ve Sharpe oranı kabul edilebilir seviyede.</text>
+                                        }
+                                        else if (riskLevel == "Yüksek")
+                                        {
+                                            <text>Bu hisse yüksek risk profili gösteriyor. Yatırım öncesi dikkatli analiz yapılması önerilir.</text>
+                                        }
+                                        else
+                                        {
+                                            <text>Bu hisse orta düzey risk profili gösteriyor. Risk toleransınıza uygun olup olmadığını değerlendirin.</text>
+                                        }
+                                    </small>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <div class="circular-progress" data-value="@((100 - Math.Min(volatility, 100)).ToString("F0"))">
+                                        <span class="text-@riskColor fw-bold">Risk Skoru</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Predictions Section -->
+            @if (Model.HasPredictions)
+            {
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-graph-up-arrow me-2"></i>Fiyat Tahminleri
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.DataMiningAnalysis?.Predictions?.LinearTrend != null)
+                        {
+                            <div class="mb-3">
+                                <h6>Linear Trend Analizi</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <small class="text-muted">Trend Eğimi:</small>
+                                        <span class="fw-bold @(Model.DataMiningAnalysis.Predictions.LinearTrend.Slope > 0 ? "text-success" : "text-danger")">
+                                            @Model.DataMiningAnalysis.Predictions.LinearTrend.Slope.ToString("F4")
+                                        </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <small class="text-muted">R² Score:</small>
+                                        <span class="fw-bold">@Model.DataMiningAnalysis.Predictions.LinearTrend.R2Score.ToString("F3")</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @if (Model.DataMiningAnalysis?.Predictions?.MovingAverageSignal != null)
+                        {
+                            <div class="mb-3">
+                                <h6>Hareketli Ortalama Sinyali</h6>
+                                <span class="badge @(Model.DataMiningAnalysis.Predictions.MovingAverageSignal.Signal == "bullish" ? "bg-success" : "bg-danger") fs-6">
+                                    @(Model.DataMiningAnalysis.Predictions.MovingAverageSignal.Signal == "bullish" ? "Yükseliş" : "Düşüş") Trendi
+                                </span>
+                                <span class="ms-2 fw-bold">Momentum: @Model.DataMiningAnalysis.Predictions.MovingAverageSignal.Momentum.ToString("F2")%</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
 
 <style>
     #priceChart {
@@ -598,6 +1125,61 @@
     .signal-stat:nth-child(2) { animation-delay: 0.2s; }
     .signal-stat:nth-child(3) { animation-delay: 0.3s; }
 
+    /* Stat Card Styles */
+    .stat-card {
+        padding: 1rem;
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border-color: #007bff;
+    }
+
+    .stat-card small {
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+
+    .stat-card h6 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-top: 0.25rem;
+    }
+
+    /* Data Mining Analysis Enhancements */
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    }
+
+    /* Form Enhancement */
+    .form-check-container {
+        background: #f8f9fa;
+        padding: 0.5rem;
+        border-radius: 6px;
+        border: 1px solid #dee2e6;
+    }
+
+    .form-check-container .form-check {
+        margin-bottom: 0.25rem;
+    }
+
+    .form-check-container .form-check:last-child {
+        margin-bottom: 0;
+    }
+
+    /* Analysis Info Dynamic Update */
+    #analysisInfo {
+        transition: all 0.3s ease;
+    }
+
     /* Responsive adjustments */
     @@media (max-width: 768px) {
         .signal-meter-container {
@@ -613,6 +1195,10 @@
         .signal-stat-icon {
             width: 40px !important;
             height: 40px !important;
+        }
+
+        .stat-card {
+            margin-bottom: 1rem;
         }
     }
 </style> 

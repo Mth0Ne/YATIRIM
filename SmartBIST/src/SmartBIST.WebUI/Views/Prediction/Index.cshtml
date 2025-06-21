@@ -38,11 +38,11 @@
                                 <small class="text-muted">Doğruluk:</small>
                                 <div class="progress">
                                     <div class="progress-bar bg-success" role="progressbar" 
-                                         style="width: @(prediction.Accuracy * 100)%;" 
-                                         aria-valuenow="@(prediction.Accuracy * 100)" 
+                                         style="width: @(prediction.Accuracy)%;" 
+                                         aria-valuenow="@(prediction.Accuracy)" 
                                          aria-valuemin="0" 
                                          aria-valuemax="100">
-                                        @($"{prediction.Accuracy:P1}")
+                                        @($"{prediction.Accuracy:N1}%")
                                     </div>
                                 </div>
                             </div>

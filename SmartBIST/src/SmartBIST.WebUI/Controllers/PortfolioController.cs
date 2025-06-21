@@ -306,6 +306,20 @@ public class PortfolioController : Controller
                 };
                 
                 await _portfolioService.UpdatePortfolioStockAsync(updateDto);
+                
+                // Transaction kaydı oluştur
+                var transactionDto = new TransactionDto
+                {
+                    PortfolioId = PortfolioId,
+                    StockId = stock.Id,
+                    Type = TransactionType.Buy,
+                    Price = AverageCost,
+                    Quantity = Quantity,
+                    TransactionDate = DateTime.Now,
+                    Notes = $"Mevcut hisse güncellendi: {existingStock.Quantity} -> {totalShares}"
+                };
+                await _portfolioService.AddTransactionAsync(transactionDto, userId);
+                
                 TempData["SuccessMessage"] = $"{StockSymbol} hissesi portföyde güncellendi. Yeni adet: {totalShares}, Yeni ortalama maliyet: {newAverageCost.ToString("N2", new System.Globalization.CultureInfo("tr-TR"))}";
             }
             else
@@ -323,6 +337,20 @@ public class PortfolioController : Controller
                 };
                 
                 await _portfolioService.CreatePortfolioStockAsync(portfolioStockDto);
+                
+                // Transaction kaydı oluştur
+                var transactionDto = new TransactionDto
+                {
+                    PortfolioId = PortfolioId,
+                    StockId = stock.Id,
+                    Type = TransactionType.Buy,
+                    Price = AverageCost,
+                    Quantity = Quantity,
+                    TransactionDate = DateTime.Now,
+                    Notes = "Yeni hisse eklendi"
+                };
+                await _portfolioService.AddTransactionAsync(transactionDto, userId);
+                
                 TempData["SuccessMessage"] = $"{StockSymbol} hissesi portföye başarıyla eklendi.";
             }
         }
@@ -366,7 +394,35 @@ public class PortfolioController : Controller
             return NotFound();
         }
         
-        await _portfolioService.RemoveStockFromPortfolioAsync(id);
+        try
+        {
+            // Transaction kaydı için hisse bilgilerini al
+            var portfolioStockDto = await _portfolioService.GetPortfolioStockByIdAsync(id);
+            if (portfolioStockDto != null)
+            {
+                // Satış transaction kaydı oluştur
+                var transactionDto = new TransactionDto
+                {
+                    PortfolioId = portfolioId,
+                    StockId = portfolioStockDto.StockId,
+                    Type = TransactionType.Sell,
+                    Price = portfolioStockDto.CurrentPrice > 0 ? portfolioStockDto.CurrentPrice : portfolioStockDto.PurchasePrice,
+                    Quantity = portfolioStockDto.Quantity,
+                    TransactionDate = DateTime.Now,
+                    Notes = "Hisse portföyden çıkarıldı"
+                };
+                await _portfolioService.AddTransactionAsync(transactionDto, userId);
+            }
+            
+            // Doğru overload'ı kullan (userId ile)
+            await _portfolioService.RemoveStockFromPortfolioAsync(id, userId);
+            TempData["SuccessMessage"] = "Hisse başarıyla portföyden çıkarıldı.";
+        }
+        catch (Exception ex)
+        {
+            TempData["ErrorMessage"] = $"Hisse çıkarılırken bir hata oluştu: {ex.Message}";
+        }
+        
         return RedirectToAction(nameof(Details), new { id = portfolioId });
     }
     

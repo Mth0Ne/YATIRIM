@@ -1,0 +1,188 @@
+2025-06-20 12:24:27,319 - stock_prediction_api - INFO - Hisse Tahmin API sunucusu başlatılıyor
+2025-06-20 12:24:27,332 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.200.162.249:5000
+2025-06-20 12:24:27,332 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-20 12:24:43,047 - stock_prediction_api - INFO - Tahmin isteği: AFYON.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 12:24:43,048 - stock_prediction_api - INFO - AFYON.IS için mevcut bir model bulunamadı.
+2025-06-20 12:24:43,048 - stock_prediction_api - INFO - AFYON.IS için veri çekiliyor: 2015-06-23 - 2025-06-20
+2025-06-20 12:24:43,871 - stock_prediction_api - INFO - AFYON.IS için model eğitiliyor...
+2025-06-20 12:24:43,873 - stock_prediction_api - INFO - Scaler kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/AFYON.IS_scaler.gz
+2025-06-20 12:27:03,577 - absl - WARNING - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+2025-06-20 12:27:03,600 - stock_prediction_api - INFO - Model eğitimi tamamlandı ve kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/AFYON.IS_model.h5
+2025-06-20 12:27:04,722 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 12:27:04] "GET /predict?symbol=AFYON.IS&start=2024-11-08&end=2025-06-20 HTTP/1.1" 200 -
+2025-06-20 12:27:35,139 - stock_prediction_api - INFO - Tahmin isteği: AFYON.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 12:27:35,140 - stock_prediction_api - INFO - Mevcut model yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/AFYON.IS_model.h5
+2025-06-20 12:27:35,200 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-06-20 12:27:35,209 - stock_prediction_api - INFO - Mevcut scaler yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/AFYON.IS_scaler.gz
+2025-06-20 12:27:35,210 - stock_prediction_api - INFO - AFYON.IS için veri çekiliyor: 2015-06-23 - 2025-06-20
+2025-06-20 12:27:35,242 - stock_prediction_api - INFO - Mevcut model kullanılıyor, performans metrikleri hesaplanıyor...
+2025-06-20 12:27:36,351 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 12:27:36] "GET /predict?symbol=AFYON.IS&start=2024-11-08&end=2025-06-20 HTTP/1.1" 200 -
+2025-06-20 12:32:35,058 - stock_prediction_api - INFO - Tahmin isteği: AFYON.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 12:32:35,058 - stock_prediction_api - INFO - Mevcut model yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/AFYON.IS_model.h5
+2025-06-20 12:32:35,107 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-06-20 12:32:35,111 - stock_prediction_api - INFO - Mevcut scaler yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/AFYON.IS_scaler.gz
+2025-06-20 12:32:35,112 - stock_prediction_api - INFO - AFYON.IS için veri çekiliyor: 2015-06-23 - 2025-06-20
+2025-06-20 12:32:35,149 - stock_prediction_api - INFO - Mevcut model kullanılıyor, performans metrikleri hesaplanıyor...
+2025-06-20 12:32:36,259 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 12:32:36] "GET /predict?symbol=AFYON.IS&start=2024-10-21&end=2025-06-20 HTTP/1.1" 200 -
+2025-06-20 12:40:31,847 - stock_prediction_api - INFO - Hisse Tahmin API sunucusu başlatılıyor
+2025-06-20 12:40:31,857 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.200.162.249:5000
+2025-06-20 12:40:31,857 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-20 12:40:35,786 - stock_prediction_api - INFO - Tahmin isteği: AEFES.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 12:40:35,786 - stock_prediction_api - INFO - AEFES.IS için mevcut bir model bulunamadı.
+2025-06-20 12:40:35,786 - stock_prediction_api - INFO - AEFES.IS için veri çekiliyor: 2015-06-23 - 2025-06-20
+2025-06-20 12:40:36,575 - stock_prediction_api - INFO - AEFES.IS için model eğitiliyor...
+2025-06-20 12:40:36,576 - stock_prediction_api - INFO - Scaler kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/AEFES.IS_scaler.gz
+2025-06-20 12:42:02,142 - absl - WARNING - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+2025-06-20 12:42:02,164 - stock_prediction_api - INFO - Model eğitimi tamamlandı ve kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/AEFES.IS_model.h5
+2025-06-20 12:42:03,275 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 12:42:03] "GET /predict?symbol=AEFES.IS&start=2024-12-05&end=2025-06-20 HTTP/1.1" 200 -
+2025-06-20 13:07:06,854 - stock_prediction_api - INFO - Hisse Tahmin API sunucusu başlatılıyor
+2025-06-20 13:07:06,865 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.200.162.249:5000
+2025-06-20 13:07:06,866 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-20 13:08:50,429 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 13:08:50] "GET / HTTP/1.1" 200 -
+2025-06-20 13:08:50,472 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 13:08:50] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-06-20 13:11:08,730 - stock_prediction_api - INFO - Tahmin isteği: TTRAK.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 13:11:08,730 - stock_prediction_api - INFO - TTRAK.IS için mevcut bir model bulunamadı.
+2025-06-20 13:11:08,730 - stock_prediction_api - INFO - TTRAK.IS için veri çekiliyor: 2015-06-23 - 2025-06-20
+2025-06-20 13:11:09,794 - stock_prediction_api - INFO - TTRAK.IS için model eğitiliyor...
+2025-06-20 13:11:09,796 - stock_prediction_api - INFO - Scaler kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/TTRAK.IS_scaler.gz
+2025-06-20 13:12:58,418 - absl - WARNING - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+2025-06-20 13:12:58,439 - stock_prediction_api - INFO - Model eğitimi tamamlandı ve kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/TTRAK.IS_model.h5
+2025-06-20 13:12:59,321 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 13:12:59] "GET /predict?symbol=TTRAK.IS&start=2024-12-04&end=2025-06-20 HTTP/1.1" 200 -
+2025-06-20 13:13:14,792 - stock_prediction_api - INFO - Tahmin isteği: TTRAK.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 13:13:14,792 - stock_prediction_api - INFO - Mevcut model yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/TTRAK.IS_model.h5
+2025-06-20 13:13:14,859 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-06-20 13:13:14,869 - stock_prediction_api - INFO - Mevcut scaler yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/TTRAK.IS_scaler.gz
+2025-06-20 13:13:14,870 - stock_prediction_api - INFO - TTRAK.IS için veri çekiliyor: 2015-06-23 - 2025-06-20
+2025-06-20 13:13:14,939 - stock_prediction_api - INFO - Mevcut model kullanılıyor, performans metrikleri hesaplanıyor...
+2025-06-20 13:13:15,978 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 13:13:15] "GET /predict?symbol=TTRAK.IS&start=2024-12-04&end=2025-06-20 HTTP/1.1" 200 -
+2025-06-20 13:15:52,849 - stock_prediction_api - INFO - Tahmin isteği: ARCLK.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 13:15:52,849 - stock_prediction_api - INFO - ARCLK.IS için mevcut bir model bulunamadı.
+2025-06-20 13:15:52,850 - stock_prediction_api - INFO - ARCLK.IS için veri çekiliyor: 2015-06-23 - 2025-06-20
+2025-06-20 13:15:53,410 - stock_prediction_api - INFO - ARCLK.IS için model eğitiliyor...
+2025-06-20 13:15:53,413 - stock_prediction_api - INFO - Scaler kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/ARCLK.IS_scaler.gz
+2025-06-20 13:18:19,937 - absl - WARNING - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+2025-06-20 13:18:19,957 - stock_prediction_api - INFO - Model eğitimi tamamlandı ve kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/ARCLK.IS_model.h5
+2025-06-20 13:18:20,950 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 13:18:20] "GET /predict?symbol=ARCLK.IS&start=2025-01-01&end=2025-07-20 HTTP/1.1" 200 -
+2025-06-20 13:21:26,623 - stock_prediction_api - INFO - Hisse Tahmin API sunucusu başlatılıyor
+2025-06-20 13:21:26,635 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.200.162.249:5000
+2025-06-20 13:21:26,635 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-20 13:21:29,029 - stock_prediction_api - INFO - Tahmin isteği: ARCLK.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 13:21:29,029 - stock_prediction_api - INFO - Mevcut model yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/ARCLK.IS_model.h5
+2025-06-20 13:21:29,184 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-06-20 13:21:29,191 - stock_prediction_api - INFO - Mevcut scaler yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/ARCLK.IS_scaler.gz
+2025-06-20 13:21:29,191 - stock_prediction_api - INFO - ARCLK.IS için veri çekiliyor: 2020-06-21 - 2025-06-20
+2025-06-20 13:21:30,005 - stock_prediction_api - INFO - Mevcut model kullanılıyor, performans metrikleri hesaplanıyor...
+2025-06-20 13:21:31,184 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 13:21:31] "GET /predict?symbol=ARCLK.IS&start=2025-01-01&end=2025-07-20 HTTP/1.1" 200 -
+2025-06-20 13:22:03,301 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 13:22:03] "GET / HTTP/1.1" 200 -
+2025-06-20 13:22:26,847 - stock_prediction_api - INFO - Tahmin isteği: ARCLK.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 13:22:26,847 - stock_prediction_api - INFO - Mevcut model yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/ARCLK.IS_model.h5
+2025-06-20 13:22:26,892 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-06-20 13:22:26,894 - stock_prediction_api - INFO - Mevcut scaler yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/ARCLK.IS_scaler.gz
+2025-06-20 13:22:26,895 - stock_prediction_api - INFO - ARCLK.IS için veri çekiliyor: 2020-06-21 - 2025-06-20
+2025-06-20 13:22:26,920 - stock_prediction_api - INFO - Mevcut model kullanılıyor, performans metrikleri hesaplanıyor...
+2025-06-20 13:22:27,987 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 13:22:27] "GET /predict?symbol=ARCLK.IS&start=2025-01-01&end=2025-06-20 HTTP/1.1" 200 -
+2025-06-20 13:22:36,573 - stock_prediction_api - INFO - Tahmin isteği: ALARK.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 13:22:36,573 - stock_prediction_api - INFO - ALARK.IS için mevcut bir model bulunamadı.
+2025-06-20 13:22:36,573 - stock_prediction_api - INFO - ALARK.IS için veri çekiliyor: 2020-06-21 - 2025-06-20
+2025-06-20 13:22:37,357 - stock_prediction_api - INFO - ALARK.IS için model eğitiliyor...
+2025-06-20 13:22:37,359 - stock_prediction_api - INFO - Scaler kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/ALARK.IS_scaler.gz
+2025-06-20 13:23:45,104 - absl - WARNING - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+2025-06-20 13:23:45,133 - stock_prediction_api - INFO - Model eğitimi tamamlandı ve kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/ALARK.IS_model.h5
+2025-06-20 13:23:46,400 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 13:23:46] "GET /predict?symbol=ALARK.IS&start=2025-01-01&end=2025-06-20 HTTP/1.1" 200 -
+2025-06-20 13:24:20,291 - stock_prediction_api - INFO - Tahmin isteği: EKGYO.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 13:24:20,291 - stock_prediction_api - INFO - EKGYO.IS için mevcut bir model bulunamadı.
+2025-06-20 13:24:20,291 - stock_prediction_api - INFO - EKGYO.IS için veri çekiliyor: 2020-06-21 - 2025-06-20
+2025-06-20 13:24:20,745 - stock_prediction_api - INFO - EKGYO.IS için model eğitiliyor...
+2025-06-20 13:24:20,747 - stock_prediction_api - INFO - Scaler kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/EKGYO.IS_scaler.gz
+2025-06-20 13:24:43,616 - absl - WARNING - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+2025-06-20 13:24:43,633 - stock_prediction_api - INFO - Model eğitimi tamamlandı ve kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/EKGYO.IS_model.h5
+2025-06-20 13:24:44,645 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 13:24:44] "GET /predict?symbol=EKGYO.IS&start=2025-01-01&end=2025-06-20 HTTP/1.1" 200 -
+2025-06-20 13:25:53,277 - stock_prediction_api - INFO - Tahmin isteği: EKGYO.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 13:25:53,277 - stock_prediction_api - INFO - Mevcut model yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/EKGYO.IS_model.h5
+2025-06-20 13:25:53,329 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-06-20 13:25:53,333 - stock_prediction_api - INFO - Mevcut scaler yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/EKGYO.IS_scaler.gz
+2025-06-20 13:25:53,333 - stock_prediction_api - INFO - EKGYO.IS için veri çekiliyor: 2020-06-21 - 2025-06-20
+2025-06-20 13:25:53,358 - stock_prediction_api - INFO - Mevcut model kullanılıyor, performans metrikleri hesaplanıyor...
+2025-06-20 13:25:54,441 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 13:25:54] "GET /predict?symbol=EKGYO.IS&start=2025-01-01&end=2025-06-20 HTTP/1.1" 200 -
+2025-06-20 13:26:08,292 - stock_prediction_api - INFO - Tahmin isteği: EKGYO.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 13:26:08,292 - stock_prediction_api - INFO - Mevcut model yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/EKGYO.IS_model.h5
+2025-06-20 13:26:08,378 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-06-20 13:26:08,381 - stock_prediction_api - INFO - Mevcut scaler yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/EKGYO.IS_scaler.gz
+2025-06-20 13:26:08,381 - stock_prediction_api - INFO - EKGYO.IS için veri çekiliyor: 2020-06-21 - 2025-06-20
+2025-06-20 13:26:08,409 - stock_prediction_api - INFO - Mevcut model kullanılıyor, performans metrikleri hesaplanıyor...
+2025-06-20 13:26:09,526 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 13:26:09] "GET /predict?symbol=EKGYO.IS&start=2024-10-03&end=2025-07-20 HTTP/1.1" 200 -
+2025-06-20 13:31:11,030 - stock_prediction_api - INFO - Tahmin isteği: THYAO.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 13:31:11,030 - stock_prediction_api - INFO - THYAO.IS için mevcut bir model bulunamadı.
+2025-06-20 13:31:11,030 - stock_prediction_api - INFO - THYAO.IS için veri çekiliyor: 2020-06-21 - 2025-06-20
+2025-06-20 13:31:11,644 - stock_prediction_api - INFO - THYAO.IS için model eğitiliyor...
+2025-06-20 13:31:11,645 - stock_prediction_api - INFO - Scaler kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/THYAO.IS_scaler.gz
+2025-06-20 13:32:11,604 - absl - WARNING - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+2025-06-20 13:32:11,618 - stock_prediction_api - INFO - Model eğitimi tamamlandı ve kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/THYAO.IS_model.h5
+2025-06-20 13:32:12,490 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 13:32:12] "GET /predict?symbol=THYAO.IS&start=2024-12-05&end=2025-07-20 HTTP/1.1" 200 -
+2025-06-20 13:35:01,068 - stock_prediction_api - INFO - Hisse Tahmin API sunucusu başlatılıyor
+2025-06-20 13:35:01,084 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.200.162.249:5000
+2025-06-20 13:35:01,084 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-20 13:35:25,939 - stock_prediction_api - INFO - Tahmin isteği: FROTO.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 13:35:25,939 - stock_prediction_api - INFO - FROTO.IS için mevcut bir model bulunamadı.
+2025-06-20 13:35:25,939 - stock_prediction_api - INFO - FROTO.IS için veri çekiliyor: 2018-06-22 - 2025-06-20
+2025-06-20 13:35:26,847 - stock_prediction_api - INFO - FROTO.IS için model eğitiliyor...
+2025-06-20 13:35:26,848 - stock_prediction_api - INFO - Scaler kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/FROTO.IS_scaler.gz
+2025-06-20 13:36:53,454 - absl - WARNING - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+2025-06-20 13:36:53,473 - stock_prediction_api - INFO - Model eğitimi tamamlandı ve kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/FROTO.IS_model.h5
+2025-06-20 13:36:54,201 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 13:36:54] "GET /predict?symbol=FROTO.IS&start=2024-10-04&end=2025-06-20 HTTP/1.1" 200 -
+2025-06-20 13:38:47,891 - stock_prediction_api - INFO - Hisse Tahmin API sunucusu başlatılıyor
+2025-06-20 13:38:47,902 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.200.162.249:5000
+2025-06-20 13:38:47,902 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-20 13:50:07,257 - stock_prediction_api - INFO - Tahmin isteği: TUPRS.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 13:50:07,258 - stock_prediction_api - INFO - TUPRS.IS için mevcut bir model bulunamadı.
+2025-06-20 13:50:07,258 - stock_prediction_api - INFO - TUPRS.IS için veri çekiliyor: 2018-06-22 - 2025-06-20
+2025-06-20 13:50:08,267 - stock_prediction_api - INFO - TUPRS.IS için model eğitiliyor...
+2025-06-20 13:50:08,268 - stock_prediction_api - INFO - Scaler kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/TUPRS.IS_scaler.gz
+2025-06-20 13:51:36,843 - absl - WARNING - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+2025-06-20 13:51:36,863 - stock_prediction_api - INFO - Model eğitimi tamamlandı ve kaydedildi: /home/alperentoker/Projects/YATIRIM/python_services/api/models/TUPRS.IS_model.h5
+2025-06-20 13:51:37,601 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 13:51:37] "GET /predict?symbol=TUPRS.IS&start=2024-11-01&end=2025-07-20 HTTP/1.1" 200 -
+2025-06-20 14:39:12,559 - stock_prediction_api - INFO - Tahmin isteği: THYAO.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 14:39:12,560 - stock_prediction_api - INFO - Mevcut model yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/THYAO.IS_model.h5
+2025-06-20 14:39:12,605 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-06-20 14:39:12,614 - stock_prediction_api - INFO - Mevcut scaler yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/THYAO.IS_scaler.gz
+2025-06-20 14:39:12,615 - stock_prediction_api - INFO - THYAO.IS için veri çekiliyor: 2018-06-22 - 2025-06-20
+2025-06-20 14:39:12,964 - stock_prediction_api - INFO - Mevcut model kullanılıyor, performans metrikleri hesaplanıyor...
+2025-06-20 14:39:13,734 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 14:39:13] "GET /predict?symbol=THYAO.IS&start=2025-01-01&end=2025-07-20 HTTP/1.1" 200 -
+2025-06-20 14:49:54,020 - stock_prediction_api - INFO - Tahmin isteği: THYAO.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 14:49:54,020 - stock_prediction_api - INFO - Mevcut model yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/THYAO.IS_model.h5
+2025-06-20 14:49:54,058 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-06-20 14:49:54,060 - stock_prediction_api - INFO - Mevcut scaler yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/THYAO.IS_scaler.gz
+2025-06-20 14:49:54,060 - stock_prediction_api - INFO - THYAO.IS için veri çekiliyor: 2018-06-22 - 2025-06-20
+2025-06-20 14:49:54,084 - stock_prediction_api - INFO - Mevcut model kullanılıyor, performans metrikleri hesaplanıyor...
+2025-06-20 14:49:54,778 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 14:49:54] "GET /predict?symbol=THYAO.IS&start=2025-01-02&end=2025-07-20 HTTP/1.1" 200 -
+2025-06-20 14:50:46,413 - stock_prediction_api - INFO - Tahmin isteği: THYAO.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 14:50:46,413 - stock_prediction_api - INFO - Mevcut model yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/THYAO.IS_model.h5
+2025-06-20 14:50:46,451 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-06-20 14:50:46,453 - stock_prediction_api - INFO - Mevcut scaler yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/THYAO.IS_scaler.gz
+2025-06-20 14:50:46,454 - stock_prediction_api - INFO - THYAO.IS için veri çekiliyor: 2018-06-22 - 2025-06-20
+2025-06-20 14:50:46,467 - stock_prediction_api - INFO - Mevcut model kullanılıyor, performans metrikleri hesaplanıyor...
+2025-06-20 14:50:47,213 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 14:50:47] "GET /predict?symbol=THYAO.IS&start=2025-01-20&end=2025-07-20 HTTP/1.1" 200 -
+2025-06-20 14:51:05,363 - stock_prediction_api - INFO - Tahmin isteği: EKGYO.IS, Yeniden Eğitim Zorunlu: False
+2025-06-20 14:51:05,364 - stock_prediction_api - INFO - Mevcut model yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/EKGYO.IS_model.h5
+2025-06-20 14:51:05,529 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-06-20 14:51:05,531 - stock_prediction_api - INFO - Mevcut scaler yükleniyor: /home/alperentoker/Projects/YATIRIM/python_services/api/models/EKGYO.IS_scaler.gz
+2025-06-20 14:51:05,532 - stock_prediction_api - INFO - EKGYO.IS için veri çekiliyor: 2018-06-22 - 2025-06-20
+2025-06-20 14:51:06,025 - stock_prediction_api - INFO - Mevcut model kullanılıyor, performans metrikleri hesaplanıyor...
+2025-06-20 14:51:06,729 - werkzeug - INFO - 127.0.0.1 - - [20/Jun/2025 14:51:06] "GET /predict?symbol=EKGYO.IS&start=2025-01-01&end=2025-07-20 HTTP/1.1" 200 -

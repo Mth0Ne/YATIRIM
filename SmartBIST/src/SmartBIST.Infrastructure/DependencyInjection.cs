@@ -49,8 +49,16 @@ public static class DependencyInjection
         // Register Stock Scraper Service
         services.AddHttpClient<IStockScraperService, StockScraperService>();
         
-        // Register Stock Prediction API Service
-        services.AddHttpClient<IPredictionApiService, PredictionApiService>();
+        // Register Stock Prediction API Service with extended timeout for model training
+        services.AddHttpClient<IPredictionApiService, PredictionApiService>()
+            .ConfigureHttpClient((serviceProvider, client) =>
+            {
+                var config = serviceProvider.GetService<IConfiguration>();
+                var baseUrl = config?["ApiSettings:StockPredictionApiUrl"] ?? "http://localhost:5000";
+                client.BaseAddress = new Uri(baseUrl);
+                client.Timeout = TimeSpan.FromMinutes(10); // Extended timeout for AI model training
+                client.DefaultRequestHeaders.Add("User-Agent", "SmartBIST-Prediction/1.0");
+            });
         
         // Register background service for stock data updates
         services.AddHostedService<StockDataUpdateService>();
@@ -67,6 +75,17 @@ public static class DependencyInjection
                 client.BaseAddress = new Uri(baseUrl);
                 client.Timeout = TimeSpan.FromSeconds(60); // Increase timeout for Python API
                 client.DefaultRequestHeaders.Add("User-Agent", "SmartBIST/1.0");
+            });
+
+        // Data Mining Analysis Service
+        services.AddHttpClient<IDataMiningAnalysisService, DataMiningAnalysisService>()
+            .ConfigureHttpClient((serviceProvider, client) =>
+            {
+                var config = serviceProvider.GetService<IConfiguration>();
+                var baseUrl = config?["PythonApi:BaseUrl"] ?? "http://localhost:5001";
+                client.BaseAddress = new Uri(baseUrl);
+                client.Timeout = TimeSpan.FromSeconds(120); // Longer timeout for complex data mining operations
+                client.DefaultRequestHeaders.Add("User-Agent", "SmartBIST-DataMining/1.0");
             });
         
         

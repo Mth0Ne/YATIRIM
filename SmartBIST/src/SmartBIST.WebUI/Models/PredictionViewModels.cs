@@ -29,7 +29,7 @@ public class CreatePredictionViewModel
     
     [Display(Name = "Confidence Level")]
     [Range(0.8, 0.99, ErrorMessage = "Confidence level must be between 0.8 and 0.99")]
-    public double? ConfidenceLevel { get; set; } = 0.95;
+    public double? ConfidenceLevel { get; set; } 
     
     [Display(Name = "Include Technical Indicators")]
     public bool IncludeTechnicalIndicators { get; set; } = true;

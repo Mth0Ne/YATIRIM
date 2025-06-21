@@ -516,7 +516,7 @@
                                         <div class="text-center mb-3">
                                             <div class="h4 mb-2">
                                                 @{
-                                                    var predictionText = prediction["prediction"].ToString();
+                                                    var predictionText = prediction["prediction"]?.ToString() ?? "";
                                                     var iconClass = predictionText.Contains("Yükseliş") ? "bi-arrow-up-circle-fill text-success" : 
                                                                   predictionText.Contains("Düşüş") ? "bi-arrow-down-circle-fill text-danger" : 
                                                                   "bi-arrow-left-right text-warning";

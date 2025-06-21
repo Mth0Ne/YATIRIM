@@ -305,9 +305,28 @@ public class PredictionController : Controller
                 Parameters = viewModel.GetParametersDictionary()
             };
             
+            _logger.LogInformation("Tahmin işlemi başlatılıyor. StockId: {StockId}, UserId: {UserId}", 
+                viewModel.StockId, userId);
+            
             var prediction = await _predictionService.GetPricePredictionAsync(requestDto, userId!);
             
-            return RedirectToAction(nameof(Details), new { id = prediction.Id });
+            if (prediction.Success)
+            {
+                _logger.LogInformation("Tahmin başarıyla oluşturuldu. PredictionId: {PredictionId}", prediction.Id);
+                TempData["SuccessMessage"] = "Tahmin başarıyla oluşturuldu!";
+                return RedirectToAction(nameof(Details), new { id = prediction.Id });
+            }
+            else
+            {
+                _logger.LogWarning("Tahmin oluşturma başarısız. Error: {ErrorMessage}", prediction.ErrorMessage);
+                ModelState.AddModelError("", prediction.ErrorMessage ?? "Tahmin oluşturulurken bir hata oluştu.");
+                
+                var stocks = await _stockService.GetAllStocksAsync();
+                ViewBag.Stocks = new SelectList(stocks, "Id", "Symbol");
+                ViewBag.Models = new SelectList(new[] { new { Id = 0, Name = "LSTM" } }, "Id", "Name");
+                
+                return View(viewModel);
+            }
         }
         catch (HttpRequestException ex)
         {

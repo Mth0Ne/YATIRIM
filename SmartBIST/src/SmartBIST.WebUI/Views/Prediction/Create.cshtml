@@ -40,7 +40,33 @@
                         </div>
                     }
                     
-                    <form asp-action="Create" method="post">
+                    <!-- Tahmin Süreci Hakkında Bilgilendirme -->
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>Tahmin Süreci Hakkında:</strong>
+                        <p class="mb-1">• Model eğitimi ve tahmin süreci 2-5 dakika sürebilir</p>
+                        <p class="mb-1">• İşlem sırasında sayfayı kapatmayın</p>
+                        <p class="mb-0">• Sistem otomatik olarak timeout korumasına sahiptir</p>
+                    </div>
+                    
+                    <!-- Loading State (başlangıçta gizli) -->
+                    <div id="loadingState" class="alert alert-warning d-none">
+                        <div class="d-flex align-items-center">
+                            <div class="spinner-border spinner-border-sm text-warning me-3" role="status">
+                                <span class="visually-hidden">Yükleniyor...</span>
+                            </div>
+                            <div>
+                                <strong>Tahmin oluşturuluyor...</strong>
+                                <p class="mb-0" id="loadingMessage">Model eğitiliyor ve tahmin hesaplanıyor. Lütfen bekleyiniz...</p>
+                                <small class="text-muted">Bu işlem 2-5 dakika sürebilir.</small>
+                            </div>
+                        </div>
+                        <div class="progress mt-2" style="height: 4px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    
+                    <form asp-action="Create" method="post" id="predictionForm">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         
                         <div class="mb-3">
@@ -75,7 +101,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+@*                         
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -107,13 +133,13 @@
                                 <input asp-for="IncludeSentimentAnalysis" class="form-check-input" type="checkbox" />
                                 <label asp-for="IncludeSentimentAnalysis" class="form-check-label"></label>
                             </div>
-                        </div>
+                        </div> *@
                         
                         <div class="d-flex justify-content-between mt-4">
                             <a asp-action="Index" class="btn btn-outline-secondary">
                                 <i class="bi bi-arrow-left"></i> Tahminlere Dön
                             </a>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary" id="submitBtn">
                                 <i class="bi bi-magic"></i> Tahmin Oluştur
                             </button>
                         </div>
@@ -126,4 +152,89 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function() {
+            const form = $('#predictionForm');
+            const submitBtn = $('#submitBtn');
+            const loadingState = $('#loadingState');
+            const loadingMessage = $('#loadingMessage');
+            let loadingTimer;
+            let timeoutWarningShown = false;
+            
+            // Form submit event
+            form.on('submit', function(e) {
+                // Form validation kontrolü
+                if (!form.valid()) {
+                    return false;
+                }
+                
+                // Loading state'i göster
+                showLoadingState();
+                
+                // Submit buttonunu devre dışı bırak
+                submitBtn.prop('disabled', true);
+                submitBtn.html('<span class="spinner-border spinner-border-sm me-2"></span>İşleniyor...');
+                
+                // Loading mesajlarını zamanlı olarak güncelle
+                startLoadingMessages();
+                
+                // 2 dakika sonra uyarı göster
+                setTimeout(() => {
+                    if (!timeoutWarningShown) {
+                        timeoutWarningShown = true;
+                        updateLoadingMessage('İşlem beklenenden uzun sürüyor. Model eğitimi devam ediyor...', 'warning');
+                    }
+                }, 120000); // 2 dakika
+                
+                return true;
+            });
+            
+            function showLoadingState() {
+                loadingState.removeClass('d-none');
+                $('html, body').animate({
+                    scrollTop: loadingState.offset().top - 100
+                }, 500);
+            }
+            
+            function startLoadingMessages() {
+                const messages = [
+                    { text: 'Hisse verisi çekiliyor...', delay: 5000 },
+                    { text: 'Model eğitiliyor...', delay: 15000 },
+                    { text: 'Tahmin hesaplanıyor...', delay: 30000 },
+                    { text: 'Sonuçlar hazırlanıyor...', delay: 45000 }
+                ];
+                
+                messages.forEach((msg, index) => {
+                    setTimeout(() => {
+                        updateLoadingMessage(msg.text, 'info');
+                    }, msg.delay);
+                });
+            }
+            
+            function updateLoadingMessage(message, type = 'info') {
+                loadingMessage.text(message);
+                
+                // Alert tipini güncelle
+                loadingState.removeClass('alert-info alert-warning alert-danger')
+                           .addClass('alert-' + type);
+                           
+                // Spinner rengini güncelle
+                const spinner = loadingState.find('.spinner-border');
+                spinner.removeClass('text-info text-warning text-danger')
+                       .addClass('text-' + type);
+            }
+            
+            // Not: beforeunload uyarısını kaldırdık çünkü normal form submit'te uyarı çıkıyordu
+            // Loading state zaten kullanıcıya işlem durumunu gösteriyor
+            
+            // Form resetinde loading state'i gizle
+            form.on('reset', function() {
+                loadingState.addClass('d-none');
+                submitBtn.prop('disabled', false);
+                submitBtn.html('<i class="bi bi-magic"></i> Tahmin Oluştur');
+                timeoutWarningShown = false;
+            });
+        });
+    </script>
 } 
